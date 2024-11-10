@@ -19,6 +19,7 @@ module.exports = {
         foreground: "var(--foreground)",
         accent: "var(--accent)",
         highlight: "var(--highlight)",
+        danger: "var(--danger)"
       },
     },
   },
