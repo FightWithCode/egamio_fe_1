@@ -62,7 +62,6 @@ const TeamDetail = () => {
     return (
         <ResponsiveContainer className="py-6">
             <div className="flex gap-6">
-                {/* Left Side: Team Tabs */}
                 <div className="w-1/5 bg-gray-100 p-4 rounded-lg shadow-lg">
                     <div className="flex flex-col space-y-4">
                         {teams.map((team, index) => (
@@ -78,7 +77,6 @@ const TeamDetail = () => {
                                 {team.name}
                             </button>
                         ))}
-                        {/* Add Team Button */}
                         <button
                             onClick={handleAddTeam}
                             className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mt-4"
@@ -88,7 +86,6 @@ const TeamDetail = () => {
                     </div>
                 </div>
 
-                {/* Right Side: Team Details */}
                 <div className="flex-1 p-4 bg-white rounded-lg shadow-lg">
                     <TypographyP className="font-bold text-xl mb-2">{teams[activeTab].name}</TypographyP>
                     <p className="text-lg text-gray-600 mb-4">{teams[activeTab].game}</p>
@@ -97,8 +94,6 @@ const TeamDetail = () => {
                         <TypographyP className="font-semibold text-lg mb-2">Description</TypographyP>
                         <p>{teams[activeTab].description}</p>
                     </div>
-
-                    {/* Players Roster Section */}
                     <div className="mt-6">
                         <TypographyP className="font-semibold text-lg mb-2">Players Roster</TypographyP>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -118,8 +113,6 @@ const TeamDetail = () => {
                             ))}
                         </div>
                     </div>
-
-                    {/* Achievements Section */}
                     <div className="mt-6">
                         <TypographyP className="font-semibold text-lg mb-2">Achievements</TypographyP>
                         <ul className="list-disc pl-5 text-sm text-gray-600">
