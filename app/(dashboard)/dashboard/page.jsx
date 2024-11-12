@@ -10,6 +10,7 @@ import ProfileForm from '@/components/forms/ProfileForm';
 import TeamDetail from '@/components/dashboard/TeamDetails';
 import UserGames from '@/components/dashboard/UserGames';
 import EGClips from '@/components/dashboard/EGClips';
+import PlayerTeamSearch from '@/components/dashboard/PlayerTeamSearch';
 import { TypographyH4, TypographyP } from '@/components/ui/Typographies';
 // icons import
 import { FaMessage } from "react-icons/fa6";
@@ -19,9 +20,9 @@ import user2 from "@/public/images/users/user2.png";
 
 const DashboardPage = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const tabs = ["Find", "eGClips", "Games", "My Teams", "Settings"];
+  const tabs = ["Search", "eGClips", "Games", "My Teams", "Settings"];
   const tabContents = [
-    <div>Content for Find Match</div>,
+    <PlayerTeamSearch></PlayerTeamSearch>,
     <EGClips></EGClips>,
     <UserGames></UserGames>,
     <TeamDetail></TeamDetail>,

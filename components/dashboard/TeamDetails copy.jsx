@@ -16,7 +16,7 @@ const initialTeams = [
         name: "Team A",
         game: "Football",
         logo: "/images/team_logo_1.png",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor numquam, molestiae omnis perferendis soluta velit reprehenderit harum est. Quibusdam eveniet totam incidunt natus cumque consequuntur repellendus enim ea, ex dolore!",
+        description: "A competitive football team with high goals.",
         achievements: ["Champions 2023", "Best Midfielder", "Most Improved Player"],
         teammates: [
             { id: 1, name: "John Doe", role: "Captain", image: teammate1 },
@@ -28,11 +28,23 @@ const initialTeams = [
         name: "Team B",
         game: "Basketball",
         logo: "/images/team_logo_2.png",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor numquam, molestiae omnis perferendis soluta velit reprehenderit harum est. Quibusdam eveniet totam incidunt natus cumque consequuntur repellendus enim ea, ex dolore!",
+        description: "A fast-paced basketball team with great chemistry.",
         achievements: ["1st Place in Regional Championship", "MVP 2023"],
         teammates: [
             { id: 3, name: "Alice Johnson", role: "Striker", image: teammate3 },
             { id: 4, name: "Bob Brown", role: "Defender", image: teammate1 },
+        ],
+    },
+    {
+        id: 3,
+        name: "Team C",
+        game: "Tennis",
+        logo: "/images/team_logo_3.png",
+        description: "A disciplined tennis team aiming for national recognition.",
+        achievements: ["Top Ranked in National League", "Best Sportsmanship"],
+        teammates: [
+            { id: 5, name: "Emma Lee", role: "Captain", image: teammate2 },
+            { id: 6, name: "Tom Harris", role: "Defender", image: teammate3 },
         ],
     },
 ];
@@ -57,56 +69,55 @@ const TeamDetail = () => {
 
     return (
         <ResponsiveContainer className="py-6">
-            <div className="flex flex-col md:flex-row gap-6">
-                {/* Left Section: Team Tabs */}
-                <div className="w-full md:w-1/4 p-6 bg-gray-100 rounded-lg shadow-lg">
-                    <div className="space-y-4">
-                        {/* Render each team as a clickable tab */}
-                        {teams.map((team, index) => (
-                            <button
-                                key={team.id}
-                                onClick={() => setActiveTab(index)}
-                                className={`w-full px-6 py-3 text-lg font-semibold rounded-lg ${
-                                    activeTab === index ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-                                } hover:bg-blue-600`}
-                            >
-                                {team.name}
-                            </button>
-                        ))}
-                        {/* Add Team Button (Only show if less than 3 teams) */}
-                        {teams.length < 3 && (
-                            <button
-                                onClick={handleAddTeam}
-                                className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600"
-                            >
-                                <span className="mr-2">+</span> Add Team
-                            </button>
-                        )}
-                    </div>
+            <div className="flex mb-6">
+                {/* Team Name Tabs (1:4 Ratio - Split into two columns) */}
+                <div className="w-1/4 flex flex-col space-y-4">
+                    {teams.map((team, index) => (
+                        <button
+                            key={team.id}
+                            onClick={() => setActiveTab(index)}
+                            className={`px-4 py-2 text-lg font-semibold rounded-tl-lg rounded-tr-lg ${
+                                activeTab === index ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
+                            }`}
+                        >
+                            {team.name}
+                        </button>
+                    ))}
                 </div>
 
-                {/* Right Section: Team Details */}
-                <div className="w-full md:w-3/4 p-6 bg-white rounded-lg shadow-lg">
+                {/* Add Team Button (Only show if less than 3 teams) */}
+                {teams.length < 3 && (
+                    <div className="ml-6 flex items-center">
+                        <button
+                            onClick={handleAddTeam}
+                            className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600"
+                        >
+                            <span className="mr-2">+</span> Add Team
+                        </button>
+                    </div>
+                )}
+
+                {/* Team Details Section (3:4 Ratio) */}
+                <div className="flex-1 p-6 bg-white rounded-lg shadow-lg">
                     <div className="flex flex-col gap-6">
                         {/* Team Logo and Basic Information */}
-                        <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-                            {/* Team Logo */}
-                            <div className="flex-shrink-0">
-                                <Image
-                                    src={teammate1}
-                                    alt={teams[activeTab].name}
-                                    width={120}
-                                    height={120}
-                                    objectFit="contain"
-                                    className="max-w-full h-auto"
-                                />
-                            </div>
-                            {/* Team Information */}
+                        <div className="flex items-center gap-6">
+                            <Image
+                                src={teams[activeTab].logo}
+                                alt={teams[activeTab].name}
+                                width={120}
+                                height={120}
+                                objectFit="contain"
+                            />
                             <div>
-                                <TypographyP className="font-bold text-lg">{teams[activeTab].name} - {teams[activeTab].game}</TypographyP>
-                                <p>{teams[activeTab].description}</p>
+                                <TypographyP className="font-bold text-lg">{teams[activeTab].name}</TypographyP>
+                                <p className="text-sm text-gray-600">{teams[activeTab].game}</p>
                             </div>
                         </div>
+
+                        {/* Team Description */}
+                        <TypographyP className="font-semibold text-xl mb-2">Description</TypographyP>
+                        <p>{teams[activeTab].description}</p>
 
                         {/* Players Roster Section */}
                         <div className="mt-6">
