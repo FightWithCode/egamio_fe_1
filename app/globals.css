@@ -11,13 +11,6 @@
   --danger: #f30a5c;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #ffffff;
-    --foreground: #252627;
-  }
-}
-
 * {
   margin: 0;
   padding: 0;

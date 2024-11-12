@@ -8,6 +8,8 @@ import PlayerBreadcum from '@/components/dashboard/Breadcum';
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import ProfileForm from '@/components/forms/ProfileForm';
 import TeamDetail from '@/components/dashboard/TeamDetails';
+import UserGames from '@/components/dashboard/UserGames';
+import EGClips from '@/components/dashboard/EGClips';
 import { TypographyH4, TypographyP } from '@/components/ui/Typographies';
 // icons import
 import { FaMessage } from "react-icons/fa6";
@@ -20,8 +22,8 @@ const DashboardPage = () => {
   const tabs = ["Find", "eGClips", "Games", "My Teams", "Settings"];
   const tabContents = [
     <div>Content for Find Match</div>,
-    <div>Content for eGClips</div>,
-    <div>Games</div>,
+    <EGClips></EGClips>,
+    <UserGames></UserGames>,
     <TeamDetail></TeamDetail>,
     <ProfileForm></ProfileForm>,
   ];
@@ -58,7 +60,7 @@ const DashboardPage = () => {
             ))}
           </div>
         </div>
-        <div className="mt-4 p-4 bg-background-light rounded-md shadow-md">
+        <div className="mt-4 bg-background-light rounded-md shadow-md">
           {tabContents[activeTab]}
         </div>
       </ResponsiveContainer>
