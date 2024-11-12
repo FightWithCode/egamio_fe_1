@@ -312,7 +312,6 @@ const PlayerTeamSearch = () => {
                         </>
                     )}
 
-                    {/* Apply Filters Button */}
                     <div className="mt-4">
                         <button
                             onClick={searchType === "player" ? filterPlayers : filterTeams}
