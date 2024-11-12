@@ -139,13 +139,13 @@ const PlayerTeamSearch = () => {
             <div className="flex justify-center mb-6">
                 <button
                     onClick={() => setSearchType("player")}
-                    className={`px-6 py-2 text-lg font-semibold ${searchType === "player" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"} rounded-l-lg`}
+                    className={`px-6 py-2 text-lg font-semibold ${searchType === "player" ? "bg-accent text-white" : "bg-gray-200 text-gray-700"} rounded-l-lg`}
                 >
                     Player Search
                 </button>
                 <button
                     onClick={() => setSearchType("team")}
-                    className={`px-6 py-2 text-lg font-semibold ${searchType === "team" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"} rounded-r-lg`}
+                    className={`px-6 py-2 text-lg font-semibold ${searchType === "team" ? "bg-accent text-white" : "bg-gray-200 text-gray-700"} rounded-r-lg`}
                 >
                     Team Search
                 </button>
@@ -316,7 +316,7 @@ const PlayerTeamSearch = () => {
                     <div className="mt-4">
                         <button
                             onClick={searchType === "player" ? filterPlayers : filterTeams}
-                            className="w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                            className="w-full px-6 py-3 bg-accent text-white rounded-lg hover:bg-darkaccent"
                         >
                             Apply Filters
                         </button>

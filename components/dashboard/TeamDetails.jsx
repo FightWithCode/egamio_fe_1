@@ -1,6 +1,6 @@
-"use client"; // React import
-import { useState } from "react"; // React hooks import
-import Image from "next/image"; // Components import
+"use client";
+import { useState } from "react";
+import Image from "next/image";
 import ResponsiveContainer from "../common/ResponsiveContainer";
 import { TypographyP } from "../ui/Typographies";
 
@@ -16,7 +16,7 @@ const initialTeams = [
         name: "Team A",
         game: "Football",
         logo: "/images/team_logo_1.png",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor numquam, molestiae omnis perferendis soluta velit reprehenderit harum est. Quibusdam eveniet totam incidunt natus cumque consequuntur repellendus enim ea, ex dolore!",
+        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi tempore doloremque tenetur, molestias ad, assumenda, sapiente facere dicta optio fugit quisquam sunt modi cumque? Ex necessitatibus ea soluta suscipit iste.",
         achievements: ["Champions 2023", "Best Midfielder", "Most Improved Player"],
         teammates: [
             { id: 1, name: "John Doe", role: "Captain", image: teammate1 },
@@ -28,7 +28,7 @@ const initialTeams = [
         name: "Team B",
         game: "Basketball",
         logo: "/images/team_logo_2.png",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor numquam, molestiae omnis perferendis soluta velit reprehenderit harum est. Quibusdam eveniet totam incidunt natus cumque consequuntur repellendus enim ea, ex dolore!",
+        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi tempore doloremque tenetur, molestias ad, assumenda, sapiente facere dicta optio fugit quisquam sunt modi cumque? Ex necessitatibus ea soluta suscipit iste.",
         achievements: ["1st Place in Regional Championship", "MVP 2023"],
         teammates: [
             { id: 3, name: "Alice Johnson", role: "Striker", image: teammate3 },
@@ -38,10 +38,9 @@ const initialTeams = [
 ];
 
 const TeamDetail = () => {
-    const [teams, setTeams] = useState(initialTeams); // Store the list of teams
-    const [activeTab, setActiveTab] = useState(0); // Store the index of the active team
+    const [teams, setTeams] = useState(initialTeams);
+    const [activeTab, setActiveTab] = useState(0);
 
-    // Function to handle adding a new team
     const handleAddTeam = () => {
         const newTeam = {
             id: teams.length + 1,
@@ -56,28 +55,29 @@ const TeamDetail = () => {
     };
 
     return (
-        <ResponsiveContainer className="py-6">
-            <div className="flex flex-col md:flex-row gap-6">
-                {/* Left Section: Team Tabs */}
-                <div className="w-full md:w-1/4 p-6 bg-gray-100 rounded-lg shadow-lg">
-                    <div className="space-y-4">
-                        {/* Render each team as a clickable tab */}
+        <ResponsiveContainer className="py-6 px-4 bg-gray-50 rounded-lg shadow-lg">
+            <div className="flex flex-col md:flex-row gap-0">
+                
+                {/* Sidebar Section */}
+                <div className="w-full md:w-1/4 bg-gray-100 rounded-l-lg">
+                    <div className="space-y-1 p-4">
                         {teams.map((team, index) => (
                             <button
                                 key={team.id}
                                 onClick={() => setActiveTab(index)}
-                                className={`w-full px-6 py-3 text-lg font-semibold rounded-lg ${
-                                    activeTab === index ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"
-                                } hover:bg-blue-600`}
+                                className={`w-full text-left font-semibold px-6 py-3 transition-all ${
+                                    activeTab === index
+                                        ? "bg-white border-l-4 border-accent text-accent"
+                                        : "text-gray-600 hover:text-accent"
+                                }`}
                             >
                                 {team.name}
                             </button>
                         ))}
-                        {/* Add Team Button (Only show if less than 3 teams) */}
                         {teams.length < 3 && (
                             <button
                                 onClick={handleAddTeam}
-                                className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600"
+                                className="w-full text-left font-semibold bg-transparent text-gray-600 px-6 py-3 hover:text-accent"
                             >
                                 <span className="mr-2">+</span> Add Team
                             </button>
@@ -85,58 +85,63 @@ const TeamDetail = () => {
                     </div>
                 </div>
 
-                {/* Right Section: Team Details */}
-                <div className="w-full md:w-3/4 p-6 bg-white rounded-lg shadow-lg">
-                    <div className="flex flex-col gap-6">
-                        {/* Team Logo and Basic Information */}
-                        <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-                            {/* Team Logo */}
-                            <div className="flex-shrink-0">
-                                <Image
-                                    src={teammate1}
-                                    alt={teams[activeTab].name}
-                                    width={120}
-                                    height={120}
-                                    objectFit="contain"
-                                    className="max-w-full h-auto"
-                                />
-                            </div>
-                            {/* Team Information */}
-                            <div>
-                                <TypographyP className="font-bold text-lg">{teams[activeTab].name} - {teams[activeTab].game}</TypographyP>
-                                <p>{teams[activeTab].description}</p>
-                            </div>
+                {/* Main Content Section */}
+                <div className="w-full md:w-3/4 p-8 bg-white rounded-r-lg">
+                    
+                    {/* Team Info */}
+                    <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                        <div className="flex-shrink-0">
+                            <Image
+                                src={teammate1}
+                                alt={teams[activeTab].name}
+                                width={120}
+                                height={120}
+                                objectFit="contain"
+                                className="rounded-lg shadow-lg"
+                            />
                         </div>
+                        <div className="text-center md:text-left">
+                            <TypographyP className="font-bold text-xl text-background">{teams[activeTab].name}</TypographyP>
+                            <p className="text-gray-600">{teams[activeTab].description}</p>
+                        </div>
+                    </div>
 
-                        {/* Players Roster Section */}
-                        <div className="mt-6">
-                            <TypographyP className="font-semibold text-lg mb-2">Players Roster</TypographyP>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                                {teams[activeTab].teammates.map((teammate) => (
-                                    <div key={teammate.id} className="flex flex-col items-center">
-                                        <div className="relative w-full pb-[116%] overflow-hidden bg-gray-200 rounded-lg">
-                                            <Image
-                                                src={teammate.image}
-                                                alt={teammate.name}
-                                                layout="fill"
-                                                objectFit="cover"
-                                            />
-                                        </div>
-                                        <p className="mt-2 text-lg font-semibold">{teammate.name}</p>
+                    {/* Players Roster */}
+                    <div className="mt-8">
+                        <TypographyP className="font-semibold text-lg mb-4 text-background">Players Roster</TypographyP>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            {teams[activeTab].teammates.map((teammate) => (
+                                <div key={teammate.id} className="bg-gray-50 rounded-lg p-4 shadow hover:shadow-md transition-all">
+                                    <div className="relative w-full pb-[116%] overflow-hidden rounded-lg bg-gray-200">
+                                        <Image
+                                            src={teammate.image}
+                                            alt={teammate.name}
+                                            layout="fill"
+                                            objectFit="cover"
+                                            className="rounded-lg"
+                                        />
+                                    </div>
+                                    <div className="text-center mt-3">
+                                        <p className="text-lg font-semibold">{teammate.name}</p>
                                         <p className="text-sm text-gray-500">{teammate.role}</p>
                                     </div>
-                                ))}
-                            </div>
+                                </div>
+                            ))}
                         </div>
+                    </div>
 
-                        {/* Achievements Section */}
-                        <div className="mt-6">
-                            <TypographyP className="font-semibold text-lg mb-2">Achievements</TypographyP>
-                            <ul className="list-disc pl-5 text-sm text-gray-600">
-                                {teams[activeTab].achievements.map((achievement, index) => (
-                                    <li key={index}>{achievement}</li>
-                                ))}
-                            </ul>
+                    {/* Achievements */}
+                    <div className="mt-8">
+                        <TypographyP className="font-semibold text-lg mb-4 text-background">Achievements</TypographyP>
+                        <div className="flex flex-wrap gap-2">
+                            {teams[activeTab].achievements.map((achievement, index) => (
+                                <span
+                                    key={index}
+                                    className="bg-gray-100 text-gray-600 text-sm px-3 py-1 rounded-full shadow-sm"
+                                >
+                                    {achievement}
+                                </span>
+                            ))}
                         </div>
                     </div>
                 </div>

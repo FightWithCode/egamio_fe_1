@@ -19,6 +19,8 @@ module.exports = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         accent: "var(--accent)",
+        lightaccent: "var(--lightaccent)",
+        darkaccent: "var(--darkaccent)",
         highlight: "var(--highlight)",
         danger: "var(--danger)"
       },
