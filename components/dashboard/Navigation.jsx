@@ -25,31 +25,60 @@ const Navigation = () => {
                             <p className="text-xs">Where dream meet!</p>
                         </div>
                     </div>
-                    <div className="flex gap-2 sm:gap-6">
-                        <div className="hidden sm:flex justify-center items-center gap-2">
-                            <Image className="border-[1px] rounded-full p-1" src={user2} width={35} height={35} alt="logo"></Image>
-                            <p className="text-xs">Jonathan James</p>
+                    {false ? (
+                        <div className="flex gap-2 sm:gap-6">
+                            <div className="hidden sm:flex justify-center items-center gap-2">
+                                <Image className="border-[1px] rounded-full p-1" src={user2} width={35} height={35} alt="logo"></Image>
+                                <p className="text-xs">Jonathan James</p>
+                            </div>
+                            <button className="bg-danger rounded-xl px-4 hidden sm:flex justify-center items-center gap-2"><a href="#" className="text-sm">Logout</a> <IoIosArrowForward className="bg-black/30 rounded-full p-1"></IoIosArrowForward></button>
+                            <IoMenu className="cursor-pointer text-4xl block sm:hidden" onClick={toggleSideMenu}></IoMenu>
                         </div>
-                        <button className="bg-danger rounded-xl px-4 hidden sm:flex justify-center items-center gap-2"><a href="#" className="text-sm">Logout</a> <IoIosArrowForward className="bg-black/30 rounded-full p-1"></IoIosArrowForward></button>
-                        <IoMenu className="cursor-pointer text-4xl block sm:hidden" onClick={toggleSideMenu}></IoMenu>
-                    </div>
+                    ) : (
+                        <div className="h-full flex justify-between items-center">
+                            <ul className="h-full hidden sm:flex items-center">
+                                <li className="h-full cursor-pointer hover:border-t-4 hover:border-highlight px-4 flex items-center text-white">Home</li>
+                                <li className="h-full cursor-pointer hover:border-t-4 hover:border-highlight px-4 flex items-center text-white">Find Team</li>
+                                <li className="h-full cursor-pointer hover:border-t-4 hover:border-highlight px-4 flex items-center text-white">Find Player</li>
+                            </ul>
+                            <IoMenu className="cursor-pointer text-4xl text-white block sm:hidden" onClick={toggleSideMenu}></IoMenu>
+                        </div>
+                    )}
                 </ResponsiveContainer>
             </nav>
-            <section className={`z-[124] fixed top-0 left-0 bg-black/50 h-full w-full z-50 transition-transform duration-500 transform ${showSideMenu ? 'translate-x-0' : '-translate-x-full'}`}>
-                <div className="h-full w-[300px] bg-background">
-                    <div className="flex justify-between items-center p-4 bg-black h-[75px]">
-                        <Image src={logo} width={50} alt="logo"></Image>
-                        <IoCloseCircleOutline className="cursor-pointer text-4xl" onClick={toggleSideMenu}></IoCloseCircleOutline>
-                    </div>
-                    <div className="flex gap-4 sm:gap-6 flex-col justify-start pt-4 pl-4">
-                        <div className="flex items-center gap-2">
-                            <Image className="border-[1px] rounded-full p-1" src={user2} width={35} height={35} alt="logo"></Image>
-                            <p className="text-xs">Jonathan James</p>
+            {false ? (
+                <section className={`z-[124] fixed top-0 left-0 bg-black/50 h-full w-full z-50 transition-transform duration-500 transform ${showSideMenu ? 'translate-x-0' : '-translate-x-full'}`}>
+                    <div className="h-full w-[300px] bg-background">
+                        <div className="flex justify-between items-center p-4 bg-black h-[75px]">
+                            <Image src={logo} width={50} alt="logo"></Image>
+                            <IoCloseCircleOutline className="cursor-pointer text-4xl" onClick={toggleSideMenu}></IoCloseCircleOutline>
                         </div>
-                        <button className="w-[102px] h-[35px] bg-danger rounded-xl px-4 flex justify-center items-center gap-2"><a href="#" className="text-sm">Logout</a> <IoIosArrowForward className="bg-black/30 rounded-full p-1"></IoIosArrowForward></button>
+                        <div className="flex gap-4 sm:gap-6 flex-col justify-start pt-4 pl-4">
+                            <div className="flex items-center gap-2">
+                                <Image className="border-[1px] rounded-full p-1" src={user2} width={35} height={35} alt="logo"></Image>
+                                <p className="text-xs">Jonathan James</p>
+                            </div>
+                            <button className="w-[102px] h-[35px] bg-danger rounded-xl px-4 flex justify-center items-center gap-2"><a href="#" className="text-sm">Logout</a> <IoIosArrowForward className="bg-black/30 rounded-full p-1"></IoIosArrowForward></button>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            ) : (
+                <section className={`z-[124] fixed top-0 left-0 bg-black/50 h-full w-full transition-transform duration-500 transform ${showSideMenu ? 'translate-x-0' : '-translate-x-full'}`}>
+                    <div className="h-full w-[300px] bg-background">
+                        <div className="flex justify-between items-center p-4">
+                            <Image src={logo} width={50} alt="logo"></Image>
+                            <IoCloseCircleOutline className="cursor-pointer text-4xl text-white" onClick={toggleSideMenu}></IoCloseCircleOutline>
+                        </div>
+                        <div className="mt-3">
+                            <ul className="h-full">
+                                <li className="h-full cursor-pointer border-t border-b hover:border-l-4 hover:border-l-highlight p-3 text-white">Home</li>
+                                <li className="h-full cursor-pointer border-b hover:border-l-4 hover:border-l-highlight p-3 text-white">Find Team</li>
+                                <li className="h-full cursor-pointer border-b hover:border-l-4 hover:border-l-highlight p-3 text-white">Find Player</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            )}
         </>
 
     );
