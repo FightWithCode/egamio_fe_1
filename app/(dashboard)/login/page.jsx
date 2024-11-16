@@ -3,10 +3,9 @@
 import React, { useState } from "react";
 import Head from 'next/head';  // Import Head from next/head
 import Image from "next/image";
-import { useDispatch } from 'react-redux'; // Import useDispatch here
 import { useRouter } from 'next/navigation'; // Import useRouter for navigation
+import { useEffect } from 'react';
 import api from '@/utils/api';
-import { loginSuccess } from '@/store/authSlice'; // Assuming your action is loginSuccess
 
 import PlayerBreadcum from "@/components/dashboard/Breadcum";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
@@ -14,15 +13,21 @@ import LoginBG from "@/public/images/bg/bg-1.jpg";
 import googleIcon from "@/public/images/icons/google.svg";
 import facebookIcon from "@/public/images/icons/facebook.svg";
 import { TypographyH1, TypographyH3, TypographyH4, TypographyP } from "@/components/ui/Typographies";
+import { isAuthenticated } from '@/utils/auth';
 
 export default function Login() {
+  const router = useRouter();
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const dispatch = useDispatch(); // Get the dispatch function here
-  const router = useRouter(); // Get the router for redirecting
+  useEffect(() => {
+    if (isAuthenticated()) {
+      router.push('/dashboard');
+    }
+  }, []);
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -39,8 +44,10 @@ export default function Login() {
       const { refresh, access, id, full_name } = response.data;
       console.log(refresh, access, id, full_name);
 
-      // Save token in Redux using dispatch
-      dispatch(loginSuccess({ token: access, uid: id, username: full_name, refresh: refresh }));
+      localStorage.setItem('accessToken', access);
+      localStorage.setItem('refreshToken', refresh);
+      localStorage.setItem('uid', id);
+      localStorage.setItem('username', full_name);
 
       // Redirect to dashboard
       router.push('/dashboard');

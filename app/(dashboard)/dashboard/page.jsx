@@ -25,10 +25,11 @@ const DashboardPage = () => {
   const router = useRouter();
   useEffect(() => {
     if (!isAuthenticated()) {
+      console.log("error in authentication ", isAuthenticated)
       router.push('/login');
     }
   }, []);
-  
+
   const [activeTab, setActiveTab] = useState(0);
   const tabs = ["Search", "eGClips", "Games", "My Teams", "Settings"];
   const tabContents = [

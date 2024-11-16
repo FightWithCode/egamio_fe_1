@@ -1,6 +1,10 @@
-import { store } from '@/store/store';
-
 export function isAuthenticated() {
-  const { token } = store.getState().auth;
-  return !!token;
-}
+    // Check if token is stored in localStorage
+    const storedToken = localStorage.getItem('accessToken');
+    if (storedToken) {
+      return true;
+    }
+  
+    return false;
+  }
+  
