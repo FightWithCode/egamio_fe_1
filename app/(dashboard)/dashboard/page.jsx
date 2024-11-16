@@ -2,6 +2,8 @@
 // React and Next Imports
 import React from 'react';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import Image from "next/image";
 // Components imports
 import PlayerBreadcum from '@/components/dashboard/Breadcum';
@@ -12,6 +14,7 @@ import UserGames from '@/components/dashboard/UserGames';
 import EGClips from '@/components/dashboard/EGClips';
 import PlayerTeamSearch from '@/components/dashboard/PlayerTeamSearch';
 import { TypographyH4, TypographyP } from '@/components/ui/Typographies';
+import { isAuthenticated } from '@/utils/auth';
 // icons import
 import { FaMessage } from "react-icons/fa6";
 // Assets import
@@ -19,6 +22,13 @@ import user2 from "@/public/images/users/user2.png";
 
 
 const DashboardPage = () => {
+  const router = useRouter();
+  useEffect(() => {
+    if (!isAuthenticated()) {
+      router.push('/login');
+    }
+  }, []);
+  
   const [activeTab, setActiveTab] = useState(0);
   const tabs = ["Search", "eGClips", "Games", "My Teams", "Settings"];
   const tabContents = [

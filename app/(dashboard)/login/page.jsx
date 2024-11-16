@@ -1,152 +1,170 @@
-"use client";
-import React, { useState } from 'react';
+"use client";  // This will mark the component as a client-side component
+
+import React, { useState } from "react";
+import Head from 'next/head';  // Import Head from next/head
+import Image from "next/image";
+import { useDispatch } from 'react-redux'; // Import useDispatch here
+import { useRouter } from 'next/navigation'; // Import useRouter for navigation
+import api from '@/utils/api';
+import { loginSuccess } from '@/store/authSlice'; // Assuming your action is loginSuccess
 
 import PlayerBreadcum from "@/components/dashboard/Breadcum";
+import ResponsiveContainer from "@/components/common/ResponsiveContainer";
+import LoginBG from "@/public/images/bg/bg-1.jpg";
+import googleIcon from "@/public/images/icons/google.svg";
+import facebookIcon from "@/public/images/icons/facebook.svg";
+import { TypographyH1, TypographyH3, TypographyH4, TypographyP } from "@/components/ui/Typographies";
 
-export default function Home() {
-  const [isLogin, setIsLogin] = useState(false); // State to toggle between login and register
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(true);
+export default function Login() {
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const [registerEmail, setRegisterEmail] = useState('');
-  const [registerPassword, setRegisterPassword] = useState('');
-  const [registerPasswordRepeat, setRegisterPasswordRepeat] = useState('');
+  const dispatch = useDispatch(); // Get the dispatch function here
+  const router = useRouter(); // Get the router for redirecting
 
-  const handleTabToggle = (tab) => {
-    setIsLogin(tab === 'login');
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrorMessage("");
+
+    try {
+      const response = await api.post('/accounts/token/', {
+        email: loginEmail,
+        password: loginPassword,
+      });
+      console.log(response.data);
+
+      const { refresh, access, id, full_name } = response.data;
+      console.log(refresh, access, id, full_name);
+
+      // Save token in Redux using dispatch
+      dispatch(loginSuccess({ token: access, uid: id, username: full_name, refresh: refresh }));
+
+      // Redirect to dashboard
+      router.push('/dashboard');
+    } catch (error) {
+      console.log(error);
+      setErrorMessage('Invalid login credentials.');
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <>
-        <PlayerBreadcum page="Login"></PlayerBreadcum>
-        <div className="grid grid-cols-1 md:w-1/3 mx-auto">
-      {/* Tab Navigation */}
-      <div className="flex justify-around border-t border-b py-2">
+      <Head>
+        <meta name="description" content="Login to your account to access the dashboard" />
+        <meta name="keywords" content="login, user authentication, dashboard, React" />
+        <title>Login - eGamio</title>
+      </Head>
+      <PlayerBreadcum page="Login"></PlayerBreadcum>
+      <ResponsiveContainer className="relative !max-w-[800px] flex my-24">
+        {/* Left Section */}
         <div
-          className={`cursor-pointer ${isLogin ? 'text-gray-500' : 'text-blue-500'}`}
-          onClick={() => handleTabToggle('login')}
+          className="hidden md:block w-2/5 bg-cover bg-center relative p-6"
+          style={{ backgroundImage: `url(${LoginBG.src})` }}
         >
-          <p className="font-medium">Login</p>
+          <TypographyH1 className="text-6xl text-white">
+            HELLO<br />AGAIN!
+          </TypographyH1>
+          <TypographyH3 className="uppercase pt-4 text-white">
+            We are so happy to see you back here!
+          </TypographyH3>
+          <TypographyP className="absolute bottom-6 text-gray-300">
+            Don’t you have an account? <a href="/register" className="text-highlight underline">Register Now!</a>
+          </TypographyP>
         </div>
-        <div
-          className={`cursor-pointer ${!isLogin ? 'text-gray-500' : 'text-red-500'}`}
-          onClick={() => handleTabToggle('register')}
-        >
-          <p className="font-medium">Register</p>
-        </div>
-      </div>
 
-      {/* Form */}
-      <div className="px-6 py-4">
-        {isLogin ? (
-          <div>
+        {/* Right Section */}
+        <div className="p-6 w-full md:w-3/5 bg-white rounded-lg shadow-md">
+          <div className="w-full space-y-6">
+            {/* Title */}
+            <TypographyH4 className="relative pb-3 text-gray-800 text-center">
+              LOGIN TO YOUR ACCOUNT
+              <span className="absolute left-1/2 transform -translate-x-1/2 bottom-0 w-20 h-1 bg-highlight"></span>
+            </TypographyH4>
+
+            {/* Error Message */}
+            {errorMessage && (
+              <div className="p-2 text-center text-red-600 bg-red-100 border border-red-400 rounded-md">
+                {errorMessage}
+              </div>
+            )}
+
             {/* Login Form */}
-            <h2 className="text-2xl font-semibold text-blue-500 mb-4">Login to your account</h2>
-            <form>
-              <div className="mb-4">
-                <label className="font-semibold text-gray-600">Email Address</label>
+            <form className="grid grid-cols-1 gap-6" onSubmit={handleLogin}>
+              {/* Email Input */}
+              <div className="flex flex-col">
+                <label className="font-medium text-gray-600">Email Address</label>
                 <input
                   type="email"
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
-                  className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  placeholder="Enter your email here..."
+                  placeholder="Enter your email"
+                  className="p-3 border border-gray-300 rounded-md text-gray-800 focus:outline-none"
+                  required
                 />
               </div>
 
-              <div className="mb-4">
-                <label className="font-semibold text-gray-600">Password</label>
+              {/* Password Input */}
+              <div className="flex flex-col">
+                <label className="font-medium text-gray-600">Password</label>
                 <input
                   type="password"
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
-                  className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  placeholder="Enter your password here..."
+                  placeholder="Enter your password"
+                  className="p-3 border border-gray-300 rounded-md text-gray-800 focus:outline-none"
+                  required
                 />
               </div>
 
-              {/* Remember me and Forgot Password */}
-              <div className="flex justify-between items-center mb-4">
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="login_remember"
-                    checked={rememberMe}
-                    onChange={() => setRememberMe(!rememberMe)}
-                    className="mr-2"
-                  />
-                  <label htmlFor="login_remember" className="text-sm text-gray-600">Remember me</label>
-                </div>
-                <a href="#" className="text-sm text-blue-500">Forgot Password?</a>
+              {/* Forgot Password Link */}
+              <div className="text-right">
+                <a href="/forgot-password" className="text-blue-600 hover:underline">
+                  Forgot Password?
+                </a>
               </div>
 
+              {/* Login Button */}
               <button
                 type="submit"
-                className="w-full bg-blue-500 text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none"
+                disabled={loading}
               >
-                Login Now!
+                {loading ? "Logging in..." : "Login"}
               </button>
 
-              {/* Social Media Login */}
-              <div className="mt-4 flex justify-between">
-                <button className="bg-blue-600 text-white p-2 rounded-md flex-1 mr-2">Facebook Login</button>
-                <button className="bg-blue-400 text-white p-2 rounded-md flex-1">Twitter Login</button>
+              {/* Or Divider */}
+              <div className="flex items-center">
+                <hr className="flex-grow border-t border-gray-300" />
+                <span className="px-3 text-sm text-gray-500">OR</span>
+                <hr className="flex-grow border-t border-gray-300" />
+              </div>
+
+              {/* Social Login Buttons */}
+              <div className="flex flex-col space-y-3">
+                <button
+                  type="button"
+                  className="flex items-center justify-center gap-2 py-3 border rounded-md hover:bg-gray-100 text-background"
+                >
+                  <Image src={googleIcon} alt="Google" className="w-5 h-5"></Image>
+                  <span>Login with Google</span>
+                </button>
+                <button
+                  type="button"
+                  className="flex items-center justify-center gap-2 py-3 border rounded-md hover:bg-gray-100 text-background"
+                >
+                  <Image src={facebookIcon} alt="Facebook" className="w-5 h-5"></Image>
+                  <span>Login with Facebook</span>
+                </button>
               </div>
             </form>
           </div>
-        ) : (
-          <div>
-            {/* Register Form */}
-            <h2 className="text-2xl font-semibold text-red-500 mb-4">Register Now!</h2>
-            <form>
-              <div className="mb-4">
-                <label className="font-semibold text-gray-600">Email Address</label>
-                <input
-                  type="email"
-                  value={registerEmail}
-                  onChange={(e) => setRegisterEmail(e.target.value)}
-                  className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
-                  placeholder="Enter your email here..."
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="font-semibold text-gray-600">Password</label>
-                <input
-                  type="password"
-                  value={registerPassword}
-                  onChange={(e) => setRegisterPassword(e.target.value)}
-                  className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
-                  placeholder="Enter your password here..."
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="font-semibold text-gray-600">Repeat Password</label>
-                <input
-                  type="password"
-                  value={registerPasswordRepeat}
-                  onChange={(e) => setRegisterPasswordRepeat(e.target.value)}
-                  className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
-                  placeholder="Rewrite your password here..."
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-red-500 text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-red-400"
-              >
-                Create Your Account!
-              </button>
-
-              <p className="mt-4 text-sm text-gray-500">
-                You’ll receive a confirmation email with a link to activate your account!
-              </p>
-            </form>
-          </div>
-        )}
-      </div>
-    </div>
+        </div>
+      </ResponsiveContainer>
     </>
   );
 }
