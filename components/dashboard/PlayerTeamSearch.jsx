@@ -139,13 +139,13 @@ const PlayerTeamSearch = () => {
             <div className="flex justify-center mb-6">
                 <button
                     onClick={() => setSearchType("player")}
-                    className={`px-6 py-2 text-lg font-semibold ${searchType === "player" ? "bg-accent text-white" : "bg-gray-200 text-gray-700"} rounded-l-lg`}
+                    className={`px-6 py-2 text-lg font-semibold ${searchType === "player" ? "bg-accent text-foreground" : "text-foreground"} rounded-l-lg`}
                 >
                     Player Search
                 </button>
                 <button
                     onClick={() => setSearchType("team")}
-                    className={`px-6 py-2 text-lg font-semibold ${searchType === "team" ? "bg-accent text-white" : "bg-gray-200 text-gray-700"} rounded-r-lg`}
+                    className={`px-6 py-2 text-lg font-semibold ${searchType === "team" ? "bg-accent text-foreground" : "text-foreground"} rounded-r-lg`}
                 >
                     Team Search
                 </button>
@@ -153,7 +153,7 @@ const PlayerTeamSearch = () => {
 
             <div className="flex flex-col md:flex-row gap-6">
                 {/* Left Section: Filters */}
-                <div className="w-full md:w-1/4 p-6 bg-gray-100 rounded-lg shadow-lg">
+                <div className="w-full md:w-1/4 p-6 rounded-lg shadow-lg">
                     <TypographyP className="font-semibold text-xl mb-4">Filters</TypographyP>
 
                     {/* Player Search Filters */}
@@ -166,7 +166,7 @@ const PlayerTeamSearch = () => {
                                     name="game"
                                     value={playerFilters.game}
                                     onChange={handlePlayerFilterChange}
-                                    className="w-full p-3 border border-gray-300 rounded-lg"
+                                    className="w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none"
                                 >
                                     <option value="">Select Game</option>
                                     {games.map((game) => (
@@ -205,7 +205,7 @@ const PlayerTeamSearch = () => {
                                     name="experience"
                                     value={playerFilters.experience}
                                     onChange={handlePlayerFilterChange}
-                                    className="w-full p-3 border border-gray-300 rounded-lg"
+                                    className="w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none"
                                     placeholder="Enter experience"
                                 />
                             </div>
@@ -218,7 +218,7 @@ const PlayerTeamSearch = () => {
                                     name="location"
                                     value={playerFilters.location}
                                     onChange={handlePlayerFilterChange}
-                                    className="w-full p-3 border border-gray-300 rounded-lg"
+                                    className="w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none"
                                     placeholder="Enter location"
                                 />
                             </div>
@@ -230,7 +230,7 @@ const PlayerTeamSearch = () => {
                                     name="role"
                                     value={playerFilters.role}
                                     onChange={handlePlayerFilterChange}
-                                    className="w-full p-3 border border-gray-300 rounded-lg"
+                                    className="w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none"
                                 >
                                     <option value="">Select Role</option>
                                     {roles.map((role) => (
@@ -315,7 +315,7 @@ const PlayerTeamSearch = () => {
                     <div className="mt-4">
                         <button
                             onClick={searchType === "player" ? filterPlayers : filterTeams}
-                            className="w-full px-6 py-3 bg-accent text-white rounded-lg hover:bg-darkaccent"
+                            className="w-full px-6 py-3 bg-accent text-foreground rounded-lg hover:bg-darkaccent"
                         >
                             Apply Filters
                         </button>
@@ -323,7 +323,7 @@ const PlayerTeamSearch = () => {
                 </div>
 
                 {/* Right Section: Filtered Results */}
-                <div className="w-full md:w-3/4 p-6 bg-white rounded-lg shadow-lg">
+                <div className="w-full md:w-3/4 p-6 rounded-lg shadow-lg">
                     <TypographyP className="font-semibold text-xl mb-4">
                         {searchType === "player" ? "Filtered Players" : "Filtered Teams"}
                     </TypographyP>
@@ -332,8 +332,8 @@ const PlayerTeamSearch = () => {
                         {searchType === "player" ? (
                             filteredPlayers.length > 0 ? (
                                 filteredPlayers.map((player) => (
-                                    <div key={player.id} className="flex flex-col items-center bg-white p-4 rounded-lg shadow-lg">
-                                        <div className="relative w-full pb-[116%] overflow-hidden bg-gray-200 rounded-lg">
+                                    <div key={player.id} className="flex flex-col items-center bg-background p-4 rounded-lg shadow-lg">
+                                        <div className="relative w-full pb-[116%] overflow-hidden rounded-lg">
                                             <Image
                                                 src={player.image}
                                                 alt={player.name}
@@ -342,18 +342,18 @@ const PlayerTeamSearch = () => {
                                             />
                                         </div>
                                         <p className="mt-2 text-lg font-semibold">{player.name}</p>
-                                        <p className="text-sm text-gray-500">{player.role} | {player.game}</p>
-                                        <p className="text-sm text-gray-500">Experience: {player.experience} years</p>
+                                        <p className="text-sm text-foreground">{player.role} | {player.game}</p>
+                                        <p className="text-sm text-foreground">Experience: {player.experience} years</p>
                                     </div>
                                 ))
                             ) : (
-                                <p className="col-span-4 text-center text-lg font-semibold text-gray-600">No players match your filters.</p>
+                                <p className="col-span-4 text-center text-lg font-semibold text-foreground">No players match your filters.</p>
                             )
                         ) : (
                             filteredTeams.length > 0 ? (
                                 filteredTeams.map((team) => (
-                                    <div key={team.id} className="flex flex-col items-center bg-white p-4 rounded-lg shadow-lg">
-                                        <div className="relative w-full pb-[116%] overflow-hidden bg-gray-200 rounded-lg">
+                                    <div key={team.id} className="flex flex-col items-center bg-foreground p-4 rounded-lg shadow-lg">
+                                        <div className="relative w-full pb-[116%] overflow-hidden rounded-lg">
                                             <Image
                                                 src={team.image}
                                                 alt={team.name}
@@ -362,13 +362,13 @@ const PlayerTeamSearch = () => {
                                             />
                                         </div>
                                         <p className="mt-2 text-lg font-semibold">{team.name}</p>
-                                        <p className="text-sm text-gray-500">{team.game}</p>
-                                        <p className="text-sm text-gray-500">Location: {team.location}</p>
-                                        <p className="text-sm text-gray-500">{team.rolesLookingFor.join(", ")}</p>
+                                        <p className="text-sm text-foreground">{team.game}</p>
+                                        <p className="text-sm text-foreground">Location: {team.location}</p>
+                                        <p className="text-sm text-foreground">{team.rolesLookingFor.join(", ")}</p>
                                     </div>
                                 ))
                             ) : (
-                                <p className="col-span-4 text-center text-lg font-semibold text-gray-600">No teams match your filters.</p>
+                                <p className="col-span-4 text-center text-lg font-semibold text-foreground">No teams match your filters.</p>
                             )
                         )}
                     </div>

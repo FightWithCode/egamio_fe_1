@@ -6,8 +6,9 @@
 
 :root {
   --background: #252627;
-  --foreground: #ffffff;
+  --foreground: #eeeeee;
   --highlight: #39c52d;
+  --darkhighlight: #0ea700;
   --accent: #8a2be2;
   --lightaccent: #ab7ed4;
   --darkaccent: #7a09e4;

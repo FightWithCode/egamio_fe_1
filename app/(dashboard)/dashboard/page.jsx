@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import Image from "next/image";
 // Components imports
-import PlayerBreadcum from '@/components/dashboard/Breadcum';
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import ProfileForm from '@/components/forms/ProfileForm';
 import TeamDetail from '@/components/dashboard/TeamDetails';
@@ -42,8 +41,7 @@ const DashboardPage = () => {
 
   return (
     <>
-      <PlayerBreadcum page="Profile" />
-      <ResponsiveContainer className="py-8 !text-background">
+      <ResponsiveContainer className="my-8 !text-background border-[1px] border-white rounded-lg backdrop-blur-sm !text-foreground">
         <div className='flex justify-between items-center border-b-[1px] py-2'>
           <div className='flex justify-center items-center gap-2'>
             <Image className="border-[1px] rounded-full p-1" src={user2} width={102} height={102} alt="logo"></Image>
@@ -59,7 +57,7 @@ const DashboardPage = () => {
         </div>
 
         <div className='overflow-x-auto border-b-[1px]'>
-          <div className='flex min-w-[600px] md:min-w-0 justify-between items-center border-b-[1px] px-2'>
+          <div className='flex min-w-[600px] md:min-w-0 justify-between items-center border-b-[1px]'>
             {tabs.map((tab, index) => (
               <p
                 key={index}

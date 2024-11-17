@@ -22,7 +22,8 @@ module.exports = {
         lightaccent: "var(--lightaccent)",
         darkaccent: "var(--darkaccent)",
         highlight: "var(--highlight)",
-        danger: "var(--danger)"
+        danger: "var(--danger)",
+        darkhighlight: "var(--darkhighlight)"
       },
     },
   },

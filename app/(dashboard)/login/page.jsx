@@ -7,9 +7,8 @@ import { useRouter } from 'next/navigation'; // Import useRouter for navigation
 import { useEffect } from 'react';
 import api from '@/utils/api';
 
-import PlayerBreadcum from "@/components/dashboard/Breadcum";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
-import LoginBG from "@/public/images/bg/bg-1.jpg";
+import LoginBG from "@/public/images/bg/loginbg.jpg";
 import googleIcon from "@/public/images/icons/google.svg";
 import facebookIcon from "@/public/images/icons/facebook.svg";
 import { TypographyH1, TypographyH3, TypographyH4, TypographyP } from "@/components/ui/Typographies";
@@ -66,12 +65,11 @@ export default function Login() {
         <meta name="keywords" content="login, user authentication, dashboard, React" />
         <title>Login - eGamio</title>
       </Head>
-      <PlayerBreadcum page="Login"></PlayerBreadcum>
-      <ResponsiveContainer className="relative !max-w-[800px] flex my-24">
+      <ResponsiveContainer className="relative !max-w-[800px] flex my-24 border-[1px] border-white rounded-lg backdrop-blur-sm">
         {/* Left Section */}
         <div
           className="hidden md:block w-2/5 bg-cover bg-center relative p-6"
-          style={{ backgroundImage: `url(${LoginBG.src})` }}
+        // style={{ backgroundImage: `url(${LoginBG.src})` }}
         >
           <TypographyH1 className="text-6xl text-white">
             HELLO<br />AGAIN!
@@ -79,16 +77,16 @@ export default function Login() {
           <TypographyH3 className="uppercase pt-4 text-white">
             We are so happy to see you back here!
           </TypographyH3>
-          <TypographyP className="absolute bottom-6 text-gray-300">
+          <TypographyP className="absolute bottom-6">
             Don’t you have an account? <a href="/register" className="text-highlight underline">Register Now!</a>
           </TypographyP>
         </div>
 
         {/* Right Section */}
-        <div className="p-6 w-full md:w-3/5 bg-white rounded-lg shadow-md">
+        <div className="p-6 w-full md:w-3/5 rounded-lg shadow-md">
           <div className="w-full space-y-6">
             {/* Title */}
-            <TypographyH4 className="relative pb-3 text-gray-800 text-center">
+            <TypographyH4 className="relative pb-3 text-center">
               LOGIN TO YOUR ACCOUNT
               <span className="absolute left-1/2 transform -translate-x-1/2 bottom-0 w-20 h-1 bg-highlight"></span>
             </TypographyH4>
@@ -104,33 +102,33 @@ export default function Login() {
             <form className="grid grid-cols-1 gap-6" onSubmit={handleLogin}>
               {/* Email Input */}
               <div className="flex flex-col">
-                <label className="font-medium text-gray-600">Email Address</label>
+                <label className="font-medium">Email Address</label>
                 <input
                   type="email"
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="p-3 border border-gray-300 rounded-md text-gray-800 focus:outline-none"
+                  className="p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none text-white"
                   required
                 />
               </div>
 
               {/* Password Input */}
               <div className="flex flex-col">
-                <label className="font-medium text-gray-600">Password</label>
+                <label className="font-medium">Password</label>
                 <input
                   type="password"
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
                   placeholder="Enter your password"
-                  className="p-3 border border-gray-300 rounded-md text-gray-800 focus:outline-none"
+                  className="p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none text-white"
                   required
                 />
               </div>
 
               {/* Forgot Password Link */}
               <div className="text-right">
-                <a href="/forgot-password" className="text-blue-600 hover:underline">
+                <a href="/forgot-password" className="text-accent hover:underline">
                   Forgot Password?
                 </a>
               </div>
@@ -138,7 +136,7 @@ export default function Login() {
               {/* Login Button */}
               <button
                 type="submit"
-                className="w-full py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none"
+                className="w-full py-3 text-white bg-darkhighlight rounded-md hover:bg-highlight focus:outline-none"
                 disabled={loading}
               >
                 {loading ? "Logging in..." : "Login"}
@@ -147,7 +145,7 @@ export default function Login() {
               {/* Or Divider */}
               <div className="flex items-center">
                 <hr className="flex-grow border-t border-gray-300" />
-                <span className="px-3 text-sm text-gray-500">OR</span>
+                <span className="px-3 text-sm">OR</span>
                 <hr className="flex-grow border-t border-gray-300" />
               </div>
 
@@ -155,14 +153,14 @@ export default function Login() {
               <div className="flex flex-col space-y-3">
                 <button
                   type="button"
-                  className="flex items-center justify-center gap-2 py-3 border rounded-md hover:bg-gray-100 text-background"
+                  className="flex items-center justify-center gap-2 py-3 border rounded-md text-background text-white hover:bg-background"
                 >
                   <Image src={googleIcon} alt="Google" className="w-5 h-5"></Image>
                   <span>Login with Google</span>
                 </button>
                 <button
                   type="button"
-                  className="flex items-center justify-center gap-2 py-3 border rounded-md hover:bg-gray-100 text-background"
+                  className="flex items-center justify-center gap-2 py-3 border rounded-md text-background text-white hover:bg-background"
                 >
                   <Image src={facebookIcon} alt="Facebook" className="w-5 h-5"></Image>
                   <span>Login with Facebook</span>
