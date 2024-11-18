@@ -64,7 +64,7 @@ const UserGames = () => {
         <ResponsiveContainer className="py-8">
             {/* Header with Upload Button */}
             <div className="mb-8 flex justify-between items-center">
-                <span className="text-gray-700 font-semibold text-xl">
+                <span className="text-foreground font-semibold text-xl">
                     {clips.length} Shorts Uploaded
                 </span>
                 <button

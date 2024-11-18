@@ -254,7 +254,7 @@ const PlayerTeamSearch = () => {
                                     name="teamName"
                                     value={teamFilters.teamName}
                                     onChange={handleTeamFilterChange}
-                                    className="w-full p-3 border border-gray-300 rounded-lg"
+                                    className="w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none"
                                     placeholder="Enter team name"
                                 />
                             </div>
@@ -266,7 +266,7 @@ const PlayerTeamSearch = () => {
                                     name="game"
                                     value={teamFilters.game}
                                     onChange={handleTeamFilterChange}
-                                    className="w-full p-3 border border-gray-300 rounded-lg"
+                                    className="w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none"
                                 >
                                     <option value="">Select Game</option>
                                     {games.map((game) => (
@@ -305,7 +305,7 @@ const PlayerTeamSearch = () => {
                                     name="location"
                                     value={teamFilters.location}
                                     onChange={handleTeamFilterChange}
-                                    className="w-full p-3 border border-gray-300 rounded-lg"
+                                    className="w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none"
                                     placeholder="Enter location"
                                 />
                             </div>
@@ -315,7 +315,7 @@ const PlayerTeamSearch = () => {
                     <div className="mt-4">
                         <button
                             onClick={searchType === "player" ? filterPlayers : filterTeams}
-                            className="w-full px-6 py-3 bg-accent text-foreground rounded-lg hover:bg-darkaccent"
+                            className="w-full px-6 py-3 bg-highlight text-foreground rounded-lg hover:bg-darkhighlight"
                         >
                             Apply Filters
                         </button>
@@ -352,7 +352,7 @@ const PlayerTeamSearch = () => {
                         ) : (
                             filteredTeams.length > 0 ? (
                                 filteredTeams.map((team) => (
-                                    <div key={team.id} className="flex flex-col items-center bg-foreground p-4 rounded-lg shadow-lg">
+                                    <div key={team.id} className="flex flex-col items-center bg-background p-4 rounded-lg">
                                         <div className="relative w-full pb-[116%] overflow-hidden rounded-lg">
                                             <Image
                                                 src={team.image}

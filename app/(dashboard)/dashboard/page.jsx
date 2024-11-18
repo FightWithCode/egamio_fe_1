@@ -30,7 +30,7 @@ const DashboardPage = () => {
   }, []);
 
   const [activeTab, setActiveTab] = useState(0);
-  const tabs = ["Search", "eGClips", "Games", "My Teams", "Settings"];
+  const tabs = ["Dashboard", "eGClips", "Games", "My Teams", "Settings"];
   const tabContents = [
     <PlayerTeamSearch></PlayerTeamSearch>,
     <EGClips></EGClips>,

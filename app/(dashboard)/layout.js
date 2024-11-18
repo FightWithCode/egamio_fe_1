@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
         <div className="relative z-10">
           <Provider store={store}>
             <Navigation />
-            <main>{children}</main>
+            <main style={{ minHeight: `calc(100vh - 182px)` }}>{children}</main>
             <Footer />
           </Provider>
         </div>

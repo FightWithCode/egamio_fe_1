@@ -55,11 +55,11 @@ const TeamDetail = () => {
     };
 
     return (
-        <ResponsiveContainer className="py-6 px-4 bg-gray-50 rounded-lg shadow-lg">
+        <ResponsiveContainer className="py-6 px-4 backdrop-blur-sm !text-foreground">
             <div className="flex flex-col md:flex-row gap-0">
                 
                 {/* Sidebar Section */}
-                <div className="w-full md:w-1/4 bg-gray-100 rounded-l-lg">
+                <div className="w-full md:w-1/4">
                     <div className="space-y-1 p-4">
                         {teams.map((team, index) => (
                             <button
@@ -67,8 +67,8 @@ const TeamDetail = () => {
                                 onClick={() => setActiveTab(index)}
                                 className={`w-full text-left font-semibold px-6 py-3 transition-all ${
                                     activeTab === index
-                                        ? "bg-white border-l-4 border-accent text-accent"
-                                        : "text-gray-600 hover:text-accent"
+                                        ? "border-l-4 border-highlight text-highlight"
+                                        : "text-gray-300 hover:text-highlight"
                                 }`}
                             >
                                 {team.name}
@@ -77,7 +77,7 @@ const TeamDetail = () => {
                         {teams.length < 3 && (
                             <button
                                 onClick={handleAddTeam}
-                                className="w-full text-left font-semibold bg-transparent text-gray-600 px-6 py-3 hover:text-accent"
+                                className="w-full text-left font-semibold bg-transparent text-gray-300 px-6 py-3 hover:text-highlight"
                             >
                                 <span className="mr-2">+</span> Add Team
                             </button>
@@ -86,7 +86,7 @@ const TeamDetail = () => {
                 </div>
 
                 {/* Main Content Section */}
-                <div className="w-full md:w-3/4 p-8 bg-white rounded-r-lg">
+                <div className="w-full md:w-3/4 p-8">
                     
                     {/* Team Info */}
                     <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
@@ -101,18 +101,18 @@ const TeamDetail = () => {
                             />
                         </div>
                         <div className="text-center md:text-left">
-                            <TypographyP className="font-bold text-xl text-background">{teams[activeTab].name}</TypographyP>
-                            <p className="text-gray-600">{teams[activeTab].description}</p>
+                            <TypographyP className="font-bold text-xl">{teams[activeTab].name}</TypographyP>
+                            <p>{teams[activeTab].description}</p>
                         </div>
                     </div>
 
                     {/* Players Roster */}
                     <div className="mt-8">
-                        <TypographyP className="font-semibold text-lg mb-4 text-background">Players Roster</TypographyP>
+                        <TypographyP className="font-semibold text-lg mb-4">Players Roster</TypographyP>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                             {teams[activeTab].teammates.map((teammate) => (
-                                <div key={teammate.id} className="bg-gray-50 rounded-lg p-4 shadow hover:shadow-md transition-all">
-                                    <div className="relative w-full pb-[116%] overflow-hidden rounded-lg bg-gray-200">
+                                <div key={teammate.id} className="border-[1px] rounded-lg p-4 shadow hover:shadow-md transition-all">
+                                    <div className="relative w-full pb-[116%] overflow-hidden rounded-lg">
                                         <Image
                                             src={teammate.image}
                                             alt={teammate.name}
@@ -123,7 +123,7 @@ const TeamDetail = () => {
                                     </div>
                                     <div className="text-center mt-3">
                                         <p className="text-lg font-semibold">{teammate.name}</p>
-                                        <p className="text-sm text-gray-500">{teammate.role}</p>
+                                        <p className="text-sm text-gray-300">{teammate.role}</p>
                                     </div>
                                 </div>
                             ))}
@@ -132,12 +132,12 @@ const TeamDetail = () => {
 
                     {/* Achievements */}
                     <div className="mt-8">
-                        <TypographyP className="font-semibold text-lg mb-4 text-background">Achievements</TypographyP>
+                        <TypographyP className="font-semibold text-lg mb-4">Achievements</TypographyP>
                         <div className="flex flex-wrap gap-2">
                             {teams[activeTab].achievements.map((achievement, index) => (
                                 <span
                                     key={index}
-                                    className="bg-gray-100 text-gray-600 text-sm px-3 py-1 rounded-full shadow-sm"
+                                    className="text-gray-300 text-sm px-3 py-2 border-[1px] border-gray-300 rounded-full"
                                 >
                                     {achievement}
                                 </span>
