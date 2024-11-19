@@ -9,13 +9,13 @@ import Image from "next/image";
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import ProfileForm from '@/components/forms/ProfileForm';
 import TeamDetail from '@/components/dashboard/TeamDetails';
-import UserGames from '@/components/dashboard/UserGames';
 import EGClips from '@/components/dashboard/EGClips';
 import PlayerTeamSearch from '@/components/dashboard/PlayerTeamSearch';
 import { TypographyH4, TypographyP } from '@/components/ui/Typographies';
 import { isAuthenticated } from '@/utils/auth';
 // icons import
 import { FaMessage } from "react-icons/fa6";
+import { IoIosArrowDown } from "react-icons/io";
 // Assets import
 import user2 from "@/public/images/users/user2.png";
 
@@ -30,6 +30,7 @@ const DashboardPage = () => {
   }, []);
 
   const [activeTab, setActiveTab] = useState(0);
+  const [showMenu, setShowMenu] = useState(false);
   const tabs = ["Dashboard", "eGClips", "My Teams", "Settings"];
   const tabContents = [
     <PlayerTeamSearch></PlayerTeamSearch>,
@@ -37,6 +38,15 @@ const DashboardPage = () => {
     <TeamDetail></TeamDetail>,
     <ProfileForm></ProfileForm>,
   ];
+
+  const handleMenuToggle = () => {
+    setShowMenu((prev) => !prev); // Toggle the menu visibility
+  };
+
+  const handleTabSelect = (index) => {
+    setActiveTab(index);
+    setShowMenu(false); // Close the menu after selecting a tab
+  };
 
   return (
     <>
@@ -55,13 +65,42 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        <div className='overflow-x-auto border-b-[1px]'>
-          <div className='flex min-w-[600px] md:min-w-0 justify-between items-center border-b-[1px]'>
+        <div className="border-b-[1px]">
+          {/* Hamburger menu for small screens */}
+          <div className="md:hidden relative flex justify-between items-center h-[50px]">
+            <p className='px-4 font-bold'>{tabs[activeTab]}</p>
+            <button
+              onClick={handleMenuToggle} // Toggle menu visibility
+              className="text-white text-2xl p-3"
+            >
+              <IoIosArrowDown />
+            </button>
+
+            {/* Dropdown menu */}
+            {showMenu && (
+              <div className="absolute top-[50px] w-full bg-background text-white z-20">
+                {tabs.map((tab, index) => (
+                  <div
+                    key={index}
+                    onClick={() => handleTabSelect(index)} // Set active tab and close menu
+                    className={`px-4 py-3 cursor-pointer hover:bg-highlight hover:text-white transition-all ${activeTab === index ? 'text-white' : ''}`}
+                  >
+                    {tab}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Tab buttons for larger screens */}
+          <div className="flex min-w-[300px] md:min-w-0 justify-start items-center border-b-[1px] hidden md:flex">
             {tabs.map((tab, index) => (
               <p
                 key={index}
-                onClick={() => setActiveTab(index)}
-                className={`!mt-0 px-auto h-[54px] w-1/4 flex justify-center items-center cursor-pointer ${activeTab === index ? 'bg-highlight text-white' : 'hover:border-b-2 hover:border-highlight'
+                onClick={() => handleTabSelect(index)} // Handle tab selection
+                className={`!mt-0 px-auto h-[54px] w-1/4 min-w-[125px] flex justify-center items-center cursor-pointer ${activeTab === index
+                  ? 'bg-highlight text-white'
+                  : 'hover:border-b-2 hover:border-highlight'
                   }`}
               >
                 {tab}

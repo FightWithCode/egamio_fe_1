@@ -16,19 +16,17 @@ import user2 from "@/public/images/users/user2.png";
 export default function PlayerDetails({ params }) {
   const { playerId } = use(params); // Unwrap params using `use`
   const [activeTab, setActiveTab] = useState(0);
-  const [showMenu, setShowMenu] = useState(false); // State for menu visibility
+  const [showMenu, setShowMenu] = useState(false);
   const tabs = ["Profile", "eGClips"];
   const tabContents = [
     <ProfileForm />,
     <EGClips showUploadButton={false} />,
   ];
 
-  // Toggle menu visibility
   const handleMenuToggle = () => {
     setShowMenu((prev) => !prev); // Toggle the menu visibility
   };
 
-  // Handle tab selection
   const handleTabSelect = (index) => {
     setActiveTab(index);
     setShowMenu(false); // Close the menu after selecting a tab

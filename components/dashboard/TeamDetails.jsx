@@ -60,12 +60,12 @@ const TeamDetail = () => {
                 
                 {/* Sidebar Section */}
                 <div className="w-full md:w-1/4">
-                    <div className="space-y-1 p-4">
+                    <div className="space-y-1 p-2 flex md:block">
                         {teams.map((team, index) => (
                             <button
                                 key={team.id}
                                 onClick={() => setActiveTab(index)}
-                                className={`w-full text-left font-semibold px-6 py-3 transition-all ${
+                                className={`w-full text-left font-semibold px-2 md:px-6 md:py-3 transition-all ${
                                     activeTab === index
                                         ? "border-l-4 border-highlight text-highlight"
                                         : "text-gray-300 hover:text-highlight"
@@ -86,7 +86,7 @@ const TeamDetail = () => {
                 </div>
 
                 {/* Main Content Section */}
-                <div className="w-full md:w-3/4 p-8">
+                <div className="w-full md:w-3/4 p-4">
                     
                     {/* Team Info */}
                     <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
