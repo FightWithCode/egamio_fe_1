@@ -30,11 +30,10 @@ const DashboardPage = () => {
   }, []);
 
   const [activeTab, setActiveTab] = useState(0);
-  const tabs = ["Dashboard", "eGClips", "Games", "My Teams", "Settings"];
+  const tabs = ["Dashboard", "eGClips", "My Teams", "Settings"];
   const tabContents = [
     <PlayerTeamSearch></PlayerTeamSearch>,
     <EGClips></EGClips>,
-    <UserGames></UserGames>,
     <TeamDetail></TeamDetail>,
     <ProfileForm></ProfileForm>,
   ];
@@ -62,7 +61,7 @@ const DashboardPage = () => {
               <p
                 key={index}
                 onClick={() => setActiveTab(index)}
-                className={`!mt-0 px-auto h-[54px] w-1/5 flex justify-center items-center cursor-pointer ${activeTab === index ? 'bg-highlight text-white' : 'hover:border-b-2 hover:border-highlight'
+                className={`!mt-0 px-auto h-[54px] w-1/4 flex justify-center items-center cursor-pointer ${activeTab === index ? 'bg-highlight text-white' : 'hover:border-b-2 hover:border-highlight'
                   }`}
               >
                 {tab}

@@ -1,6 +1,7 @@
 "use client";  // This will mark the component as a client-side component
 
 import React, { useState } from "react";
+import Link from 'next/link';
 import Head from 'next/head';  // Import Head from next/head
 import Image from "next/image";
 import { useRouter } from 'next/navigation'; // Import useRouter for navigation
@@ -69,7 +70,6 @@ export default function Login() {
         {/* Left Section */}
         <div
           className="hidden md:block w-2/5 bg-cover bg-center relative p-6"
-        // style={{ backgroundImage: `url(${LoginBG.src})` }}
         >
           <TypographyH1 className="text-6xl text-white">
             HELLO<br />AGAIN!
@@ -78,7 +78,7 @@ export default function Login() {
             We are so happy to see you back here!
           </TypographyH3>
           <TypographyP className="absolute bottom-6">
-            Don’t you have an account? <a href="/register" className="text-highlight underline">Register Now!</a>
+            Don’t you have an account? <Link href="/signup" className="text-highlight underline">Register Now!</Link>
           </TypographyP>
         </div>
 

@@ -45,7 +45,7 @@ const Navigation = () => {
                         <Image src={logo} width={70} alt="logo"></Image>
                         <div>
                             <p className="text-2xl">eGamio</p>
-                            <p className="text-xs">Where dream meet!</p>
+                            <p className="text-xs">Where dreams meet!</p>
                         </div>
                     </div>
 
