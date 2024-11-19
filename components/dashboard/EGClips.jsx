@@ -6,7 +6,7 @@ import { useState } from "react";
 import { FaPlus, FaPlay } from "react-icons/fa";
 import UploadClip from "./UploadClip";
 
-const UserGames = () => {
+const EGCLips = ({showUploadButton = true}) => {
     const [clips, setClips] = useState([
         {
             id: 1,
@@ -67,14 +67,15 @@ const UserGames = () => {
                 <span className="text-foreground font-semibold text-xl">
                     {clips.length} Shorts Uploaded
                 </span>
-                <button
-                    onClick={handleUploadClip}
-                    className="flex items-center bg-accent text-white px-4 py-2 rounded-lg hover:bg-darkaccent transition duration-300 ease-in-out shadow-md"
-                >
-                    <FaPlus className="mr-2" /> Upload Clip
-                </button>
+                {showUploadButton && (
+                    <button
+                        onClick={handleUploadClip}
+                        className="flex items-center bg-accent text-white px-4 py-2 rounded-lg hover:bg-darkaccent transition duration-300 ease-in-out shadow-md"
+                    >
+                        <FaPlus className="mr-2" /> Upload Clip
+                    </button>
+                )}
             </div>
-
             {/* Clips List */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {clips.map((clip) => (
@@ -130,4 +131,4 @@ const UserGames = () => {
     );
 };
 
-export default UserGames;
+export default EGCLips;

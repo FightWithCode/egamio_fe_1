@@ -1,48 +1,43 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from "next/image";
-import { useRouter } from 'next/navigation';
+import { FaMessage } from "react-icons/fa6"; // Hamburger icon for menu
+import { IoIosArrowDown } from "react-icons/io";
 import { use } from 'react'; // Import React.use
 // Components imports
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import { TypographyH4, TypographyP } from '@/components/ui/Typographies';
-import { isAuthenticated } from '@/utils/auth';
 import ProfileForm from '@/components/forms/ProfileForm';
 import EGClips from '@/components/dashboard/EGClips';
-// icons import
-import { FaMessage } from "react-icons/fa6";
 // Assets import
 import user2 from "@/public/images/users/user2.png";
 
 export default function PlayerDetails({ params }) {
   const { playerId } = use(params); // Unwrap params using `use`
-  const router = useRouter();
-  const [isAuthChecked, setAuthChecked] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const [showMenu, setShowMenu] = useState(false); // State for menu visibility
   const tabs = ["Profile", "eGClips"];
   const tabContents = [
-    <ProfileForm></ProfileForm>,
-    <EGClips></EGClips>,
+    <ProfileForm />,
+    <EGClips showUploadButton={false} />,
   ];
 
-  useEffect(() => {
-    if (!isAuthenticated()) {
-      console.log("Error in authentication", isAuthenticated());
-      router.push('/login');
-    } else {
-      setAuthChecked(true); // Allow rendering after auth check
-    }
-  }, [router]);
+  // Toggle menu visibility
+  const handleMenuToggle = () => {
+    setShowMenu((prev) => !prev); // Toggle the menu visibility
+  };
 
-  if (!isAuthChecked) {
-    return null; // Prevent rendering until auth is checked
-  }
+  // Handle tab selection
+  const handleTabSelect = (index) => {
+    setActiveTab(index);
+    setShowMenu(false); // Close the menu after selecting a tab
+  };
 
   return (
     <ResponsiveContainer className="my-8 !text-background border-[1px] border-white rounded-lg backdrop-blur-sm !text-foreground">
-      <div className='flex justify-between items-center border-b-[1px] py-2'>
-        <div className='flex justify-center items-center gap-2'>
+      <div className="flex justify-between items-center border-b-[1px] py-2">
+        <div className="flex justify-center items-center gap-2">
           <Image
             className="border-[1px] rounded-full p-1"
             src={user2}
@@ -64,13 +59,42 @@ export default function PlayerDetails({ params }) {
         </div>
       </div>
 
-      <div className='overflow-x-auto border-b-[1px]'>
-        <div className='flex min-w-[300px] md:min-w-0 justify-between items-center border-b-[1px]'>
+      <div className="border-b-[1px]">
+        {/* Hamburger menu for small screens */}
+        <div className="md:hidden relative flex justify-between items-center h-[50px]">
+          <p className='px-4 font-bold'>{tabs[activeTab]}</p>
+          <button
+            onClick={handleMenuToggle} // Toggle menu visibility
+            className="text-white text-2xl p-3"
+          >
+            <IoIosArrowDown />
+          </button>
+
+          {/* Dropdown menu */}
+          {showMenu && (
+            <div className="absolute top-[50px] w-full bg-background text-white z-20">
+              {tabs.map((tab, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleTabSelect(index)} // Set active tab and close menu
+                  className={`px-4 py-3 cursor-pointer hover:bg-highlight hover:text-white transition-all ${activeTab === index ? 'text-white' : ''}`}
+                >
+                  {tab}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Tab buttons for larger screens */}
+        <div className="flex min-w-[300px] md:min-w-0 justify-start items-center border-b-[1px] hidden md:flex">
           {tabs.map((tab, index) => (
             <p
               key={index}
-              onClick={() => setActiveTab(index)}
-              className={`!mt-0 px-auto h-[54px] w-1/4 min-w-[125px] flex justify-center items-center cursor-pointer ${activeTab === index ? 'bg-highlight text-white' : 'hover:border-b-2 hover:border-highlight'
+              onClick={() => handleTabSelect(index)} // Handle tab selection
+              className={`!mt-0 px-auto h-[54px] w-1/4 min-w-[125px] flex justify-center items-center cursor-pointer ${activeTab === index
+                ? 'bg-highlight text-white'
+                : 'hover:border-b-2 hover:border-highlight'
                 }`}
             >
               {tab}
@@ -78,8 +102,9 @@ export default function PlayerDetails({ params }) {
           ))}
         </div>
       </div>
+
       <div className="mt-4 bg-background-light rounded-md shadow-md">
-        {tabContents[activeTab]}
+        {tabContents[activeTab]} {/* Show the content for the active tab */}
       </div>
     </ResponsiveContainer>
   );
