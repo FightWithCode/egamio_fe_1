@@ -1,21 +1,23 @@
 "use client";
-
+// react imports
 import React, { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
+// components imports
 import Modal from "@/components/common/Modal"; // Assuming a Modal component exists
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
-import googleIcon from "@/public/images/icons/google.svg";
-import facebookIcon from "@/public/images/icons/facebook.svg";
 import {
   TypographyH1,
   TypographyH3,
   TypographyH4,
   TypographyP,
 } from "@/components/ui/Typographies";
+// utils import
 import api from "@/utils/api";
-import { useRouter } from "next/navigation";
+// icons imports
+import googleIcon from "@/public/images/icons/google.svg";
+import facebookIcon from "@/public/images/icons/facebook.svg";
 
 export default function Signup() {
   const router = useRouter();

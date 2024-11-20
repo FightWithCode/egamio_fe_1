@@ -1,8 +1,12 @@
-"use client"; // React import
-import { useState } from "react"; // React hooks import
-import Image from "next/image"; // Components import
+"use client"; 
+// React import
+import { useState } from "react";
+import Image from "next/image";
+// Components import
 import ResponsiveContainer from "../common/ResponsiveContainer";
 import { TypographyP } from "../ui/Typographies";
+import PlayerListCard from "./PlayerListCard";
+import TeamListCard from "./TeamListCard";
 
 // Dummy data for players and teams
 const initialPlayers = [
@@ -332,19 +336,7 @@ const PlayerTeamSearch = () => {
                         {searchType === "player" ? (
                             filteredPlayers.length > 0 ? (
                                 filteredPlayers.map((player) => (
-                                    <div key={player.id} className="flex flex-col items-center bg-background p-4 rounded-lg shadow-lg">
-                                        <div className="relative w-full pb-[116%] overflow-hidden rounded-lg">
-                                            <Image
-                                                src={player.image}
-                                                alt={player.name}
-                                                layout="fill"
-                                                objectFit="cover"
-                                            />
-                                        </div>
-                                        <p className="mt-2 text-lg font-semibold">{player.name}</p>
-                                        <p className="text-sm text-foreground">{player.role} | {player.game}</p>
-                                        <p className="text-sm text-foreground">Experience: {player.experience} years</p>
-                                    </div>
+                                    <PlayerListCard key={player.id} player={player} />
                                 ))
                             ) : (
                                 <p className="col-span-4 text-center text-lg font-semibold text-foreground">No players match your filters.</p>
@@ -352,20 +344,7 @@ const PlayerTeamSearch = () => {
                         ) : (
                             filteredTeams.length > 0 ? (
                                 filteredTeams.map((team) => (
-                                    <div key={team.id} className="flex flex-col items-center bg-background p-4 rounded-lg">
-                                        <div className="relative w-full pb-[116%] overflow-hidden rounded-lg">
-                                            <Image
-                                                src={team.image}
-                                                alt={team.name}
-                                                layout="fill"
-                                                objectFit="cover"
-                                            />
-                                        </div>
-                                        <p className="mt-2 text-lg font-semibold">{team.name}</p>
-                                        <p className="text-sm text-foreground">{team.game}</p>
-                                        <p className="text-sm text-foreground">Location: {team.location}</p>
-                                        <p className="text-sm text-foreground">{team.rolesLookingFor.join(", ")}</p>
-                                    </div>
+                                    <TeamListCard key={team.id} team={team} />
                                 ))
                             ) : (
                                 <p className="col-span-4 text-center text-lg font-semibold text-foreground">No teams match your filters.</p>

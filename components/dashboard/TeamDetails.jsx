@@ -1,9 +1,11 @@
 "use client";
+// react imports
 import { useState } from "react";
 import Image from "next/image";
+// Components imports
 import ResponsiveContainer from "../common/ResponsiveContainer";
 import { TypographyP } from "../ui/Typographies";
-
+import PlayerListCard from "./PlayerListCard";
 // Assets import
 import teammate1 from "@/public/images/users/user1.png";
 import teammate2 from "@/public/images/users/user2.png";
@@ -111,21 +113,7 @@ const TeamDetail = () => {
                         <TypographyP className="font-semibold text-lg mb-4">Players Roster</TypographyP>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                             {teams[activeTab].teammates.map((teammate) => (
-                                <div key={teammate.id} className="border-[1px] rounded-lg p-4 shadow hover:shadow-md transition-all">
-                                    <div className="relative w-full pb-[116%] overflow-hidden rounded-lg">
-                                        <Image
-                                            src={teammate.image}
-                                            alt={teammate.name}
-                                            layout="fill"
-                                            objectFit="cover"
-                                            className="rounded-lg"
-                                        />
-                                    </div>
-                                    <div className="text-center mt-3">
-                                        <p className="text-lg font-semibold">{teammate.name}</p>
-                                        <p className="text-sm text-gray-300">{teammate.role}</p>
-                                    </div>
-                                </div>
+                                <PlayerListCard key={teammate.id} player={teammate} />
                             ))}
                         </div>
                     </div>

@@ -9,7 +9,6 @@ import TeamDetail from '@/components/dashboard/TeamDetails';
 import EGClips from '@/components/dashboard/EGClips';
 import PlayerTeamSearch from '@/components/dashboard/PlayerTeamSearch';
 import UserCard from '@/components/dashboard/UserCard'; // Import the new component
-import { TypographyH4, TypographyP } from '@/components/ui/Typographies';
 import { isAuthenticated } from '@/utils/auth';
 // icons import
 import { IoIosArrowDown } from "react-icons/io";
@@ -37,22 +36,22 @@ const DashboardPage = () => {
   ];
 
   const handleMenuToggle = () => {
-    setShowMenu((prev) => !prev); // Toggle the menu visibility
+    setShowMenu((prev) => !prev);
   };
 
   const handleTabSelect = (index) => {
     setActiveTab(index);
-    setShowMenu(false); // Close the menu after selecting a tab
+    setShowMenu(false);
   };
 
   return (
     <>
       <ResponsiveContainer className="my-8 !text-background border-[1px] border-white rounded-lg backdrop-blur-sm !text-foreground">
         <UserCard
-          userImage={user2} // Example image
-          userName="Jonathan James" // Example name
-          userDescription="BGMI | Support, IGL" // Example description
-          reelsCount={4} // Example reels count
+          userImage={user2}
+          userName="Jonathan James"
+          userDescription="BGMI | Support, IGL"
+          reelsCount={4}
         />
 
         <div className="border-b-[1px]">
@@ -60,7 +59,7 @@ const DashboardPage = () => {
           <div className="md:hidden relative flex justify-between items-center h-[50px]">
             <p className='px-4 font-bold'>{tabs[activeTab]}</p>
             <button
-              onClick={handleMenuToggle} // Toggle menu visibility
+              onClick={handleMenuToggle}
               className="text-white text-2xl p-3"
             >
               <IoIosArrowDown />

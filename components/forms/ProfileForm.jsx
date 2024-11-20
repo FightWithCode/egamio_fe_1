@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from "next/image";
 import userPhoto from "@/public/images/users/user2.png"; // Replace with actual user photo path
 import ResponsiveContainer from '../common/ResponsiveContainer';
+import SideUserCard from '../dashboard/SideUserCard';
 
 const ProfileForm = () => {
   const [firstName, setFirstName] = useState("James");
@@ -16,24 +17,12 @@ const ProfileForm = () => {
     <ResponsiveContainer className="py-6 px-4 backdrop-blur-sm !text-foreground">
       <div className="flex flex-col md:flex-row gap-0">
         {/* Sidebar Section with Profile and Bio */}
-        <div className="w-full md:w-1/4 flex flex-col items-center p-4 space-y-6">
-          {/* Profile Picture */}
-          <div className="relative w-40 h-40">
-            <Image 
-              src={userPhoto} 
-              alt="Profile Photo" 
-              width={160} 
-              height={160} 
-              className="rounded-full object-cover border-4 border-highlight"
-            />
-          </div>
-
-          {/* Bio */}
-          <div className="text-center">
-            <h3 className="text-xl font-semibold text-gray-300">{`${firstName} ${lastName}`}</h3>
-            <p className="text-sm text-gray-400 mt-2">{bio}</p>
-          </div>
-        </div>
+        <SideUserCard
+          userPhoto={userPhoto}
+          firstName={firstName}
+          lastName={lastName}
+          bio={bio}
+        />
 
         {/* Main Content Section */}
         <div className="w-full md:w-3/4 p-8">
@@ -88,11 +77,11 @@ const ProfileForm = () => {
             <div className="flex flex-col md:col-span-2 items-start mt-4">
               <label className="font-semibold mb-2">Profile Photo</label>
               <div className="relative w-24 h-24">
-                <Image 
-                  src={userPhoto} 
-                  alt="Profile Photo" 
-                  width={96} 
-                  height={96} 
+                <Image
+                  src={userPhoto}
+                  alt="Profile Photo"
+                  width={96}
+                  height={96}
                   className="rounded-full border object-cover"
                 />
                 <button className="absolute bottom-0 right-0 bg-blue-500 rounded-full p-1.5 text-white">

@@ -43,17 +43,17 @@ const UploadClip = ({ onUpload }) => {
     };
 
     return (
-        <div className="p-6 bg-white rounded-lg shadow-lg max-w-md mx-auto">
-            <h2 className="text-2xl font-semibold text-gray-700 mb-4">Upload New Short</h2>
+        <div className="p-6 bg-background max-w-md mx-auto">
+            <h2 className="text-2xl font-semibold mb-4">Upload New Short</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Title Input */}
                 <div>
-                    <label className="block text-gray-600 font-medium">Title</label>
+                    <label className="block font-medium">Title</label>
                     <input
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent"
+                        className="w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none"
                         placeholder="Enter the video title"
                         required
                     />
@@ -61,12 +61,12 @@ const UploadClip = ({ onUpload }) => {
 
                 {/* Game Input */}
                 <div>
-                    <label className="block text-gray-600 font-medium">Game</label>
+                    <label className="block font-medium">Game</label>
                     <input
                         type="text"
                         value={game}
                         onChange={(e) => setGame(e.target.value)}
-                        className="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-accent focus:border-accent"
+                        className="w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none"
                         placeholder="Enter the game played"
                         required
                     />
@@ -74,18 +74,18 @@ const UploadClip = ({ onUpload }) => {
 
                 {/* Video File Input */}
                 <div>
-                    <label className="block text-gray-600 font-medium">Video File (Max: 15MB)</label>
+                    <label className="block font-medium">Video File (Max: 15MB)</label>
                     <input
                         type="file"
                         accept="video/*"
                         onChange={handleFileChange}
-                        className="mt-1 block w-full text-gray-500"
+                        className="w-full p-3 rounded-none bg-transparent focus:outline-none"
                         required
                     />
                 </div>
 
                 {/* Error Message */}
-                {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+                {error && <p className="text-danger text-sm mt-1">{error}</p>}
 
                 {/* Submit Button */}
                 <button

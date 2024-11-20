@@ -1,15 +1,14 @@
 "use client";
-
+// react imports
 import React, { useState } from 'react';
 import Image from "next/image";
+import { use } from 'react'; // Import React.use
+// icons imports
 import { FaMessage } from "react-icons/fa6"; // Hamburger icon for menu
 import { IoIosArrowDown } from "react-icons/io";
-import { use } from 'react'; // Import React.use
 // Components imports
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import { TypographyH4, TypographyP } from '@/components/ui/Typographies';
-import TeamDetail from '@/components/dashboard/TeamDetails';
-import EGClips from '@/components/dashboard/EGClips';
 // Assets import
 import user2 from "@/public/images/users/user2.png";
 

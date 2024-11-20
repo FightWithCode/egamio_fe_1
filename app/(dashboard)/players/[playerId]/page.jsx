@@ -1,20 +1,20 @@
 "use client";
-
+// react imports
 import React, { useState } from 'react';
 import Image from "next/image";
-import { FaMessage } from "react-icons/fa6"; // Hamburger icon for menu
-import { IoIosArrowDown } from "react-icons/io";
-import { use } from 'react'; // Import React.use
+import { use } from 'react';
 // Components imports
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
-import { TypographyH4, TypographyP } from '@/components/ui/Typographies';
 import ProfileForm from '@/components/forms/ProfileForm';
 import EGClips from '@/components/dashboard/EGClips';
+import UserCard from '@/components/dashboard/UserCard';
 // Assets import
+import { FaMessage } from "react-icons/fa6";
+import { IoIosArrowDown } from "react-icons/io";
 import user2 from "@/public/images/users/user2.png";
 
 export default function PlayerDetails({ params }) {
-  const { playerId } = use(params); // Unwrap params using `use`
+  const { playerId } = use(params);
   const [activeTab, setActiveTab] = useState(0);
   const [showMenu, setShowMenu] = useState(false);
   const tabs = ["Profile", "eGClips"];
@@ -24,38 +24,22 @@ export default function PlayerDetails({ params }) {
   ];
 
   const handleMenuToggle = () => {
-    setShowMenu((prev) => !prev); // Toggle the menu visibility
+    setShowMenu((prev) => !prev);
   };
 
   const handleTabSelect = (index) => {
     setActiveTab(index);
-    setShowMenu(false); // Close the menu after selecting a tab
+    setShowMenu(false);
   };
 
   return (
     <ResponsiveContainer className="my-8 !text-background border-[1px] border-white rounded-lg backdrop-blur-sm !text-foreground">
-      <div className="flex justify-between items-center border-b-[1px] py-2">
-        <div className="flex justify-center items-center gap-2">
-          <Image
-            className="border-[1px] rounded-full p-1"
-            src={user2}
-            width={102}
-            height={102}
-            alt="logo"
-          />
-          <div>
-            <TypographyH4>Jonathan James</TypographyH4>
-            <TypographyP className="!mt-0">BGMI | IGL, Support</TypographyP>
-            <TypographyP className="!mt-0">4 Reels</TypographyP>
-          </div>
-        </div>
-        <div>
-          <button className="bg-highlight rounded-xl px-4 py-2 hidden sm:flex justify-center items-center gap-2">
-            <a href="#" className="text-sm text-white">Send Request</a>
-            <FaMessage className="bg-white/30 rounded-full p-1 text-white" />
-          </button>
-        </div>
-      </div>
+      <UserCard
+        userImage={user2}
+        userName="Jonathan James"
+        userDescription="BGMI | Support, IGL"
+        reelsCount={4}
+      />
 
       <div className="border-b-[1px]">
         {/* Hamburger menu for small screens */}

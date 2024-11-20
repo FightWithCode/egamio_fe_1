@@ -1,11 +1,15 @@
 "use client";
-import ResponsiveContainer from "../common/ResponsiveContainer";
-import { IoIosArrowForward } from "react-icons/io";
+// rect imports
 import Image from "next/image";
 import { useState, useEffect } from 'react';
+// components import
+import ResponsiveContainer from "../common/ResponsiveContainer";
+// icons imports
+import { IoIosArrowForward } from "react-icons/io";
 import { isAuthenticated } from '@/utils/auth';  // Assuming this is a utility that checks if user is authenticated
 import { IoMenu } from "react-icons/io5";
 import { IoCloseCircleOutline } from "react-icons/io5";
+// assets import
 import logo from "@/public/images/trans-logo2.png";
 import user2 from "@/public/images/users/user2.png";
 

@@ -1,19 +1,20 @@
-"use client";  // This will mark the component as a client-side component
-
+"use client";
+// react imports
 import React, { useState } from "react";
 import Link from 'next/link';
-import Head from 'next/head';  // Import Head from next/head
+import Head from 'next/head';
 import Image from "next/image";
-import { useRouter } from 'next/navigation'; // Import useRouter for navigation
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import api from '@/utils/api';
-
+// components imports
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
-import LoginBG from "@/public/images/bg/loginbg.jpg";
+import { TypographyH1, TypographyH3, TypographyH4, TypographyP } from "@/components/ui/Typographies";
+// utils import
+import api from '@/utils/api';
+import { isAuthenticated } from '@/utils/auth';
+// icons imports
 import googleIcon from "@/public/images/icons/google.svg";
 import facebookIcon from "@/public/images/icons/facebook.svg";
-import { TypographyH1, TypographyH3, TypographyH4, TypographyP } from "@/components/ui/Typographies";
-import { isAuthenticated } from '@/utils/auth';
 
 export default function Login() {
   const router = useRouter();
