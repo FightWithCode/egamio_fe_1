@@ -39,6 +39,7 @@ export default function PlayerDetails({ params }) {
         userName="Jonathan James"
         userDescription="BGMI | Support, IGL"
         reelsCount={4}
+        showSendReq={false}
       />
 
       <div className="border-b-[1px]">

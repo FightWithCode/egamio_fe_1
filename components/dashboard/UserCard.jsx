@@ -1,11 +1,15 @@
-// components/dashboard/UserProfile.js
-
 import React from 'react';
 import Image from "next/image";
-import { FaMessage } from "react-icons/fa6";
+import { FaMessage, FaPlus, FaComments } from "react-icons/fa6"; // Added icons for other buttons
 import { TypographyH4, TypographyP } from '@/components/ui/Typographies';
 
-const UserCard = ({ userImage, userName, userDescription, reelsCount }) => {
+const UserCard = ({
+  userImage,
+  userName,
+  userDescription,
+  reelsCount,
+  showSendReq = true,
+}) => {
   return (
     <div className="flex justify-between items-center border-b-[1px] py-2">
       <div className="flex justify-center items-center gap-2">
@@ -23,11 +27,24 @@ const UserCard = ({ userImage, userName, userDescription, reelsCount }) => {
         </div>
       </div>
 
-      <div>
-        <button className="bg-highlight rounded-xl px-4 py-2 hidden sm:flex justify-center items-center gap-2">
-          <a href="#" className="text-sm text-white">Send Request</a>
-          <FaMessage className="bg-white/30 rounded-full p-1 text-white" />
-        </button>
+      <div className="flex gap-2">
+        {showSendReq ? (
+          <button className="bg-highlight rounded-xl px-4 py-2 flex justify-center items-center gap-2">
+            <a href="#" className="text-sm text-white">Send Request</a>
+            <FaMessage className="bg-white/30 rounded-full p-1 text-white" />
+          </button>
+        ) : (
+          <>
+            <button className="bg-background rounded-xl px-4 py-2 flex justify-center items-center gap-2">
+              <FaComments className="text-white" />
+              <span className="text-sm text-white">Chat</span>
+            </button>
+            <button className="bg-highlight rounded-xl px-4 py-2 flex justify-center items-center gap-2">
+              <FaPlus className="text-background" />
+              <span className="text-sm text-background font-bold">Add Request</span>
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

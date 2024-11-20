@@ -8,7 +8,7 @@ import ProfileForm from '@/components/forms/ProfileForm';
 import TeamDetail from '@/components/dashboard/TeamDetails';
 import EGClips from '@/components/dashboard/EGClips';
 import PlayerTeamSearch from '@/components/dashboard/PlayerTeamSearch';
-import UserCard from '@/components/dashboard/UserCard'; // Import the new component
+import UserCard from '@/components/dashboard/UserCard';
 import { isAuthenticated } from '@/utils/auth';
 // icons import
 import { IoIosArrowDown } from "react-icons/io";
@@ -52,6 +52,7 @@ const DashboardPage = () => {
           userName="Jonathan James"
           userDescription="BGMI | Support, IGL"
           reelsCount={4}
+          showSendReq={false}
         />
 
         <div className="border-b-[1px]">

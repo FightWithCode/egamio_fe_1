@@ -170,11 +170,11 @@ const PlayerTeamSearch = () => {
                                     name="game"
                                     value={playerFilters.game}
                                     onChange={handlePlayerFilterChange}
-                                    className="w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none"
+                                    className="text-background w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none"
                                 >
                                     <option value="">Select Game</option>
                                     {games.map((game) => (
-                                        <option key={game} value={game}>
+                                        <option key={game} value={game} className="text-background">
                                             {game}
                                         </option>
                                     ))}
