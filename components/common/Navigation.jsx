@@ -6,6 +6,7 @@ import { useState } from 'react';
 import ResponsiveContainer from "./ResponsiveContainer";
 import Image from "next/image";
 import logo from "@/public/images/trans-logo2.png";
+import Link from "next/link";
 
 
 const Navigation = () => {
@@ -30,7 +31,7 @@ const Navigation = () => {
                             <li className="h-full cursor-pointer hover:border-t-4 hover:border-highlight px-4 flex items-center text-white">Home</li>
                             <li className="h-full cursor-pointer hover:border-t-4 hover:border-highlight px-4 flex items-center text-white">Find Team</li>
                             <li className="h-full cursor-pointer hover:border-t-4 hover:border-highlight px-4 flex items-center text-white">Find Player</li>
-                            <li className="h-[40px] bg-accent py-2 px-6 rounded-3xl ml-4"><a href="#" className="text-white">Login</a></li>
+                            <li className="h-[40px] bg-highlight py-2 px-6 rounded-3xl ml-4"><Link href="/login" className="text-background">Login</Link></li>
                         </ul>
                         <IoMenu className="cursor-pointer text-4xl text-white block sm:hidden" onClick={toggleSideMenu}></IoMenu>
                     </div>
@@ -47,7 +48,7 @@ const Navigation = () => {
                             <li className="h-full cursor-pointer border-t border-b hover:border-l-4 hover:border-l-highlight p-3 text-white">Home</li>
                             <li className="h-full cursor-pointer border-b hover:border-l-4 hover:border-l-highlight p-3 text-white">Find Team</li>
                             <li className="h-full cursor-pointer border-b hover:border-l-4 hover:border-l-highlight p-3 text-white">Find Player</li>
-                            <li className="cursor-pointer h-[40px] w-[100px] bg-accent mt-3 py-2 px-6 rounded-3xl text-white"><a href="#">Login</a></li>
+                            <li className="cursor-pointer h-[40px] w-[100px] bg-highlight mt-3 py-2 px-6 rounded-3xl text-white"><Link href="/login" className="text-background">Login</Link></li>
                         </ul>
                     </div>
                 </div>

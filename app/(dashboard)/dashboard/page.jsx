@@ -1,20 +1,17 @@
 "use client";
 // React and Next Imports
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import Image from "next/image";
 // Components imports
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import ProfileForm from '@/components/forms/ProfileForm';
 import TeamDetail from '@/components/dashboard/TeamDetails';
 import EGClips from '@/components/dashboard/EGClips';
 import PlayerTeamSearch from '@/components/dashboard/PlayerTeamSearch';
+import UserCard from '@/components/dashboard/UserCard'; // Import the new component
 import { TypographyH4, TypographyP } from '@/components/ui/Typographies';
 import { isAuthenticated } from '@/utils/auth';
 // icons import
-import { FaMessage } from "react-icons/fa6";
 import { IoIosArrowDown } from "react-icons/io";
 // Assets import
 import user2 from "@/public/images/users/user2.png";
@@ -51,19 +48,12 @@ const DashboardPage = () => {
   return (
     <>
       <ResponsiveContainer className="my-8 !text-background border-[1px] border-white rounded-lg backdrop-blur-sm !text-foreground">
-        <div className='flex justify-between items-center border-b-[1px] py-2'>
-          <div className='flex justify-center items-center gap-2'>
-            <Image className="border-[1px] rounded-full p-1" src={user2} width={102} height={102} alt="logo"></Image>
-            <div className=''>
-              <TypographyH4>Jonathan James</TypographyH4>
-              <TypographyP className="!mt-0">BGMI | IGL, Support</TypographyP>
-              <TypographyP className="!mt-0">4 Reels</TypographyP>
-            </div>
-          </div>
-          <div>
-            <button className="bg-highlight rounded-xl px-4 py-2 hidden sm:flex justify-center items-center gap-2"><a href="#" className="text-sm text-white">Send Request</a> <FaMessage className="bg-white/30 rounded-full p-1 text-white"></FaMessage></button>
-          </div>
-        </div>
+        <UserCard
+          userImage={user2} // Example image
+          userName="Jonathan James" // Example name
+          userDescription="BGMI | Support, IGL" // Example description
+          reelsCount={4} // Example reels count
+        />
 
         <div className="border-b-[1px]">
           {/* Hamburger menu for small screens */}
