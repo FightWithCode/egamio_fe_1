@@ -1,6 +1,6 @@
 "use client";
-import Navigation from "@/components/dashboard/Navigation";
-import Footer from "@/components/dashboard/Footer";
+import Navigation from "@/components/common/Navigation";
+import PlainFooter from "@/components/common/PlainFooter";
 import BackgroundImage from "@/public/images/bg/background6.jpg";
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
           <Provider store={store}>
             <Navigation />
             <main style={{ minHeight: `calc(100vh - 182px)` }}>{children}</main>
-            <Footer />
+            <PlainFooter />
           </Provider>
         </div>
       </body>

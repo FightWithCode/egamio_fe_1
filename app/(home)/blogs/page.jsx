@@ -45,20 +45,20 @@ const BlogPage = () => {
   ];
 
   return (
-    <ResponsiveContainer className="!text-background">
-      <div className="my-8 flex flex-col lg:flex-row gap-8">
-        {/* Blog List */}
-        <div className="mt-16 flex-1 space-y-8">
+    <ResponsiveContainer className="!text-background pt-24 pb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr,1fr] gap-8">
+        {/* Blog Posts */}
+        <div className="space-y-8">
           {blogPosts.map((post) => (
             <div
               key={post.id}
-              className="bg-background p-6 rounded-lg transition-transform transform hover:scale-105"
+              className="bg-transparent p-4 rounded-lg transition-transform transform hover:scale-105 border-[1px] backdrop-blur-md"
             >
-              <div className="flex flex-col md:flex-row gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-6">
                 <Image
                   src={post.image}
                   alt={post.title}
-                  className="rounded-lg w-full md:w-[180px] h-[180px] object-cover"
+                  className="rounded-lg w-full h-[200px] object-cover"
                 />
                 <div className="flex flex-col justify-between">
                   <div className="flex items-center gap-4 mb-3">
@@ -72,7 +72,9 @@ const BlogPage = () => {
                   <h3 className="text-white text-2xl font-extrabold leading-snug hover:text-highlight transition-colors">
                     {post.title}
                   </h3>
-                  <p className="text-foreground text-base mt-3 line-clamp-3">{post.description}</p>
+                  <p className="text-foreground text-base mt-3 line-clamp-3">
+                    {post.description}
+                  </p>
                   <div className="text-foreground text-xs mt-4">
                     By <span className="font-semibold">{post.author}</span> |{" "}
                     <span className="font-semibold">{post.date}</span> | {post.comments}
@@ -84,12 +86,15 @@ const BlogPage = () => {
         </div>
 
         {/* Sidebar */}
-        <div className="mt-16 w-full lg:w-[300px] flex-shrink-0 bg-background p-6 rounded-lg sticky top-24">
-          <h3 className="text-white text-xl font-bold border-b border-highlight pb-2 mb-6">
-            Popular Posts
+        <aside className="p-3 rounded-lg sticky top-24 backdrop-blur-md border-[1px]">
+          <h3 className="text-white text-xl font-bold border-b border-highlight pb-2">
+            Related Posts
           </h3>
           {blogPosts.map((post, index) => (
-            <div key={index} className="mb-6 flex items-center gap-4 hover:bg-background-light p-4 rounded-md transition-colors">
+            <div
+              key={index}
+              className="flex items-center gap-4 hover:bg-background-light transition-colors py-4 border-b-[1px] mt-0"
+            >
               <Image
                 src={post.image}
                 alt={post.title}
@@ -105,7 +110,15 @@ const BlogPage = () => {
               </div>
             </div>
           ))}
-        </div>
+
+          {/* Add Ads or Widgets here */}
+          <div className="bg-background-light p-4 rounded-lg text-center">
+            <h4 className="text-highlight font-bold">Ad Space</h4>
+            <p className="text-foreground text-sm mt-2">
+              Place your ad content here to monetize your site.
+            </p>
+          </div>
+        </aside>
       </div>
     </ResponsiveContainer>
   );
