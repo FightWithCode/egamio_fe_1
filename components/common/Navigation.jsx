@@ -45,10 +45,10 @@ const Navigation = () => {
     return (
         <>
             <nav className="w-full z-[123] bg-background">
-                <ResponsiveContainer className="h-[75px] overflow-hidden flex justify-between items-center">
+                <ResponsiveContainer className="h-[75px] overflow-hidden flex justify-between items-center !p-0">
                     <div className="flex justify-center items-center">
-                        <Image src={logo} width={70} alt="logo"></Image>
-                        <div>
+                        <Image src={logo} width={70} alt="logo" className="w-[50px] lg:w-[70px]"></Image>
+                        <div className="hidden sm:block">
                             <p className="text-2xl">eGamio</p>
                             <p className="text-xs">Where dreams meet!</p>
                         </div>
@@ -57,19 +57,10 @@ const Navigation = () => {
                     {/* Display authenticated user info or navigation links */}
                     {authenticated ? (
                         <div className="flex gap-2 sm:gap-6">
-                            <div className="hidden sm:flex justify-center items-center gap-2">
+                            <div className="flex justify-center items-center gap-2">
                                 <Image className="border-[1px] rounded-full p-1" src={user2} width={35} height={35} alt="logo" />
-                                <p className="text-xs">Jonathan James</p>
+                                <p className="text-xs hidden sm:block">Jonathan James</p>
                             </div>
-                            {/* Logout Button */}
-                            <button
-                                className="bg-danger rounded-xl px-4 hidden sm:flex justify-center items-center gap-2"
-                                onClick={handleLogout}
-                            >
-                                <a href="#" className="text-sm">Logout</a>
-                                <IoIosArrowForward className="bg-black/30 rounded-full p-1"></IoIosArrowForward>
-                            </button>
-                            <IoMenu className="cursor-pointer text-4xl block md:hidden" onClick={toggleSideMenu} />
                         </div>
                     ) : (
                         <div className="h-full flex justify-between items-center">

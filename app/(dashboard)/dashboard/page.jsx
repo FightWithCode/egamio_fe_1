@@ -46,7 +46,7 @@ const DashboardPage = () => {
 
   return (
     <>
-      <ResponsiveContainer className="my-8 !text-background border-[1px] border-white rounded-lg backdrop-blur-sm !text-foreground">
+      <ResponsiveContainer className="my-8 !text-background border-white rounded-lg backdrop-blur-sm !text-foreground">
         <UserCard
           userImage={user2}
           userName="Jonathan James"

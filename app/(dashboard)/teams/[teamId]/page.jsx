@@ -32,7 +32,7 @@ export default function TeamDetails({ params }) {
   };
 
   return (
-    <ResponsiveContainer className="my-8 !text-background border-[1px] border-white rounded-lg backdrop-blur-sm !text-foreground">
+    <ResponsiveContainer className="my-8 !text-background border-white rounded-lg backdrop-blur-sm !text-foreground">
       <div className="flex justify-between items-center border-b-[1px] py-2">
         <div className="flex justify-center items-center gap-2">
           <Image
