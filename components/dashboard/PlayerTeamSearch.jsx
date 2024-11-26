@@ -157,7 +157,7 @@ const PlayerTeamSearch = () => {
 
             <div className="flex flex-col md:flex-row gap-6">
                 {/* Left Section: Filters */}
-                <div className="w-full md:w-1/4 p-6 rounded-lg shadow-lg">
+                <div className="w-full md:w-1/4 rounded-lg shadow-lg">
                     <TypographyP className="font-semibold text-xl mb-4">Filters</TypographyP>
 
                     {/* Player Search Filters */}

@@ -45,7 +45,7 @@ const Navigation = () => {
     return (
         <>
             <nav className="w-full z-[123] bg-background">
-                <ResponsiveContainer className="h-[75px] overflow-hidden flex justify-between items-center !p-0">
+                <ResponsiveContainer className="h-[75px] overflow-hidden flex justify-between items-center">
                     <div className="flex justify-center items-center">
                         <Image src={logo} width={70} alt="logo" className="w-[50px] lg:w-[70px]"></Image>
                         <div className="hidden sm:block">
@@ -57,10 +57,12 @@ const Navigation = () => {
                     {/* Display authenticated user info or navigation links */}
                     {authenticated ? (
                         <div className="flex gap-2 sm:gap-6">
-                            <div className="flex justify-center items-center gap-2">
-                                <Image className="border-[1px] rounded-full p-1" src={user2} width={35} height={35} alt="logo" />
-                                <p className="text-xs hidden sm:block">Jonathan James</p>
-                            </div>
+                            <Link href="/dashboard">
+                                <div className="flex flex-col justify-center items-center gap-2">
+                                    <Image className="border-[1px] rounded-full p-1" src={user2} width={35} height={35} alt="logo" />
+                                    <p className="text-xs hidden sm:block">Jonathan James</p>
+                                </div>
+                            </Link>
                         </div>
                     ) : (
                         <div className="h-full flex justify-between items-center">
@@ -85,29 +87,13 @@ const Navigation = () => {
                         <Image src={logo} width={50} alt="logo"></Image>
                         <IoCloseCircleOutline className="cursor-pointer text-4xl" onClick={toggleSideMenu}></IoCloseCircleOutline>
                     </div>
-                    <div className="flex gap-4 sm:gap-6 flex-col justify-start pt-4 pl-4">
-                        {authenticated ? (
-                            <>
-                                <div className="flex items-center gap-2">
-                                    <Image className="border-[1px] rounded-full p-1" src={user2} width={35} height={35} alt="logo" />
-                                    <p className="text-xs">Jonathan James</p>
-                                </div>
-                                <button
-                                    className="w-[102px] h-[35px] bg-danger rounded-xl px-4 flex justify-center items-center gap-2"
-                                    onClick={handleLogout}
-                                >
-                                    <a href="#" className="text-sm">Logout</a>
-                                    <IoIosArrowForward className="bg-black/30 rounded-full p-1"></IoIosArrowForward>
-                                </button>
-                            </>
-                        ) : (
-                            <ul className="h-full">
-                                <li className="h-full cursor-pointer border-t border-b hover:border-l-4 hover:border-l-highlight p-3 text-white">Home</li>
-                                <li className="h-full cursor-pointer border-b hover:border-l-4 hover:border-l-highlight p-3 text-white">Find Team</li>
-                                <li className="h-full cursor-pointer border-b hover:border-l-4 hover:border-l-highlight p-3 text-white">Find Player</li>
-                                <li className="cursor-pointer h-[40px] w-[100px] bg-highlight mt-3 py-2 px-6 rounded-3xl text-white"><Link href="/login" className="text-background">Login</Link></li>
-                            </ul>
-                        )}
+                    <div className="flex gap-4 sm:gap-6 flex-col justify-start">
+                        <ul className="h-full">
+                            <li className="h-full cursor-pointer border-t border-b hover:border-l-4 hover:border-l-highlight p-3 text-white">Home</li>
+                            <li className="h-full cursor-pointer border-b hover:border-l-4 hover:border-l-highlight p-3 text-white">Find Team</li>
+                            <li className="h-full cursor-pointer border-b hover:border-l-4 hover:border-l-highlight p-3 text-white">Find Player</li>
+                            <li className="cursor-pointer h-[40px] w-[100px] bg-highlight mt-3 py-2 px-6 rounded-3xl text-white"><Link href="/login" className="text-background">Login</Link></li>
+                        </ul>
                     </div>
                 </div>
             </section>

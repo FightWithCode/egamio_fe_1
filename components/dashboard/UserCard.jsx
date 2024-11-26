@@ -13,13 +13,6 @@ const UserCard = ({
   return (
     <div className="flex justify-between items-center border-b-[1px] py-2">
       <div className="flex justify-center items-center gap-2">
-        <Image
-          className="border-[1px] rounded-full p-1"
-          src={userImage} // Dynamic user image prop
-          width={102}
-          height={102}
-          alt="user profile image"
-        />
         <div>
           <TypographyH4>{userName}</TypographyH4>
           <TypographyP className="!mt-0">{userDescription}</TypographyP>
