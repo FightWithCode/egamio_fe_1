@@ -28,13 +28,11 @@ const UserCard = ({
           </button>
         ) : (
           <>
-            <button className="bg-background rounded-xl px-4 py-2 flex justify-center items-center gap-2">
+            <button className="bg-background rounded-xl px-4 py-4 flex justify-center items-center gap-2">
               <FaComments className="text-white" />
-              <span className="text-sm text-white">Chat</span>
             </button>
-            <button className="bg-highlight rounded-xl px-4 py-2 flex justify-center items-center gap-2">
-              <FaPlus className="text-background" />
-              <span className="text-sm text-background font-bold">Add Request</span>
+            <button className="bg-highlight rounded-xl px-4 py-4 flex justify-center items-center gap-2">
+              <FaPlus className="text-background"/>
             </button>
           </>
         )}

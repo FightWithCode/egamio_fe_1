@@ -7,7 +7,7 @@ import Link from "next/link";
 import ResponsiveContainer from "../common/ResponsiveContainer";
 // icons imports
 import { IoIosArrowForward } from "react-icons/io";
-import { isAuthenticated } from '@/utils/auth';  // Assuming this is a utility that checks if user is authenticated
+import { isAuthenticated } from '@/utils/auth';
 import { IoMenu } from "react-icons/io5";
 import { IoCloseCircleOutline } from "react-icons/io5";
 // assets import
