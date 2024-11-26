@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 import ResponsiveContainer from "../common/ResponsiveContainer";
 import { isAuthenticated } from "@/utils/auth";
 import { IoIosLogIn } from "react-icons/io";
@@ -16,6 +17,12 @@ const Navigation = () => {
     const [showSideMenu, setShowSideMenu] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);
     const [activePanel, setActivePanel] = useState(null); // "notifications" | "dashboard" | null
+    const router = useRouter();
+
+    const getRedirectUrl = () => {
+        const currentRoute = router.asPath;
+        return currentRoute !== "/login" ? currentRoute : "/dashboard";
+    };
 
     useEffect(() => {
         setAuthenticated(isAuthenticated());
@@ -89,12 +96,12 @@ const Navigation = () => {
                                 <li className="cursor-pointer text-white">Find Team</li>
                                 <li className="cursor-pointer text-white">Find Player</li>
                                 <li className="bg-highlight px-6 py-2 rounded-3xl">
-                                    <Link href="/login" className="text-background">
+                                    <Link href={`/login?redirect=${encodeURIComponent(getRedirectUrl())}`} className="text-background">
                                         Login
                                     </Link>
                                 </li>
                             </ul>
-                            <Link href="/login">
+                            <Link href={`/login?redirect=${encodeURIComponent(getRedirectUrl())}`}>
                                 <IoIosLogIn className="text-3xl text-white block md:hidden" />
                             </Link>
                             <IoMenu

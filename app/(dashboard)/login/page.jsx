@@ -1,11 +1,10 @@
 "use client";
 // react imports
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from 'next/link';
 import Head from 'next/head';
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 // components imports
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import { TypographyH1, TypographyH3, TypographyH4, TypographyP } from "@/components/ui/Typographies";
@@ -23,12 +22,14 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Capture the redirect URL from the query parameter
+  const redirectUrl = router.query?.redirect || '/dashboard';  // Default to '/dashboard' if no redirect param is found
+
   useEffect(() => {
     if (isAuthenticated()) {
       router.push('/dashboard');
     }
   }, []);
-
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -40,18 +41,16 @@ export default function Login() {
         email: loginEmail,
         password: loginPassword,
       });
-      console.log(response.data);
 
       const { refresh, access, id, full_name } = response.data;
-      console.log(refresh, access, id, full_name);
 
       localStorage.setItem('accessToken', access);
       localStorage.setItem('refreshToken', refresh);
       localStorage.setItem('uid', id);
       localStorage.setItem('username', full_name);
 
-      // Redirect to dashboard
-      router.push('/dashboard');
+      // Redirect to the page the user came from, or default to dashboard
+      router.push(redirectUrl);
     } catch (error) {
       console.log(error);
       setErrorMessage('Invalid login credentials.');
@@ -69,9 +68,7 @@ export default function Login() {
       </Head>
       <ResponsiveContainer className="relative !max-w-[800px] flex my-24 border-[1px] border-white rounded-lg backdrop-blur-sm">
         {/* Left Section */}
-        <div
-          className="hidden md:block w-2/5 bg-cover bg-center relative p-6"
-        >
+        <div className="hidden md:block w-2/5 bg-cover bg-center relative p-6">
           <TypographyH1 className="text-6xl text-white">
             HELLO<br />AGAIN!
           </TypographyH1>
