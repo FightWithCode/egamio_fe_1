@@ -108,7 +108,7 @@ const Navigation = () => {
 
             {/* Dark background overlay */}
             {activePanel && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 z-[49] backdrop-blur-sm" />
+                <div className="fixed inset-0 bg-black bg-opacity-50 z-[49] backdrop-blur-sm" />
             )}
 
             {/* Unified Sliding Panel */}
@@ -119,9 +119,9 @@ const Navigation = () => {
             >
                 <div className="w-[500px] bg-background">
                     {/* Panel Header */}
-                    <div className="flex justify-between items-center p-4 bg-highlight text-white">
+                    <div className="flex justify-between items-center p-2 bg-highlight text-white">
                         <h3 className="text-lg font-bold">
-                            {activePanel === "notifications" ? "Notifications" : "Dashboard Options"}
+                            {activePanel === "notifications" ? "Notifications" : "My Profile"}
                         </h3>
                         <IoCloseCircleOutline
                             className="text-3xl cursor-pointer"
@@ -268,21 +268,65 @@ const Navigation = () => {
                                         </div>
                                     </div>
                                 </li>
-                                
+
                                 {/* Additional notifications */}
                             </ul>
                         )}
 
-                        {activePanel === "dashboard" && (
-                            <ul className="space-y-4">
-                                <li className="cursor-pointer">My Teams</li>
-                                <li className="cursor-pointer">Settings</li>
-                                <li className="cursor-pointer">Dashboard</li>
-                                <li className="cursor-pointer" onClick={handleLogout}>
-                                    Logout
-                                </li>
-                            </ul>
-                        )}
+                        <div className="relative">
+                            {activePanel === "dashboard" && (
+                                <ul className="space-y-2 bg-background shadow-lg rounded-lg p-4 w-64 text-sm">
+                                    {/* Dashboard Items */}
+                                    <li className="cursor-pointer py-2 px-4 rounded hover:bg-highlight transition-colors">
+                                        <Link href="/dashboard" className="block w-full h-full" onClick={() => setActivePanel(null)}>
+                                            Dashboard
+                                        </Link>
+                                    </li>
+                                    <li className="cursor-pointer py-2 px-4 rounded hover:bg-highlight transition-colors">
+                                        <Link href="/dashboard/my-teams" className="block w-full h-full" onClick={() => setActivePanel(null)}>
+                                            My Teams
+                                        </Link>
+                                    </li>
+                                    <li className="cursor-pointer py-2 px-4 rounded hover:bg-highlight transition-colors">
+                                        <Link href="/dashboard/eg-clips" className="block w-full h-full" onClick={() => setActivePanel(null)}>
+                                            EGClips
+                                        </Link>
+                                    </li>
+                                    <li className="cursor-pointer py-2 px-4 rounded hover:bg-highlight transition-colors">
+                                        <Link href="/dashboard/settings" className="block w-full h-full" onClick={() => setActivePanel(null)}>
+                                            Settings
+                                        </Link>
+                                    </li>
+                                    <li
+                                        className="cursor-pointer py-2 px-4 rounded text-danger transition-colors"
+                                        onClick={handleLogout}
+                                    >
+                                        Logout
+                                    </li>
+
+                                    {/* Separator */}
+                                    <hr className="my-2 border-gray-200" />
+
+                                    {/* Additional Links */}
+                                    <li className="cursor-pointer py-2 px-4 rounded hover:bg-highlight transition-colors text-foreground">
+                                        <Link href="/privacy-policy" className="block w-full h-full" onClick={() => setActivePanel(null)}>
+                                            Privacy Policy
+                                        </Link>
+                                    </li>
+                                    <li className="cursor-pointer py-2 px-4 rounded hover:bg-highlight transition-colors text-foreground">
+                                        <Link href="/terms-and-conditions" className="block w-full h-full" onClick={() => setActivePanel(null)}>
+                                            Terms & Conditions
+                                        </Link>
+                                    </li>
+                                    <li className="cursor-pointer py-2 px-4 rounded hover:bg-highlight transition-colors text-foreground">
+                                        <Link href="/about-us" className="block w-full h-full" onClick={() => setActivePanel(null)}>
+                                            About Us
+                                        </Link>
+                                    </li>
+                                </ul>
+                            )}
+                        </div>
+
                     </div>
                 </div>
             </div>

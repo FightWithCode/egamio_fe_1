@@ -5,15 +5,7 @@ import { useRouter } from 'next/navigation';
 // Components imports
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import ProfileForm from '@/components/forms/ProfileForm';
-import TeamDetail from '@/components/dashboard/TeamDetails';
-import EGClips from '@/components/dashboard/EGClips';
-import PlayerTeamSearch from '@/components/dashboard/PlayerTeamSearch';
-import UserCard from '@/components/dashboard/UserCard';
 import { isAuthenticated } from '@/utils/auth';
-// icons import
-import { IoIosArrowDown } from "react-icons/io";
-// Assets import
-import user2 from "@/public/images/users/user2.png";
 
 
 const DashboardPage = () => {
@@ -25,25 +17,6 @@ const DashboardPage = () => {
     }
   }, []);
 
-  const [activeTab, setActiveTab] = useState(0);
-  const [showMenu, setShowMenu] = useState(false);
-  const tabs = ["Dashboard", "eGClips", "My Teams", "Settings"];
-  const tabContents = [
-    <PlayerTeamSearch></PlayerTeamSearch>,
-    <EGClips></EGClips>,
-    <TeamDetail></TeamDetail>,
-    <ProfileForm></ProfileForm>,
-  ];
-
-  const handleMenuToggle = () => {
-    setShowMenu((prev) => !prev);
-  };
-
-  const handleTabSelect = (index) => {
-    setActiveTab(index);
-    setShowMenu(false);
-  };
-
   return (
     <>
       <ResponsiveContainer className="my-8 !text-background border-white rounded-lg backdrop-blur-sm !text-foreground">
@@ -53,12 +26,12 @@ const DashboardPage = () => {
             <p
               className={`!mt-0 px-auto h-[54px] w-1/4 min-w-[125px] flex justify-center items-center cursor-pointer bg-highlight text-white`}
             >
-              Dashboard
+              Settings
             </p>
           </div>
         </div>
         <div className="mt-4 bg-background-light rounded-md shadow-md">
-          <PlayerTeamSearch></PlayerTeamSearch>
+        <ProfileForm></ProfileForm>,
         </div>
       </ResponsiveContainer>
     </>
