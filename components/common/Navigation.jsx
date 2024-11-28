@@ -40,8 +40,8 @@ const Navigation = () => {
 
     return (
         <>
-            <nav className="w-full z-[123] bg-background">
-                <ResponsiveContainer className="h-[75px] flex justify-between items-center">
+            <nav className="w-full z-[123] bg-transparent">
+                <ResponsiveContainer className="h-[75px] flex justify-between items-center backdrop-blur-sm">
                     <div className="flex items-center">
                         <Image src={logo} width={70} alt="logo" className="w-[50px] lg:w-[70px]" />
                         <div className="hidden sm:block">

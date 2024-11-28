@@ -49,7 +49,7 @@ export default function ForumHome() {
     <ResponsiveContainer className="py-6">
       <div className="flex flex-col md:flex-row gap-4">
         {/* Sidebar */}
-        <div className="w-full md:w-1/4 bg-background p-4 backgrop-blur-lg rounded-lg ">
+        <div className="w-full md:w-1/4 bg-transparent p-4 backdrop-blur-md rounded-lg border-[1px] border-white">
           <div className="bg-transparent">
             {/* Main navigation row with expand button */}
             <div className="flex items-center justify-between">
@@ -149,12 +149,12 @@ export default function ForumHome() {
           {samplePosts.map((post) => (
             <div
               key={post.id}
-              className="bg-background text-foreground p-4 rounded-lg mb-6 border border-gray-700"
+              className="bg-transparent text-foreground p-4 rounded-lg mb-6 border-[1px] border-white backdrop-blur-md"
             >
               <div className="flex justify-between items-center mb-4">
                 <div className="flex items-center space-x-2">
                   <span className="font-semibold text-highlight">{post.author}</span>
-                  <span className="text-gray-500">• {post.game}</span>
+                  <span className="text-gray-300">• {post.game}</span>
                 </div>
                 <div className="flex items-center space-x-4">
                   <button className="flex items-center space-x-1 hover:text-highlight">
@@ -168,7 +168,7 @@ export default function ForumHome() {
                 </div>
               </div>
               <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
-              <p className="text-gray-400">{post.content}</p>
+              <p className="text-gray-300">{post.content}</p>
               {post.game === "Call of Duty" && (
                 <div className="mt-4">
                   <button className="bg-darkhighlight text-foreground py-2 px-4 rounded-md">

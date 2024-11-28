@@ -8,219 +8,209 @@ import { TypographyH1, TypographyH2, TypographyP, TypographyH3, TypographyH4 } f
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import blogImage from "@/public/images/blogs/blog1.jpg"; // Fallback image
 import Link from "next/link";
+import blogImage1 from "@/public/images/blogs/blog1.jpg";
+import blogImage2 from "@/public/images/blogs/blog2.jpg";
+import blogImage3 from "@/public/images/blogs/blog3.jpg";
 
-export default function BlogDetailPage({ params }) {
-  const router = useRouter();
-  const { slug } = use(params);
-  const blog = {
-    title: "The Ultimate Guide to Becoming a Pro Gamer",
-    content: `
-      <p>Gaming has evolved from a hobby to a career for many. With the rise of esports, streaming platforms, and the increasing popularity of multiplayer games, becoming a professional gamer has never been more achievable. In this guide, we’ll walk you through the steps to take your gaming skills to the next level.</p>
-      
-      <h3>1. Choose Your Game</h3>
-      <p>The first step to becoming a pro gamer is to choose a game that you're passionate about. Whether it’s <strong>League of Legends</strong>, <strong>Valorant</strong>, or <strong>Fortnite</strong>, pick a game that excites you and suits your skills.</p>
-      
-      <h3>2. Master the Mechanics</h3>
-      <p>Becoming a pro gamer isn’t just about playing a lot. It’s about playing smart. Learn the mechanics of the game inside and out, and practice regularly to improve your skills.</p>
-  
-      <h3>3. Join Competitive Teams</h3>
-      <p>Once you've built your skills, find a team that you can compete with. Whether it’s local tournaments or online competitions, joining a competitive team is key to improving your game.</p>
-  
-      <h3>4. Stay Updated on the Meta</h3>
-      <p>The gaming world evolves quickly, and the game meta (or the most effective strategies) change frequently. Keep up with the latest updates, patch notes, and community strategies to stay competitive.</p>
-      
-      <h3>5. Build a Personal Brand</h3>
-      <p>Esports is as much about personal branding as it is about gaming. Whether it’s through social media, streaming platforms like Twitch, or creating YouTube videos, building a personal brand can open up sponsorships and career opportunities.</p>
-  
-      <h3>6. Compete and Never Give Up</h3>
-      <p>The road to becoming a pro gamer is full of challenges, but persistence is key. Continue competing, learning, and improving, and you'll see results.</p>
-      
-      <p>Remember, every pro gamer started as a beginner. With determination and hard work, you can make it too!</p>
-    `,
-    author: "Jane Doe",
-    date: "2024-11-21T10:00:00Z",
-    slug: "the-ultimate-guide-to-becoming-a-pro-gamer"
+const SingleBlogPost = ({ params }) => {
+  // This would typically come from an API or database
+  const post = {
+    id: 1,
+    image: blogImage1,
+    rating: "8.7",
+    title: "We Reviewed the New Magimons Game",
+    fullContent: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
+    author: "Vellatrix",
+    date: "November 21, 2024",
+    comments: "258 Comments",
+    comments_arr: ["COmment 1", "Comment 2"],
+    category: "Game Reviews"
   };
-  const popularPosts = [
-    {
-      id: 1,
-      title: "The Clash of Dragons is Breaking Record Sales in USA and Japan",
-      author: "Dexter",
-      date: "Dec 15th, 2018",
-      image: blogImage,
-    },
-    {
-      id: 2,
-      title: `"Legend of Kenshi II" is a Bit Green for Now`,
-      author: "Vellatrix",
-      date: "Dec 15th, 2018",
-      image: blogImage,
-    },
-  ];
 
-  const latestReviews = [
-    {
-      id: 1,
-      title: "We Reviewed the New Magimons Game",
-      author: "Vellatrix",
-      date: "Dec 15th, 2018",
-      rating: "8.7",
-      image: blogImage,
-    },
-    {
-      id: 2,
-      title: "We Reviewed the New and Exciting Fantasy Game Olympus",
-      author: "Morgana",
-      date: "Dec 15th, 2018",
-      rating: "9.2",
-      image: blogImage,
-    },
-  ];
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
-
-
+  // Related posts would also typically come from an API
+  const relatedPosts = [/* ... similar to your blogPosts array ... */];
 
   return (
-    <>
-      <ResponsiveContainer className="my-16 relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="col-span-2">
-          <div className="bg-background-light py-6 rounded-lg shadow-md">
-            {/* Featured Image */}
+    <ResponsiveContainer className="!text-background pt-24 pb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr,1fr] gap-8">
+        {/* Main Content */}
+        <article className="space-y-8">
+          <div className="bg-transparent p-6 rounded-lg border-[1px] backdrop-blur-md">
             <Image
-              src={blogImage}
-              alt="Featured Blog"
-              className="rounded-lg mb-6 w-full h-auto object-cover"
+              src={post.image}
+              alt={post.title}
+              className="rounded-lg w-full h-[400px] object-cover mb-6"
             />
 
-            {/* Blog Metadata */}
-            <div className="flex items-center space-x-4 mb-4">
-              <div className="bg-blue-500 text-white p-2 rounded-full text-center w-10 h-10">
-                <p className="text-sm">120</p>
-                <p className="text-xs">FB</p>
-              </div>
-              <div className="bg-cyan-500 text-white p-2 rounded-full text-center w-10 h-10">
-                <p className="text-sm">63</p>
-                <p className="text-xs">TW</p>
-              </div>
-              <div className="bg-yellow-500 text-white p-2 rounded-full text-center w-10 h-10">
-                <p className="text-sm">46</p>
-                <p className="text-xs">G+</p>
-              </div>
+            <div className="flex items-center gap-4 mb-4">
+              <span className="bg-highlight text-white text-sm font-semibold px-3 py-1 rounded-full">
+                {post.category}
+              </span>
+              <span className="bg-highlight text-white text-sm font-semibold px-3 py-1 rounded-full">
+                {post.rating}
+              </span>
             </div>
 
-            {/* Title */}
-            <h1 className="text-white text-3xl font-bold mb-4">
-              The "Clash of Eternity" New Game Was Just Released
+            <h1 className="text-white text-4xl font-extrabold leading-tight mb-4">
+              {post.title}
             </h1>
 
-            {/* Blog Info */}
-            <div className="flex items-center text-foreground text-sm mb-6">
-              <p>By Dexter</p>
-              <span className="mx-2">|</span>
-              <p>December 15th, 2018</p>
-              <span className="mx-2">|</span>
-              <p>174 Comments</p>
+            <div className="text-foreground text-sm mb-6">
+              By <span className="font-semibold">{post.author}</span> |{" "}
+              <span className="font-semibold">{post.date}</span> | {post.comments}
             </div>
 
-            {/* Blog Description */}
-            <p className="text-foreground">
-              The new game from the world-famous "Eternity Studios" is back with
-              a new adventure, filled with intense battles, challenging puzzles,
-              and an immersive storyline that takes players to uncharted realms of
-              fantasy and excitement.
-            </p>
-            <p className="text-foreground">
-              The new game from the world-famous "Eternity Studios" is back with
-              a new adventure, filled with intense battles, challenging puzzles,
-              and an immersive storyline that takes players to uncharted realms of
-              fantasy and excitement.
-            </p>
-            <blockquote className="border-l-4 border-highlight bg-background-light p-4 my-6 text-foreground">
-              <p className="italic text-lg">
-                "The greatest glory in living lies not in never falling, but in rising every time we fall."
-              </p>
-              <footer className="mt-2 text-sm text-foreground-light">
-                — Nelson Mandela
-              </footer>
-            </blockquote>
-            <p className="text-foreground">
-              The new game from the world-famous "Eternity Studios" is back with
-              a new adventure, filled with intense battles, challenging puzzles,
-              and an immersive storyline that takes players to uncharted realms of
-              fantasy and excitement.
-            </p>
-            <p className="text-foreground">
-              The new game from the world-famous "Eternity Studios" is back with
-              a new adventure, filled with intense battles, challenging puzzles,
-              and an immersive storyline that takes players to uncharted realms of
-              fantasy and excitement.
-            </p>
-            <p className="text-foreground">
-              The new game from the world-famous "Eternity Studios" is back with
-              a new adventure, filled with intense battles, challenging puzzles,
-              and an immersive storyline that takes players to uncharted realms of
-              fantasy and excitement.
-            </p>
-            <p className="text-foreground">
-              The new game from the world-famous "Eternity Studios" is back with
-              a new adventure, filled with intense battles, challenging puzzles,
-              and an immersive storyline that takes players to uncharted realms of
-              fantasy and excitement.
-            </p>
+            <div className="text-foreground text-lg leading-relaxed space-y-4">
+              {post.fullContent.split('\n\n').map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
+            </div>
+
+            {/* Comments Section */}
+            {/* Comments Section */}
+            <div className="mt-8 pt-8 border-t border-highlight">
+              <h2 className="text-white text-2xl font-bold mb-6">
+                Comments ({post.comments_arr?.length || 0})
+              </h2>
+
+              <div className="space-y-6">
+                {post.comments_arr && post.comments_arr.length > 0 ? (
+                  post.comments_arr.map((comment, index) => (
+                    <div
+                      key={index}
+                      className="bg-background-light p-6 rounded-lg border border-highlight/20 hover:border-highlight/40 transition-colors"
+                    >
+                      {/* Comment Header */}
+                      <div className="flex items-center gap-4 mb-3">
+                        <div className="w-10 h-10 rounded-full bg-highlight/20 flex items-center justify-center">
+                          <span className="text-white font-semibold">
+                            {comment.author?.[0]?.toUpperCase() || 'A'}
+                          </span>
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="text-white font-semibold">
+                            {comment.author || 'Anonymous'}
+                          </h4>
+                          <p className="text-foreground/60 text-sm">
+                            {comment.timestamp || 'Just now'}
+                          </p>
+                        </div>
+                        {/* Optional: Add reply button or other actions */}
+                        <button className="text-highlight hover:text-highlight/80 text-sm font-medium">
+                          Reply
+                        </button>
+                      </div>
+
+                      {/* Comment Content */}
+                      <div className="pl-14"> {/* Aligned with the author name */}
+                        <p className="text-foreground leading-relaxed">
+                          {typeof comment === 'string' ? comment : comment.content}
+                        </p>
+
+                        {/* Optional: Comment Reactions */}
+                        <div className="flex items-center gap-4 mt-4">
+                          <button className="flex items-center gap-2 text-foreground/60 hover:text-highlight text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                            </svg>
+                            <span>Like</span>
+                          </button>
+                          <button className="flex items-center gap-2 text-foreground/60 hover:text-highlight text-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                            </svg>
+                            <span>Reply</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  // Empty State
+                  <div className="bg-background-light/50 rounded-lg p-8 text-center">
+                    <div className="flex flex-col items-center gap-4">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-12 w-12 text-foreground/40"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                        />
+                      </svg>
+                      <h3 className="text-white font-semibold text-lg">No Comments Yet</h3>
+                      <p className="text-foreground/60">Be the first to share your thoughts!</p>
+                      <button className="mt-4 px-6 py-2 bg-highlight text-white rounded-full hover:bg-highlight/80 transition-colors">
+                        Write a Comment
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Optional: Add Comment Form */}
+              {post.comments_arr?.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="text-white font-semibold mb-4">Add a Comment</h3>
+                  <textarea
+                    className="w-full bg-background-light border border-highlight/20 rounded-lg p-4 text-foreground resize-none focus:outline-none focus:border-highlight/40"
+                    rows="4"
+                    placeholder="Share your thoughts..."
+                  />
+                  <button className="mt-4 px-6 py-2 bg-highlight text-white rounded-full hover:bg-highlight/80 transition-colors">
+                    Post Comment
+                  </button>
+                </div>
+              )}
+            </div>
 
           </div>
-        </div>
+        </article>
 
         {/* Sidebar */}
-        <div className="col-span-1">
-          {/* Popular Posts */}
-          <div className="mb-6 py-6">
-            <h2 className="text-white text-lg font-bold mb-4">Popular Posts</h2>
-            {popularPosts.map((post) => (
-              <div key={post.id} className="flex items-center mb-4">
-                <Image
-                  src={post.image}
-                  alt={post.title}
-                  className="w-16 h-16 rounded-md object-cover mr-4"
-                />
-                <div>
-                  <h3 className="text-foreground font-bold text-sm">
-                    {post.title}
-                  </h3>
-                  <p className="text-foreground text-xs">
-                    By {post.author} | {post.date}
-                  </p>
-                </div>
+        <aside className="p-3 rounded-lg sticky top-24 backdrop-blur-md border-[1px]">
+          <h3 className="text-white text-xl font-bold border-b border-highlight pb-2">
+            Related Posts
+          </h3>
+          {relatedPosts.map((post, index) => (
+            <div
+              key={index}
+              className="flex items-center gap-4 hover:bg-background-light transition-colors py-4 border-b-[1px] mt-0"
+            >
+              <Image
+                src={post.image}
+                alt={post.title}
+                className="rounded-md w-[80px] h-[80px] object-cover"
+              />
+              <div className="flex flex-col">
+                <h4 className="text-white text-base font-semibold leading-tight hover:text-highlight transition-colors">
+                  {post.title}
+                </h4>
+                <p className="text-foreground text-xs">
+                  By {post.author} | {post.date}
+                </p>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
 
-          {/* Latest Reviews */}
-          <div>
-            <h2 className="text-white text-lg font-bold mb-4">Latest Reviews</h2>
-            {latestReviews.map((review) => (
-              <div key={review.id} className="flex items-center mb-4">
-                <Image
-                  src={review.image}
-                  alt={review.title}
-                  className="w-16 h-16 rounded-md object-cover mr-4"
-                />
-                <div>
-                  <h3 className="text-foreground font-bold text-sm">
-                    {review.title}
-                  </h3>
-                  <p className="text-foreground text-xs">
-                    By {review.author} | {review.date}
-                  </p>
-                  <p className="text-highlight font-bold">{review.rating}</p>
-                </div>
-              </div>
-            ))}
+          {/* Ad Space */}
+          <div className="bg-background-light p-4 rounded-lg text-center mt-6">
+            <h4 className="text-highlight font-bold">Ad Space</h4>
+            <p className="text-foreground text-sm mt-2">
+              Place your ad content here to monetize your site.
+            </p>
           </div>
-        </div>
-      </ResponsiveContainer>
-    </>
+        </aside>
+      </div>
+    </ResponsiveContainer>
   );
-}
+};
+
+export default SingleBlogPost;
