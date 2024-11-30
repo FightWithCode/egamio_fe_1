@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import ResponsiveContainer from "../common/ResponsiveContainer";
 import { isAuthenticated } from "@/utils/auth";
 import { IoIosLogIn } from "react-icons/io";
-import { FaBell, FaChevronDown } from "react-icons/fa";
+import { FaBell, FaHome, FaGamepad, FaChevronDown } from "react-icons/fa";
 import { AiFillMessage } from "react-icons/ai";
 import { IoMenu, IoCloseCircleOutline } from "react-icons/io5";
 // Assets
@@ -14,11 +14,9 @@ import logo from "@/public/images/trans-logo2.png";
 import user2 from "@/public/images/users/user2.png";
 
 const Navigation = () => {
-    const [showSideMenu, setShowSideMenu] = useState(false);
     const [authenticated, setAuthenticated] = useState(false);
     const [activePanel, setActivePanel] = useState(null); // "notifications" | "dashboard" | null
     const router = useRouter();
-
     const getRedirectUrl = () => {
         const currentRoute = router.asPath;
         return currentRoute !== "/login" ? currentRoute : "/dashboard";
@@ -101,13 +99,16 @@ const Navigation = () => {
                                     </Link>
                                 </li>
                             </ul>
-                            <Link href={`/login?redirect=${encodeURIComponent(getRedirectUrl())}`}>
+                            {/* <Link href={`/login?redirect=${encodeURIComponent(getRedirectUrl())}`}>
                                 <IoIosLogIn className="text-3xl text-white block md:hidden" />
-                            </Link>
-                            <IoMenu
-                                className="text-4xl text-white block md:hidden"
-                                onClick={() => setShowSideMenu(!showSideMenu)}
-                            />
+                            </Link> */}
+                            <div className="relative block md:hidden">
+                                <Link href={`/login?redirect=${encodeURIComponent(getRedirectUrl())}`}>
+                                    <IoIosLogIn
+                                        className="w-[35px] h-[35px] rounded-full border-[1px] p-1 cursor-pointer"
+                                    />
+                                </Link>
+                            </div>
                         </div>
                     )}
                 </ResponsiveContainer>
