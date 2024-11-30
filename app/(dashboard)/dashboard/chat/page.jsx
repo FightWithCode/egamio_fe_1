@@ -1,5 +1,4 @@
 "use client";
-import { Suspense } from 'react';
 import { useState } from 'react';
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import Image from "next/image";
@@ -7,15 +6,7 @@ import { IoSend, IoArrowBack } from "react-icons/io5";
 import { FaEllipsisV, FaSearch, FaPaperclip, FaSmile } from "react-icons/fa";
 import user2 from "@/public/images/users/user2.png";
 
-export default function Login() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <LoginContent />
-    </Suspense>
-  );
-}
-
-function ChatPage() {
+export default function ChatPage() {
   const [selectedChat, setSelectedChat] = useState(null);
   const [message, setMessage] = useState("");
   const [showChatList, setShowChatList] = useState(true);

@@ -1,6 +1,7 @@
 "use client";
 // react imports
 import React, { useState, useEffect } from "react";
+import { Suspense } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import Image from "next/image";
@@ -15,8 +16,15 @@ import { isAuthenticated } from '@/utils/auth';
 // icons imports
 import googleIcon from "@/public/images/icons/google.svg";
 import facebookIcon from "@/public/images/icons/facebook.svg";
-
 export default function Login() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginContent />
+    </Suspense>
+  );
+}
+
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { login } = useAuth();
