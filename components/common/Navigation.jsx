@@ -105,7 +105,7 @@ const Navigation = () => {
                                 </Link>
                             </div>
                             <div className="relative block md:hidden">
-                                <Link href="/eg-threads">
+                                <Link href="/eg-clips">
                                     <RxVideo
                                         className="w-[35px] h-[35px] rounded-full border-[1px] p-1 cursor-pointer"
                                     />
