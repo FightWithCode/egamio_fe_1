@@ -1,34 +1,29 @@
 "use client";
 import Image from "next/image";
+import { useAuth } from "@/context/AuthContext";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import ResponsiveContainer from "../common/ResponsiveContainer";
 import { isAuthenticated } from "@/utils/auth";
 import { IoIosLogIn } from "react-icons/io";
 import { FaBell, FaHome, FaGamepad, FaChevronDown } from "react-icons/fa";
 import { AiFillMessage } from "react-icons/ai";
+import { RiChatThreadLine } from "react-icons/ri";
+import { RxVideo } from "react-icons/rx";
 import { IoMenu, IoCloseCircleOutline } from "react-icons/io5";
 // Assets
 import logo from "@/public/images/trans-logo2.png";
 import user2 from "@/public/images/users/user2.png";
 
 const Navigation = () => {
-    const [authenticated, setAuthenticated] = useState(false);
+    const { authenticated, logout } = useAuth();
     const [activePanel, setActivePanel] = useState(null); // "notifications" | "dashboard" | null
     const router = useRouter();
-    const getRedirectUrl = () => {
-        const currentRoute = router.asPath;
-        return currentRoute !== "/login" ? currentRoute : "/dashboard";
-    };
-
-    useEffect(() => {
-        setAuthenticated(isAuthenticated());
-    }, []);
+    const pathname = usePathname();
 
     const handleLogout = () => {
-        localStorage.clear();
-        setAuthenticated(false);
+        logout();
         window.location.href = "/login";
     };
 
@@ -52,7 +47,7 @@ const Navigation = () => {
                         <div className="flex items-center gap-2">
                             {/* Chat */}
                             <div className="relative">
-                                <Link href="/chat">
+                                <Link href="/dashboard/chat">
                                     <AiFillMessage
                                         className="w-[35px] h-[35px] rounded-full border-[1px] p-2 cursor-pointer"
                                     />
@@ -90,11 +85,11 @@ const Navigation = () => {
                     ) : (
                         <div className="flex items-center gap-2">
                             <ul className="hidden md:flex items-center gap-4">
-                                <li className="cursor-pointer text-white">Home</li>
-                                <li className="cursor-pointer text-white">Find Team</li>
-                                <li className="cursor-pointer text-white">Find Player</li>
+                                <li className="cursor-pointer text-white py-[6px] hover:border-t-[3px] hover:border-highlight"><Link href="/">Home</Link></li>
+                                <li className="cursor-pointer text-white py-[6px] hover:border-t-[3px] hover:border-highlight"><Link href="/find">Find Player</Link></li>
+                                <li className="cursor-pointer text-white py-[6px] hover:border-t-[3px] hover:border-highlight"><Link href="/eg-threads">eGThreads</Link></li>
                                 <li className="bg-highlight px-6 py-2 rounded-3xl">
-                                    <Link href={`/login?redirect=${encodeURIComponent(getRedirectUrl())}`} className="text-background">
+                                    <Link href={`/login?redirect=${encodeURIComponent(pathname)}`} className="text-background">
                                         Login
                                     </Link>
                                 </li>
@@ -103,7 +98,21 @@ const Navigation = () => {
                                 <IoIosLogIn className="text-3xl text-white block md:hidden" />
                             </Link> */}
                             <div className="relative block md:hidden">
-                                <Link href={`/login?redirect=${encodeURIComponent(getRedirectUrl())}`}>
+                                <Link href="/eg-threads">
+                                    <RiChatThreadLine
+                                        className="w-[35px] h-[35px] rounded-full border-[1px] p-1 cursor-pointer"
+                                    />
+                                </Link>
+                            </div>
+                            <div className="relative block md:hidden">
+                                <Link href="/eg-threads">
+                                    <RxVideo
+                                        className="w-[35px] h-[35px] rounded-full border-[1px] p-1 cursor-pointer"
+                                    />
+                                </Link>
+                            </div>
+                            <div className="relative block md:hidden">
+                                <Link href={`/login?redirect=${encodeURIComponent(pathname)}`}>
                                     <IoIosLogIn
                                         className="w-[35px] h-[35px] rounded-full border-[1px] p-1 cursor-pointer"
                                     />
@@ -291,13 +300,18 @@ const Navigation = () => {
                                         </Link>
                                     </li>
                                     <li className="cursor-pointer py-2 px-4 rounded hover:bg-highlight transition-colors">
-                                        <Link href="/dashboard/my-teams" className="block w-full h-full" onClick={() => setActivePanel(null)}>
-                                            My Teams
+                                        <Link href="/eg-threads" className="block w-full h-full" onClick={() => setActivePanel(null)}>
+                                            eGThreads
                                         </Link>
                                     </li>
                                     <li className="cursor-pointer py-2 px-4 rounded hover:bg-highlight transition-colors">
-                                        <Link href="/dashboard/eg-clips" className="block w-full h-full" onClick={() => setActivePanel(null)}>
-                                            EGClips
+                                        <Link href="/eg-clips" className="block w-full h-full" onClick={() => setActivePanel(null)}>
+                                            eGClips
+                                        </Link>
+                                    </li>
+                                    <li className="cursor-pointer py-2 px-4 rounded hover:bg-highlight transition-colors">
+                                        <Link href="/dashboard/my-teams" className="block w-full h-full" onClick={() => setActivePanel(null)}>
+                                            My Teams
                                         </Link>
                                     </li>
                                     <li className="cursor-pointer py-2 px-4 rounded hover:bg-highlight transition-colors">

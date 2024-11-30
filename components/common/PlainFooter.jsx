@@ -4,11 +4,13 @@ import { TypographyP } from "../ui/Typographies";
 
 const PlainFooter = () => {
     return (
-        <footer className="w-full z-[123] bg-background mt-auto">
-            <ResponsiveContainer className="flex justify-center items-center h-[75px]">
-                <TypographyP className="text-xs">eGamio All Rights Reserved 2024 </TypographyP>
-            </ResponsiveContainer>
-        </footer>
+        <ResponsiveContainer>
+            <div className="mt-8 py-4 border-t border-gray-800 text-center">
+                <TypographyP className="text-sm text-white/80">
+                    © {new Date().getFullYear()} eGamio. All rights reserved.
+                </TypographyP>
+            </div>
+        </ResponsiveContainer>
     );
 };
 

@@ -1,6 +1,7 @@
 "use client";
 // React and Next Imports
 import React from "react";
+import Link from "next/link";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import Image from "next/image";
 import blogImage1 from "@/public/images/blogs/blog1.jpg";
@@ -8,6 +9,12 @@ import blogImage2 from "@/public/images/blogs/blog2.jpg";
 import blogImage3 from "@/public/images/blogs/blog3.jpg";
 
 const BlogPage = () => {
+  const createSlug = (title) => {
+    return title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)+/g, '');
+  };
   const blogPosts = [
     {
       id: 1,
@@ -45,43 +52,49 @@ const BlogPage = () => {
   ];
 
   return (
-    <ResponsiveContainer className="!text-background pt-24 pb-8">
+    <ResponsiveContainer className="!text-background pt-16 pb-12">
       <div className="grid grid-cols-1 lg:grid-cols-[2fr,1fr] gap-8">
         {/* Blog Posts */}
         <div className="space-y-8">
           {blogPosts.map((post) => (
-            <div
+            <Link
+              href={`/blogs/${createSlug(post.title)}`}
               key={post.id}
-              className="bg-transparent p-4 rounded-lg transition-transform transform hover:scale-105 border-[1px] backdrop-blur-md"
+              className="block"
             >
-              <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-6">
-                <Image
-                  src={post.image}
-                  alt={post.title}
-                  className="rounded-lg w-full h-[200px] object-cover"
-                />
-                <div className="flex flex-col justify-between">
-                  <div className="flex items-center gap-4 mb-3">
-                    <span className="bg-highlight text-white text-sm font-semibold px-3 py-1 rounded-full">
-                      Game Reviews
-                    </span>
-                    <span className="bg-highlight text-white text-sm font-semibold px-3 py-1 rounded-full">
-                      {post.rating}
-                    </span>
-                  </div>
-                  <h3 className="text-white text-2xl font-extrabold leading-snug hover:text-highlight transition-colors">
-                    {post.title}
-                  </h3>
-                  <p className="text-foreground text-base mt-3 line-clamp-3">
-                    {post.description}
-                  </p>
-                  <div className="text-foreground text-xs mt-4">
-                    By <span className="font-semibold">{post.author}</span> |{" "}
-                    <span className="font-semibold">{post.date}</span> | {post.comments}
+              <div
+                key={post.id}
+                className="bg-transparent p-4 rounded-lg transition-transform transform hover:scale-105 border-[1px] backdrop-blur-md"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-[200px,1fr] gap-6">
+                  <Image
+                    src={post.image}
+                    alt={post.title}
+                    className="rounded-lg w-full h-[200px] object-cover"
+                  />
+                  <div className="flex flex-col justify-between">
+                    <div className="flex items-center gap-4 mb-3">
+                      <span className="bg-highlight text-white text-sm font-semibold px-3 py-1 rounded-full">
+                        Game Reviews
+                      </span>
+                      <span className="bg-highlight text-white text-sm font-semibold px-3 py-1 rounded-full">
+                        {post.rating}
+                      </span>
+                    </div>
+                    <h3 className="text-white text-2xl font-extrabold leading-snug hover:text-highlight transition-colors">
+                      {post.title}
+                    </h3>
+                    <p className="text-foreground text-base mt-3 line-clamp-3">
+                      {post.description}
+                    </p>
+                    <div className="text-foreground text-xs mt-4">
+                      By <span className="font-semibold">{post.author}</span> |{" "}
+                      <span className="font-semibold">{post.date}</span> | {post.comments}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
@@ -91,24 +104,30 @@ const BlogPage = () => {
             Related Posts
           </h3>
           {blogPosts.map((post, index) => (
-            <div
+            <Link
+              href={`/blogs/${createSlug(post.title)}`}
               key={index}
-              className="flex items-center gap-4 hover:bg-background-light transition-colors py-4 border-b-[1px] mt-0"
+              className="block"
             >
-              <Image
-                src={post.image}
-                alt={post.title}
-                className="rounded-md w-[80px] h-[80px] object-cover"
-              />
-              <div className="flex flex-col">
-                <h4 className="text-white text-base font-semibold leading-tight hover:text-highlight transition-colors">
-                  {post.title}
-                </h4>
-                <p className="text-foreground text-xs">
-                  By {post.author} | {post.date}
-                </p>
+              <div
+                key={index}
+                className="flex items-center gap-4 hover:bg-background-light transition-colors py-4 border-b-[1px] mt-0"
+              >
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  className="rounded-md w-[80px] h-[80px] object-cover"
+                />
+                <div className="flex flex-col">
+                  <h4 className="text-white text-base font-semibold leading-tight hover:text-highlight transition-colors">
+                    {post.title}
+                  </h4>
+                  <p className="text-foreground text-xs">
+                    By {post.author} | {post.date}
+                  </p>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
 
           {/* Add Ads or Widgets here */}

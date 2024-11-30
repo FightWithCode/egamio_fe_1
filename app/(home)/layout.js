@@ -3,6 +3,7 @@ import Navigation from "@/components/common/Navigation";
 import Footer from "@/components/common/Footer";
 import PlainFooter from "@/components/common/PlainFooter";
 import BackgroundImage from "@/public/images/bg/background6.jpg";
+import { AuthProvider } from '@/context/AuthContext';
 import { Provider } from "react-redux";
 import { store } from "@/store/store";
 import "./../globals.css";
@@ -11,6 +12,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="relative">
+      <AuthProvider>
         {/* Background */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed z-0"
@@ -27,6 +29,7 @@ export default function RootLayout({ children }) {
             <PlainFooter/>
           </Provider>
         </div>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -170,11 +170,11 @@ const PlayerTeamSearch = () => {
                                     name="game"
                                     value={playerFilters.game}
                                     onChange={handlePlayerFilterChange}
-                                    className="text-background w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none"
+                                    className="w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-background focus:outline-none"
                                 >
                                     <option value="">Select Game</option>
                                     {games.map((game) => (
-                                        <option key={game} value={game} className="text-background">
+                                        <option key={game} value={game}>
                                             {game}
                                         </option>
                                     ))}
@@ -234,7 +234,7 @@ const PlayerTeamSearch = () => {
                                     name="role"
                                     value={playerFilters.role}
                                     onChange={handlePlayerFilterChange}
-                                    className="w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none"
+                                    className="w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-background focus:outline-none"
                                 >
                                     <option value="">Select Role</option>
                                     {roles.map((role) => (
@@ -270,7 +270,7 @@ const PlayerTeamSearch = () => {
                                     name="game"
                                     value={teamFilters.game}
                                     onChange={handleTeamFilterChange}
-                                    className="w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none"
+                                    className="w-full p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-background focus:outline-none"
                                 >
                                     <option value="">Select Game</option>
                                     {games.map((game) => (

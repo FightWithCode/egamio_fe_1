@@ -146,6 +146,7 @@ export default function ForumHome() {
 
         {/* Main Content Area */}
         <div className="flex-1">
+
           {samplePosts.map((post) => (
             <div
               key={post.id}
@@ -153,7 +154,13 @@ export default function ForumHome() {
             >
               <div className="flex justify-between items-center mb-4">
                 <div className="flex items-center space-x-2">
-                  <span className="font-semibold text-highlight">{post.author}</span>
+                  <Link
+                    href={`/author/${post.author}`}
+                    className="font-semibold text-highlight hover:underline"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {post.author}
+                  </Link>
                   <span className="text-gray-300">• {post.game}</span>
                 </div>
                 <div className="flex items-center space-x-4">
@@ -167,15 +174,20 @@ export default function ForumHome() {
                   </button>
                 </div>
               </div>
-              <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
-              <p className="text-gray-300">{post.content}</p>
-              {post.game === "Call of Duty" && (
-                <div className="mt-4">
-                  <button className="bg-darkhighlight text-foreground py-2 px-4 rounded-md">
-                    Vote in Poll
-                  </button>
-                </div>
-              )}
+              <Link
+                href={`/eg-threads/${post.id}`}
+                key={post.id}
+              >
+                <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
+                <p className="text-gray-300">{post.content}</p>
+                {post.game === "Call of Duty" && (
+                  <div className="mt-4">
+                    <button className="bg-darkhighlight text-foreground py-2 px-4 rounded-md">
+                      Vote in Poll
+                    </button>
+                  </div>
+                )}
+              </Link>
             </div>
           ))}
         </div>

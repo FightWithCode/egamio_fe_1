@@ -4,10 +4,11 @@ import React, { useState, useEffect } from "react";
 import Link from 'next/link';
 import Head from 'next/head';
 import Image from "next/image";
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 // components imports
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import { TypographyH1, TypographyH3, TypographyH4, TypographyP } from "@/components/ui/Typographies";
+import { useAuth } from "@/context/AuthContext";
 // utils import
 import api from '@/utils/api';
 import { isAuthenticated } from '@/utils/auth';
@@ -17,13 +18,15 @@ import facebookIcon from "@/public/images/icons/facebook.svg";
 
 export default function Login() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { login } = useAuth();
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   // Capture the redirect URL from the query parameter
-  const redirectUrl = router.query?.redirect || '/dashboard';  // Default to '/dashboard' if no redirect param is found
+  const redirect = searchParams.get('redirect') || '/dashboard';
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -42,15 +45,11 @@ export default function Login() {
         password: loginPassword,
       });
 
-      const { refresh, access, id, full_name } = response.data;
-
-      localStorage.setItem('accessToken', access);
-      localStorage.setItem('refreshToken', refresh);
-      localStorage.setItem('uid', id);
-      localStorage.setItem('username', full_name);
+      login(response.data);
 
       // Redirect to the page the user came from, or default to dashboard
-      router.push(redirectUrl);
+      router.refresh();
+      router.push(redirect);
     } catch (error) {
       console.log(error);
       setErrorMessage('Invalid login credentials.');
