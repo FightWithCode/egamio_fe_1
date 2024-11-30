@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
@@ -53,8 +54,8 @@ export default function Home() {
               <TypographyH1 className="text-center">Connect with the Perfect Team or Player for Your Next Game!</TypographyH1>
               <TypographyP>Join thousands of gamers and find your perfect match.</TypographyP>
               <ul className="flex gap-4 md:gap-8 mt-6">
-                <li className="flex"><a href="#" className="flex items-center justify-center cursor-pointer h-[50px] w-[150px] md:w-[180px] bg-accent mt-3 py-2 px-6 rounded-3xl">Find Players</a></li>
-                <li className="flex"><a href="#" className="border hover:bg-accent hover:border-0 flex items-center justify-center cursor-pointer h-[50px] w-[150px] md:w-[180px] bg-transparent mt-3 py-2 px-6 rounded-3xl">Find a Team</a></li>
+                <li className="flex"><Link href="/find" className="flex items-center justify-center cursor-pointer h-[50px] w-[150px] md:w-[180px] bg-accent mt-3 py-2 px-6 rounded-3xl">Find Players</Link></li>
+                <li className="flex"><Link href="/find" className="border hover:bg-accent hover:border-0 flex items-center justify-center cursor-pointer h-[50px] w-[150px] md:w-[180px] bg-transparent mt-3 py-2 px-6 rounded-3xl">Find a Team</Link></li>
               </ul>
             </ResponsiveContainer>
           </SwiperSlide>
@@ -68,8 +69,8 @@ export default function Home() {
               <TypographyH1 className="text-center">Join the Ultimate Esports Community!</TypographyH1>
               <TypographyP>Connect with players and discuss everything about your favorite games.</TypographyP>
               <ul className="flex gap-4 md:gap-8 mt-6">
-                <li className="flex"><a href="#" className="flex items-center justify-center cursor-pointer h-[50px] w-[150px] md:w-[180px] bg-accent mt-3 py-2 px-6 rounded-3xl">Visit Community</a></li>
-                <li className="flex"><a href="#" className="border hover:bg-accent hover:border-0 flex items-center justify-center cursor-pointer h-[50px] w-[150px] md:w-[180px] bg-transparent mt-3 py-2 px-6 rounded-3xl">Post a Question</a></li>
+                <li className="flex"><Link href="/eg-threads" className="flex items-center justify-center cursor-pointer h-[50px] w-[150px] md:w-[180px] bg-accent mt-3 py-2 px-6 rounded-3xl align-center">Visit Community</Link></li>
+                <li className="flex"><Link href="/eg-threads/create" className="border hover:bg-accent hover:border-0 flex items-center justify-center cursor-pointer h-[50px] w-[150px] md:w-[180px] bg-transparent mt-3 py-2 px-6 rounded-3xl align-center">Post a Question</Link></li>
               </ul>
             </ResponsiveContainer>
           </SwiperSlide>
@@ -83,7 +84,7 @@ export default function Home() {
               <TypographyH1 className="text-center">Stay Informed with Expert Esports Insights and Blogs!</TypographyH1>
               <TypographyP>Read the latest blogs, strategies, and tips from top players.</TypographyP>
               <ul className="flex gap-4 md:gap-8 mt-6">
-                <li className="flex"><a href="#" className="flex items-center justify-center cursor-pointer h-[50px] w-[150px] md:w-[180px] bg-accent mt-3 py-2 px-6 rounded-3xl">Read Blogs</a></li>
+                <li className="flex"><Link href="/blogs" className="flex items-center justify-center cursor-pointer h-[50px] w-[150px] md:w-[180px] bg-accent mt-3 py-2 px-6 rounded-3xl">Read Blogs</Link></li>
               </ul>
             </ResponsiveContainer>
           </SwiperSlide>
