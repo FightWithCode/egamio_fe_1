@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import { FaArrowUp, FaArrowDown, FaShare, FaBookmark, FaComment, FaEllipsisH, FaFire, FaClock, FaTrophy } from "react-icons/fa";
 import { formatDistanceToNow } from "date-fns";
+import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 
 const samplePost = {
   id: 1,
@@ -79,35 +80,14 @@ export default function ForumPost() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-      <div className="max-w-7xl mx-auto px-4 py-6">
+    <ResponsiveContainer className="min-h-screen">
+      <div className="max-w-7xl mx-auto my-6">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Main Content Area */}
           <div className="flex-grow lg:w-3/4">
             {/* Main Post Container */}
             <div className="backdrop-blur-md border border-white/20 rounded-xl overflow-hidden shadow-2xl mb-6">
               <div className="flex flex-col md:flex-row">
-                {/* Vote Section */}
-                <div className="flex md:flex-col items-center justify-start md:justify-center p-4 md:px-6 md:py-8 border-b md:border-b-0 md:border-r border-white/10">
-                  <button
-                    onClick={() => handleVote('up')}
-                    className={`transition-all duration-200 p-2 rounded-full ${isUpvoted ? 'bg-orange-500 text-white' : 'text-white/70 hover:bg-white/10'
-                      }`}
-                  >
-                    <FaArrowUp size={24} />
-                  </button>
-                  <span className="mx-4 md:my-4 font-bold text-2xl text-white">
-                    {samplePost.votes}
-                  </span>
-                  <button
-                    onClick={() => handleVote('down')}
-                    className={`transition-all duration-200 p-2 rounded-full ${isDownvoted ? 'bg-blue-500 text-white' : 'text-white/70 hover:bg-white/10'
-                      }`}
-                  >
-                    <FaArrowDown size={24} />
-                  </button>
-                </div>
-
                 {/* Main Content */}
                 <div className="flex-1 p-6">
                   {/* Post Metadata */}
@@ -156,39 +136,50 @@ export default function ForumPost() {
 
                   {/* Action Buttons */}
                   <div className="flex items-center space-x-4 text-gray-400">
+                    {/* Vote buttons */}
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => handleVote('up')}
+                        className={`flex items-center space-x-1 hover:bg-gray-700 rounded ${isUpvoted ? 'text-highlight' : ''
+                          }`}
+                      >
+                        <FaArrowUp />
+                      </button>
+                      <span className="font-medium text-white">{samplePost.votes}</span>
+                      <button
+                        onClick={() => handleVote('down')}
+                        className={`flex items-center space-x-1 hover:bg-gray-700 rounded ${isDownvoted ? 'text-danger' : ''
+                          }`}
+                      >
+                        <FaArrowDown />
+                      </button>
+                    </div>
+
+                    {/* Existing buttons */}
                     <button className="flex items-center space-x-2 hover:bg-gray-700 px-2 py-1 rounded">
                       <FaComment />
-                      <span>{samplePost.commentCount} Comments</span>
+                      <span>{samplePost.commentCount}</span>
                     </button>
                     <button className="flex items-center space-x-2 hover:bg-gray-700 px-2 py-1 rounded">
                       <FaShare />
                       <span>Share</span>
                     </button>
-                    <button
-                      className={`flex items-center space-x-2 hover:bg-gray-700 px-2 py-1 rounded ${isSaved ? 'text-yellow-500' : ''}`}
-                      onClick={() => setIsSaved(!isSaved)}
-                    >
-                      <FaBookmark />
-                      <span>Save</span>
-                    </button>
-                    <button className="flex items-center space-x-2 hover:bg-gray-700 px-2 py-1 rounded">
-                      <FaEllipsisH />
-                    </button>
                   </div>
+
                 </div>
               </div>
             </div>
 
             {/* Comments Section */}
             <div className="space-y-6">
-              <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
+              <div className="p-4 rounded-lg border-[1px] border-white/20">
                 {/* Comment Input */}
                 <textarea
-                  className="w-full bg-gray-700 text-white rounded-lg p-4 mb-4"
+                  className="w-full bg-transparent text-white rounded-lg p-4 mb-4 backdrop-blur-md"
                   placeholder="What are your thoughts?"
                   rows="4"
                 />
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600">
+                <button className="bg-highlight text-white px-4 py-2 rounded-full hover:bg-darkhighlight">
                   Comment
                 </button>
               </div>
@@ -196,7 +187,7 @@ export default function ForumPost() {
               {/* Comments List */}
               <div className="mt-6 space-y-4">
                 {samplePost.comments.map((comment) => (
-                  <div key={comment.id} className="bg-gray-800 rounded-lg shadow-lg">
+                  <div key={comment.id} className="border-[1px] border-white/20 rounded-lg backdrop-blur-md">
                     <div className="p-4">
                       {/* Comment Header */}
                       <div className="flex items-center space-x-2 mb-2">
@@ -262,28 +253,24 @@ export default function ForumPost() {
 
           {/* Sidebar */}
           <div className="lg:w-1/4 space-y-6">
-            {/* About Community */}
+            {/* Community Rules */}
             <div className="backdrop-blur-md border border-white/20 rounded-xl overflow-hidden shadow-xl">
               <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 p-4 border-b border-white/10">
-                <h2 className="text-xl font-bold text-white">About BGMI Community</h2>
+                <h2 className="text-xl font-bold text-white">Community Rules</h2>
               </div>
-              <div className="p-4 space-y-4">
-                <p className="text-white/80">
-                  A community for BGMI players to discuss strategies, settings, and share experiences.
-                </p>
-                <div className="flex items-center justify-between text-white/60 text-sm">
-                  <div>
-                    <div className="font-bold text-white">245k</div>
-                    Members
-                  </div>
-                  <div>
-                    <div className="font-bold text-white">1.2k</div>
-                    Online
-                  </div>
+              <div className="p-4 space-y-3 text-white/80">
+                <div className="flex items-center space-x-2">
+                  <span className="font-medium">1.</span>
+                  <span>Be respectful and helpful</span>
                 </div>
-                <button className="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-2 rounded-lg font-medium hover:opacity-90 transition-opacity">
-                  Join Community
-                </button>
+                <div className="flex items-center space-x-2">
+                  <span className="font-medium">2.</span>
+                  <span>No promotion of hacks or cheats</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <span className="font-medium">3.</span>
+                  <span>Use appropriate tags</span>
+                </div>
               </div>
             </div>
 
@@ -321,30 +308,9 @@ export default function ForumPost() {
                 ))}
               </div>
             </div>
-
-            {/* Community Rules */}
-            <div className="backdrop-blur-md border border-white/20 rounded-xl overflow-hidden shadow-xl">
-              <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 p-4 border-b border-white/10">
-                <h2 className="text-xl font-bold text-white">Community Rules</h2>
-              </div>
-              <div className="p-4 space-y-3 text-white/80">
-                <div className="flex items-center space-x-2">
-                  <span className="font-medium">1.</span>
-                  <span>Be respectful and helpful</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span className="font-medium">2.</span>
-                  <span>No promotion of hacks or cheats</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span className="font-medium">3.</span>
-                  <span>Use appropriate tags</span>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
-    </div>
+    </ResponsiveContainer>
   );
 }

@@ -49,7 +49,7 @@ export default function ForumHome() {
     <ResponsiveContainer className="py-6">
       <div className="flex flex-col md:flex-row gap-4">
         {/* Sidebar */}
-        <div className="w-full md:w-1/4 bg-transparent p-4 backdrop-blur-md rounded-lg border-[1px] border-white">
+        <div className="w-full md:w-1/4 bg-transparent p-4 backdrop-blur-md rounded-lg border-[1px] border-white/20">
           <div className="bg-transparent">
             {/* Main navigation row with expand button */}
             <div className="flex items-center justify-between">
@@ -149,7 +149,7 @@ export default function ForumHome() {
           {samplePosts.map((post) => (
             <div
               key={post.id}
-              className="bg-transparent text-foreground p-4 rounded-lg mb-6 border-[1px] border-white backdrop-blur-md"
+              className="bg-transparent text-foreground p-4 rounded-lg mb-6 border-[1px] border-white/20 backdrop-blur-md"
             >
               <div className="flex justify-between items-center mb-4">
                 <div className="flex items-center space-x-2">

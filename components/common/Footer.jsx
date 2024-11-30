@@ -21,7 +21,7 @@ const Footer = () => {
 
     return (
         <>
-            <footer className="w-full z-[123] bg-background py-16">
+            <footer className="w-full z-[123] bg-transparent backdrop-blur-md pt-16 pb-8">
                 <ResponsiveContainer className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
                     <div className="">
                         <TypographyH4 className="relative pb-3">
