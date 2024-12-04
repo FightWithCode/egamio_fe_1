@@ -6,7 +6,10 @@ import Link from 'next/link';
 import Head from 'next/head';
 import Image from "next/image";
 import { useRouter, useSearchParams } from 'next/navigation';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 // components imports
+import LoginWithGoogle from "@/components/common/LoginWithGoogle";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import { TypographyH1, TypographyH3, TypographyH4, TypographyP } from "@/components/ui/Typographies";
 import { useAuth } from "@/context/AuthContext";
@@ -42,8 +45,25 @@ function LoginContent() {
     }
   }, []);
 
+  useEffect(() => {
+    return () => {
+      setLoginPassword('');
+      setLoginEmail('');
+    };
+  }, []);
+
+  const validateInput = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(loginEmail)) {
+      setErrorMessage('Please enter a valid email address');
+      return false;
+    }
+    return true;
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
+    if (!validateInput()) return;
     setLoading(true);
     setErrorMessage("");
 
@@ -67,7 +87,7 @@ function LoginContent() {
   };
 
   return (
-    <>
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
       <Head>
         <meta name="description" content="Login to your account to access the dashboard" />
         <meta name="keywords" content="login, user authentication, dashboard, React" />
@@ -156,25 +176,26 @@ function LoginContent() {
 
               {/* Social Login Buttons */}
               <div className="flex flex-col space-y-3">
-                <button
+              <LoginWithGoogle setErrorMessage={setErrorMessage} />
+                {/* <button
                   type="button"
                   className="flex items-center justify-center gap-2 py-3 border rounded-md text-background text-white hover:bg-background"
                 >
                   <Image src={googleIcon} alt="Google" className="w-5 h-5"></Image>
                   <span>Login with Google</span>
-                </button>
-                <button
+                </button> */}
+                {/* <button
                   type="button"
                   className="flex items-center justify-center gap-2 py-3 border rounded-md text-background text-white hover:bg-background"
                 >
                   <Image src={facebookIcon} alt="Facebook" className="w-5 h-5"></Image>
                   <span>Login with Facebook</span>
-                </button>
+                </button> */}
               </div>
             </form>
           </div>
         </div>
       </ResponsiveContainer>
-    </>
+    </GoogleOAuthProvider>
   );
 }

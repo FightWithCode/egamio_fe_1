@@ -4,8 +4,11 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import { useRouter } from "next/navigation";
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
 // components imports
 import Modal from "@/components/common/Modal"; // Assuming a Modal component exists
+import GoogleAuth from "@/components/common/GoogleAuth";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
 import {
   TypographyH1,
@@ -15,6 +18,7 @@ import {
 } from "@/components/ui/Typographies";
 // utils import
 import api from "@/utils/api";
+import { useAuth } from "@/context/AuthContext";
 // icons imports
 import googleIcon from "@/public/images/icons/google.svg";
 import facebookIcon from "@/public/images/icons/facebook.svg";
@@ -40,6 +44,73 @@ export default function Signup() {
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [isGoogleSignup, setIsGoogleSignup] = useState(false);
+  const { accessToken, login } = useAuth(); // Get access token from auth context
+
+  const handleGoogleSuccess = (userData) => {
+    login(userData);
+    setIsGoogleSignup(true);
+    setIsModalOpen(true);
+  };
+
+  const handleGoogleSignupComplete = async () => {
+    if (!accessToken) {
+      setErrorMessage("Authentication failed!. Please try again.");
+      return;
+    }
+    setLoading(true);
+    setErrorMessage("");
+
+    try {
+      const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/accounts/auth/google/step-2/`;
+      
+      const payload = {
+        type: signupType,
+        ...(signupType === "player" 
+          ? {
+              roles: formData.roles,
+              game: formData.game,
+              ign: formData.ign,
+              game_data: {},
+              preference_data: {}
+            }
+          : {
+              game: formData.game,
+              team_name: formData.team_name,
+              logo: formData.logo,
+              looking_for_players: formData.looking_for_players,
+              looking_for_roles: formData.looking_for_roles,
+              location: formData.location
+            }
+        )
+      };
+      console.log({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessToken}`
+      })
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        router.push("/dashboard");
+      } else {
+        throw new Error(data.error || 'Failed to complete signup');
+      }
+    } catch (error) {
+      console.error("Signup completion failed:", error);
+      setErrorMessage("Failed to complete signup. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Handles input changes for form fields
   const handleInputChange = (field, value) => {
@@ -56,34 +127,37 @@ export default function Signup() {
     e.preventDefault();
     setLoading(true);
     setErrorMessage("");
-
+    if (isGoogleSignup){
+      handleGoogleSignupComplete()
+      return;
+    }
     try {
       const endpoint =
         signupType === "player"
-          ? "https://egamio.pythonanywhere.com/accounts/signup/player/"
-          : "https://egamio.pythonanywhere.com/accounts/signup/team/";
+          ? `${process.env.NEXT_PUBLIC_API_URL}/accounts/signup/player/`
+          : `${process.env.NEXT_PUBLIC_API_URL}/accounts/signup/team/`
 
       const payload =
         signupType === "player"
           ? {
-              name: formData.name,
-              email: formData.email,
-              password: formData.password,
-              location: formData.location,
-              game: formData.game,
-              ign: formData.ign,
-              roles: formData.roles,
-            }
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            location: formData.location,
+            game: formData.game,
+            ign: formData.ign,
+            roles: formData.roles,
+          }
           : {
-              name: formData.name,
-              game: formData.game,
-              team_name: formData.team_name,
-              email: formData.email,
-              looking_for_players: formData.looking_for_players,
-              looking_for_roles: formData.looking_for_roles,
-              password: formData.password,
-              location: formData.location,
-            };
+            name: formData.name,
+            game: formData.game,
+            team_name: formData.team_name,
+            email: formData.email,
+            looking_for_players: formData.looking_for_players,
+            looking_for_roles: formData.looking_for_roles,
+            password: formData.password,
+            location: formData.location,
+          };
 
       const response = await api.post(endpoint, payload);
       console.log("Signup successful:", response.data);
@@ -97,7 +171,7 @@ export default function Signup() {
   };
 
   return (
-    <>
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
       <Head>
         <title>Signup - eGamio</title>
         <meta name="description" content="Signup to access the dashboard" />
@@ -119,8 +193,10 @@ export default function Signup() {
 
         {/* Right Section */}
         <div className="p-6 w-full md:w-3/5 rounded-lg shadow-md">
-          {step === 1 && (
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          {step == 1 && (
+            <form className="space-y-6" onSubmit={(e) => {
+                  e.preventDefault();
+                }}>
               <TypographyH4 className="relative pb-3 text-center">
                 SIGNUP
                 <span className="absolute left-1/2 transform -translate-x-1/2 bottom-0 w-20 h-1 bg-highlight"></span>
@@ -172,19 +248,6 @@ export default function Signup() {
                 />
               </div>
 
-              {/* Game */}
-              <div className="flex flex-col">
-                <label className="font-medium">Game</label>
-                <input
-                  type="number"
-                  value={formData.game}
-                  onChange={(e) => handleInputChange("game", e.target.value)}
-                  placeholder="Enter game ID"
-                  className="p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none text-white"
-                  required
-                />
-              </div>
-
               {/* Continue Button */}
               <button
                 type="button"
@@ -193,6 +256,20 @@ export default function Signup() {
               >
                 Continue Signup
               </button>
+              {/* Add Google Sign In */}
+              <div className="mt-6">
+                <div className="flex items-center">
+                  <hr className="flex-grow border-t border-gray-300" />
+                  <span className="px-3 text-sm">OR</span>
+                  <hr className="flex-grow border-t border-gray-300" />
+                </div>
+                <div className="mt-6">
+                  <GoogleAuth
+                    onGoogleSuccess={handleGoogleSuccess}
+                    setErrorMessage={setErrorMessage}
+                  />
+                </div>
+              </div>
             </form>
           )}
 
@@ -223,6 +300,18 @@ export default function Signup() {
                     {/* Player Fields */}
                     {signupType === "player" && (
                       <>
+                        {/* Game */}
+                        <div className="flex flex-col">
+                          <label className="font-medium">Game</label>
+                          <input
+                            type="number"
+                            value={formData.game}
+                            onChange={(e) => handleInputChange("game", e.target.value)}
+                            placeholder="Enter game ID"
+                            className="p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none text-white"
+                            required
+                          />
+                        </div>
                         <div className="flex flex-col">
                           <label className="font-medium">IGN</label>
                           <input
@@ -258,6 +347,18 @@ export default function Signup() {
                     {/* Team Owner Fields */}
                     {signupType === "team" && (
                       <>
+                        {/* Game */}
+                        <div className="flex flex-col">
+                          <label className="font-medium">Game</label>
+                          <input
+                            type="number"
+                            value={formData.game}
+                            onChange={(e) => handleInputChange("game", e.target.value)}
+                            placeholder="Enter game ID"
+                            className="p-3 border-b-2 border-gray-300 focus:border-highlight rounded-none bg-transparent focus:outline-none text-white"
+                            required
+                          />
+                        </div>
                         <div className="flex flex-col">
                           <label className="font-medium">Team Name</label>
                           <input
@@ -323,6 +424,6 @@ export default function Signup() {
           )}
         </div>
       </ResponsiveContainer>
-    </>
+    </GoogleOAuthProvider>
   );
 }

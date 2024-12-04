@@ -33,16 +33,17 @@ const Navigation = () => {
 
     return (
         <>
-            <nav className="w-full z-[123] bg-transparent">
+            <nav className="relative w-full z-[123]">
                 <ResponsiveContainer className="h-[75px] flex justify-between items-center backdrop-blur-sm">
-                    <div className="flex items-center">
-                        <Image src={logo} width={70} alt="logo" className="w-[50px] lg:w-[70px]" />
-                        <div className="hidden sm:block">
-                            <p className="text-2xl">eGamio</p>
-                            <p className="text-xs">Where dreams meet!</p>
+                    <Link href="/">
+                        <div className="flex items-center">
+                            <Image src={logo} width={70} alt="logo" className="w-[50px] lg:w-[70px]" />
+                            <div className="hidden sm:block">
+                                <p className="text-2xl">eGamio</p>
+                                <p className="text-xs">Where dreams meet!</p>
+                            </div>
                         </div>
-                    </div>
-
+                    </Link>
                     {authenticated ? (
                         <div className="flex items-center gap-2">
                             {/* Chat */}

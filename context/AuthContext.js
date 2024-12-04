@@ -3,6 +3,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext({
   authenticated: false,
+  accessToken: null,
   login: () => {},
   logout: () => {},
   checkAuth: () => {},
@@ -10,10 +11,12 @@ const AuthContext = createContext({
 
 export function AuthProvider({ children }) {
   const [authenticated, setAuthenticated] = useState(false);
+  const [accessToken, setAccessToken] = useState(false);
 
   const checkAuth = () => {
     const token = localStorage.getItem('accessToken');
     setAuthenticated(!!token);
+    setAccessToken(token);
     return !!token;
   };
 
@@ -23,10 +26,12 @@ export function AuthProvider({ children }) {
     localStorage.setItem('uid', tokens.id);
     localStorage.setItem('username', tokens.full_name);
     setAuthenticated(true);
+    setAccessToken(tokens.access);
   };
 
   const logout = () => {
     localStorage.clear();
+    setAccessToken(null);
     setAuthenticated(false);
   };
 
@@ -35,7 +40,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ authenticated, login, logout, checkAuth }}>
+    <AuthContext.Provider value={{ authenticated, accessToken, login, logout, checkAuth }}>
       {children}
     </AuthContext.Provider>
   );

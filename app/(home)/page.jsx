@@ -25,9 +25,9 @@ export default function Home() {
   return (
     <>
       {/* Sliders Container */}
-      <section className="h-[720px] overflow-hidden">
+      <section className="relative">
         <Swiper
-          className="h-[720px]"
+          className="h-[801px]"
           style={{
             "--swiper-pagination-color": "#39c52d",
             "--swiper-pagination-bullet-inactive-color": "#fff",
@@ -41,8 +41,8 @@ export default function Home() {
             clickable: true
           }}
           modules={[Pagination]}
-          spaceBetween={0} // Space between slides
-          navigation // Enable navigation buttons
+          spaceBetween={0}
+          navigation
         >
           {/* First Slide */}
           <SwiperSlide
