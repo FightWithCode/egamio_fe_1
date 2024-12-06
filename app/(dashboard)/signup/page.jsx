@@ -44,72 +44,11 @@ export default function Signup() {
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal visibility
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [isGoogleSignup, setIsGoogleSignup] = useState(false);
   const { accessToken, login } = useAuth(); // Get access token from auth context
 
   const handleGoogleSuccess = (userData) => {
     login(userData);
-    setIsGoogleSignup(true);
-    setIsModalOpen(true);
-  };
-
-  const handleGoogleSignupComplete = async () => {
-    if (!accessToken) {
-      setErrorMessage("Authentication failed!. Please try again.");
-      return;
-    }
-    setLoading(true);
-    setErrorMessage("");
-
-    try {
-      const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/accounts/auth/google/step-2/`;
-      
-      const payload = {
-        type: signupType,
-        ...(signupType === "player" 
-          ? {
-              roles: formData.roles,
-              game: formData.game,
-              ign: formData.ign,
-              game_data: {},
-              preference_data: {}
-            }
-          : {
-              game: formData.game,
-              team_name: formData.team_name,
-              logo: formData.logo,
-              looking_for_players: formData.looking_for_players,
-              looking_for_roles: formData.looking_for_roles,
-              location: formData.location
-            }
-        )
-      };
-      console.log({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`
-      })
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
-        },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        router.push("/dashboard");
-      } else {
-        throw new Error(data.error || 'Failed to complete signup');
-      }
-    } catch (error) {
-      console.error("Signup completion failed:", error);
-      setErrorMessage("Failed to complete signup. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    router.push("/dashboard");
   };
 
   // Handles input changes for form fields
@@ -127,10 +66,6 @@ export default function Signup() {
     e.preventDefault();
     setLoading(true);
     setErrorMessage("");
-    if (isGoogleSignup){
-      handleGoogleSignupComplete()
-      return;
-    }
     try {
       const endpoint =
         signupType === "player"
@@ -146,7 +81,7 @@ export default function Signup() {
             location: formData.location,
             game: formData.game,
             ign: formData.ign,
-            roles: formData.roles,
+            roles: formData.roles.map(role => parseInt(role, 10)).filter(role => !isNaN(role)),
           }
           : {
             name: formData.name,
@@ -154,7 +89,7 @@ export default function Signup() {
             team_name: formData.team_name,
             email: formData.email,
             looking_for_players: formData.looking_for_players,
-            looking_for_roles: formData.looking_for_roles,
+            looking_for_roles: formData.looking_for_roles.map(role => parseInt(role, 10)).filter(role => !isNaN(role)),
             password: formData.password,
             location: formData.location,
           };
@@ -328,7 +263,7 @@ export default function Signup() {
                         <div className="flex flex-col">
                           <label className="font-medium">Roles</label>
                           <input
-                            type="text"
+                            type="number"
                             value={formData.roles}
                             onChange={(e) =>
                               handleInputChange(

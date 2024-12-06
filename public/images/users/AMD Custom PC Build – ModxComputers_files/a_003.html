@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <!-- Animation to load widget -->
+    <style>
+      .animated {
+        animation-duration: 1s;
+        animation-fill-mode: both;
+      }
+
+      .animated.faster {
+        animation-duration: 250ms;
+      }
+
+      .fadeIn {
+        animation-name: fadeIn;
+      }
+
+      .fadeOut {
+        animation-name: fadeOut;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(1%);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+          transition: all 0.3s ease-in;
+        }
+      }
+
+      @keyframes fadeOut {
+        from {
+          opacity: 1;
+        }
+
+        to {
+          opacity: 0;
+        }
+      }
+    </style>
+    <script type="module" crossorigin="" src="a_data_003/index-e19af42f.js"></script>
+    <link rel="stylesheet" href="a_data_003/index-eeb96a1d.css">
+  </head>
+
+  <body id="app" class="hidden">
+    <div class="main-modal fixed h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster" style="background: rgba(0, 0, 0, 0.7)">
+      <div class="border modal-container bg-white w-full md:w-[90%] xl:w-[50%] mx-auto rounded shadow-lg z-50 overflow-y-auto absolute bottom-0 md:relative md:translate-y-0">
+        <div class="modal-content py-4 text-left px-6">
+          <!--Title-->
+          <div class="flex justify-between items-center pb-3">
+            <p class="text-2xl font-bold"></p>
+            <div class="modal-close cursor-pointer z-50" onclick="modalClose()">
+              <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+              </svg>
+            </div>
+          </div>
+
+          <!--Modal Body-->
+          <div class="mt-4 rounded">
+            <!-- Tabs id="default-tab"-->
+            <div class="border-b border-b-gray-200">
+              <ul id="tabs" class="-mb-px flex items-center gap-4 text-sm font-medium">
+                <li class="flex-1">
+                  <a id="offersTab" href="#first" class="flex items-center justify-center gap-2 px-1 py-3 text-gray-700 after:absolute after:left-0 after:bottom-0 after:h-0.5 after:bg-blue-700 hover:text-blue-700">
+                    OFFERS</a>
+                </li>
+                <li class="flex-1">
+                  <a id="payLaterTab" href="#second" class="flex items-center justify-center gap-2 px-1 py-3 text-gray-700 after:absolute after:left-0 after:bottom-0 after:h-0.5 after:bg-blue-700 hover:text-blue-700">
+                    PAY LATER</a>
+                </li>
+                <li class="flex-1">
+                  <a id="emiTab" href="#third" class="flex emiTab items-center justify-center gap-2 px-1 py-3 text-gray-700 after:absolute after:left-0 after:bottom-0 after:h-0.5 after:bg-blue-700 hover:text-blue-700">
+                    EMI
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Tab Contents -->
+            <div id="tab-contents">
+              <!-- Tab First -->
+              <div id="first">
+                <div id="offer-container" class="mt-2 flex-1 overflow-hidden overflow-y-scroll max-h-96 text-xs sm:text-base">
+                  <!-- Number of offers -->
+                </div>
+              </div>
+
+              <!-- Tab Second -->
+              <div id="second" class="hidden">
+                <div id="paylater-container" class="md:flex md:flex-col mt-2 flex-1 overflow-y-scroll max-h-96">
+                  <!-- Banner Image -->
+                  <img class="hidden sm:flex object-contain justify-center items-center w-full mx-auto my-2 mb-5" src="a_data_003/banner.svg">
+
+                  <!-- Banner Image for mobile view -->
+                  <img class="sm:hidden flex object-contain justify-center items-center w-full mx-auto my-2 mb-5" src="a_data_003/bnplbanner.svg">
+                </div>
+              </div>
+
+              <!-- Tab Third -->
+              <div id="third" class="hidden">
+                <div class="hidden md:flex">
+                  <!-- Left Side - List -->
+                  <div id="emi-container-left" class="flex flex-col mt-2 overflow-y-scroll max-h-96 md:w-1/3 w-full mr-2"></div>
+
+                  <!-- Right Side - Table -->
+                  <div class="hidden md:flex md:flex-1 overflow-y-scroll max-h-96">
+                    <div class="flex flex-col w-full">
+                      <div class="overflow-x-auto">
+                        <div class="py-4 inline-block w-full">
+                          <div class="overflow-hidden">
+                            <table class="w-full md:min-w-full text-center">
+                              <thead class="border-b bg-gray-200">
+                                <tr class="!rounded-md">
+                                  <th scope="col" class="text-sm font-medium text-black px-6 py-4 rounded-l-md">
+                                    Months
+                                  </th>
+                                  <th scope="col" class="text-sm font-medium text-black px-6 py-4">
+                                    Interest
+                                  </th>
+                                  <th scope="col" class="text-sm font-medium text-black px-6 py-4">
+                                    Monthly EMI
+                                  </th>
+                                  <th scope="col" class="text-sm font-medium text-black px-6 py-4 rounded-r-md">
+                                    Overall Cost
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody id="emi-container-right">
+                                <tr class="bg-white border-b"></tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- EMI - For Mobile Accordion -->
+                <div class="md:hidden grid divide-y divide-neutral-200 max-w-xl mx-auto">
+                  <div id="emi-mobile-view" class="flex flex-col mt-2 overflow-y-scroll max-h-96 md:w-1/3"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr class="py-2 z-1">
+
+          <!-- Footer-->
+          <div class="flex items-center justify-end mt-2">
+            <img src="a_data_003/Cashfree-Dark.svg" alt="cashfree" class="w-auto h-7">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- main script -->
+    
+    <!-- fav icon -->
+    <script src="a_data_003/812e771e48.js" crossorigin="anonymous"></script>
+    <!-- Payments icon -->
+    <script src="a_data_003/image-library.js"></script>
+  
+
+</body></html>

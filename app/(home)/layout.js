@@ -1,40 +1,57 @@
-"use client";
-import Navigation from "@/components/common/Navigation";
-import Footer from "@/components/common/Footer";
-import PlainFooter from "@/components/common/PlainFooter";
-import BackgroundImage from "@/public/images/bg/background6.jpg";
+// app/(home)/layout.jsx (Server Component)
 import { AuthProvider } from '@/context/AuthContext';
-import { Provider } from "react-redux";
-import { store } from "@/store/store";
 import "./../globals.css";
-import { usePathname } from 'next/navigation';
+import ClientLayout from './ClientLayout';
+
+export const metadata = {
+  metadataBase: new URL('https://egamio.com'),
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+  },  
+  // verification: {
+  //   google: 'your-google-verification-code',
+  //   yandex: 'your-yandex-verification-code',
+  // },
+  title: {
+    default: 'Home | eGamio',
+    template: '%s | eGamio'
+  },
+  description: 'Connect with gamers worldwide',
+  keywords: ['gaming', 'esports', 'team finder', 'gamers'],
+  robots: {
+    index: true,
+    follow: true,
+  },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-icon.png',
+  },
+  // manifest: '/manifest.json',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://egamio.com',
+    siteName: 'eGamio',
+    images: [
+      {
+        url: '/images/og-image.jpg',
+        width: 1200,
+        height: 630,
+      }
+    ],
+  },
+}
 
 export default function RootLayout({ children }) {
-  const pathname = usePathname();
-  const isHomePage = pathname === '/';
-
   return (
     <html lang="en">
       <body className="relative">
-      <AuthProvider>
-        {/* Background - Only show if not home page */}
-        {!isHomePage && (
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed z-0"
-            style={{ backgroundImage: `url(${BackgroundImage.src})` }}
-          >
-            {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-black mix-blend-multiply opacity-70"></div>
-          </div>
-        )}
-        <div className={`relative ${isHomePage ? '' : 'z-10'}`}>
-          <Provider store={store}>
-            <Navigation />
-            <main className="relative z-10 top-[-75px]" style={{ minHeight: `calc(100vh - 182px)` }}>{children}</main>
-            <Footer />
-            <PlainFooter/>
-          </Provider>
-        </div>
+        <AuthProvider>
+          <ClientLayout>
+            {children}
+          </ClientLayout>
         </AuthProvider>
       </body>
     </html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    <script type="module" crossorigin="" src="a_data_002/index-7453bd8e.js"></script>
+    <link rel="stylesheet" href="a_data_002/index-49fa54e7.css">
+  </head>
+
+  <body class="overflow-x-hidden">
+    <div id="widget-body" class="border flex flex-col sm:px-5 p-2 rounded mt-2 !overflow-y-hidden bg-[#e3f6ff]">
+      <!-- loading skeleton -->
+      <div id="loader" class="flex animate-pulse flex-col space-y-3">
+        <div class="bg-gray-300 h-2 rounded w-4/12"></div>
+        <div class="bg-gray-300 h-2 rounded w-3/5"></div>
+        <div class="bg-gray-300 h-2 rounded w-1/2"></div>
+      </div>
+
+      <div id="widget-container" class="hidden sm:flex items-center space-x-2 justify-evenly text-center">
+        <!-- Offers -->
+        <div id="offers-block" class="flex flex-col border rounded justify-center items-center h-20 w-28 p-2 bg-white space-y-2">
+          <span id="offers" class="text-base font-semibold"> </span>
+          <span class="text-xs">Savings</span>
+          <span id="widget-text" class="cursor-pointer text-[#4895D6] font-bold underline pl-1 text-xs">
+            <button id="totalOffers" class="focus:outline-none underline" onclick="openModal('offerDetails'), logClick('Offers')">
+              3 Offers
+            </button>
+          </span>
+        </div>
+
+  
+        <!-- Paylater -->
+        <div id="paylater-block" class="flex flex-col border rounded justify-center items-center h-20 w-28 p-2 bg-white space-y-2">
+        <span class="text-sm font-semibold">Paylater</span>
+        <span class="text-xs">0% Interest</span>
+          <span id="widget-text" class="cursor-pointer text-[#4895D6] font-bold underline pl-1 text-xs">
+            <button class="focus:outline-none underline" onclick="openModal('payLaterDetails'), logClick('Pay Later')">
+              View
+            </button>
+          </span>
+        </div>
+
+        <!-- EMI -->
+        <div id="emi-block" class="flex flex-col border rounded justify-center items-center h-20 w-28 p-2 bg-white space-y-2">
+          <span id="emi" class="text-base font-semibold"> </span>
+          <span class="text-xs">Starting EMI</span>
+          <span id="widget-text" class="cursor-pointer text-[#4895D6] font-bold underline pl-1 text-xs">
+            <button class="focus:outline-none underline" onclick="openModal('emiDetails'), logClick('EMI')">
+              View plans
+            </button>
+          </span>
+        </div>
+      </div>
+
+      <!-- One Block -->
+
+      <!-- offers -->
+      <div id="one-block-offers" class="hidden justify-start items-center space-x-4 border border-blue-100 p-2">
+        <span id="one-block-offers-text" class="text-base font-semibold">
+        </span>
+        <span class="text-xs">Savings</span>
+        <span id="widget-text" class="cursor-pointer text-[#4895D6] font-bold underline pl-1 text-xs">
+          <button id="one-block-totalOffers" class="focus:outline-none underline" onclick="openModal('offerDetails'), logClick('Offers')">
+            3 Offers
+          </button>
+        </span>
+      </div>
+
+      <!-- paylater -->
+
+      <div id="one-block-paylater" class="hidden justify-start items-center space-x-4 p-2">
+        <span class="text-sm font-semibold">0% Interest</span>
+        <span class="text-xs">Paylater</span>
+        <span id="widget-text" class="cursor-pointer text-[#4895D6] font-bold underline pl-1 text-xs">
+          <button class="focus:outline-none underline" onclick="openModal('payLaterDetails'), logClick('Pay Later')">
+            View options
+          </button>
+        </span>
+      </div>
+
+      <!-- emi -->
+
+      <div id="one-block-emi" class="hidden justify-between items-center ml-0 space-x-4 p-2 bg-white">
+    <div>
+      <span id="one-block-emi-text" class="text-base font-semibold"> </span>
+      <span class="text-xs">Starting EMI</span>
+    </div>
+    <div>
+      <span id="widget-text" class="cursor-pointer text-[#4895D6] font-bold underline pl-1 text-xs">
+        <button class="focus:outline-none underline" onclick="openModal('emiDetails'), logClick('EMI')">
+          View plans
+        </button>
+      </span>
+    </div>
+    </div>
+  </div>
+    
+
+    <!-- Footer Logo -->
+    <div id="logo-container" class="flex items-center justify-end mr-[-8px]">
+      <img id="logo" src="a_data_002/CF_Logo_dark-NoBG.png" alt="cashfree" class="w-auto h-8">
+    </div>
+  
+
+</body></html>
