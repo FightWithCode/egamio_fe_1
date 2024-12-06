@@ -1,1 +1,0 @@
-/**/ml.fn.renderPopupsAndPromotions({"data":[]});
