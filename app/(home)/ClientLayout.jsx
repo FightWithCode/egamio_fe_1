@@ -24,7 +24,7 @@ export default function ClientLayout({ children }) {
       )}
       <div className={`relative ${isHomePage ? 'bg-background' : 'z-10'}`}>
         <Navigation />
-        <main className="relative z-10 top-[-75px]" style={{ minHeight: `calc(100vh - 182px)` }}>
+        <main className="relative z-10 top-[-75px] m-2" style={{ minHeight: `calc(100vh - 182px)` }}>
           {children}
         </main>
         <Footer />

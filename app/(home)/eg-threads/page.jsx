@@ -2,7 +2,8 @@
 import ResponsiveContainer from "@/components/common/ResponsiveContainer"
 import Sidebar from "./components/Sidebar"
 import ThreadList from "./components/ThreadList"
-import { getSamplePosts } from "./data"
+import api from '@/utils/api';
+
 
 export const metadata = {
   title: 'eGThreads | eGamio Forums',
@@ -55,14 +56,30 @@ export const metadata = {
 }
 
 export default async function ForumHome() {
-  const samplePosts = await getSamplePosts()
+  try {
+    const response = await api.get(`/eg-threads/threads/list`);
+    const { data: threads, meta } = response;
 
-  return (
-    <ResponsiveContainer className="py-32">
-      <div className="flex flex-col md:flex-row gap-4">
-        <Sidebar />
-        <ThreadList posts={samplePosts} />
-      </div>
-    </ResponsiveContainer>
-  )
+    return (
+      <ResponsiveContainer className="py-32">
+        <div className="flex flex-col md:flex-row gap-4">
+          <Sidebar />
+          <ThreadList 
+            posts={threads} 
+            pagination={meta}
+          />
+        </div>
+      </ResponsiveContainer>
+    );
+  } catch (error) {
+    console.error('Failed to fetch threads:', error);
+    return (
+      <ResponsiveContainer className="py-32">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold">Unable to load threads</h2>
+          <p className="text-gray-600">Please try again later</p>
+        </div>
+      </ResponsiveContainer>
+    );
+  }
 }

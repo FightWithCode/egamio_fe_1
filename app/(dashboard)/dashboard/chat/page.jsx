@@ -48,7 +48,6 @@ export default function ChatPage() {
       time: "2:31 PM",
       isSender: true
     },
-    // Add more messages...
   ];
 
   const handleChatSelect = (chatId) => {

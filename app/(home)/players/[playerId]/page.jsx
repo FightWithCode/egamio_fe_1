@@ -9,7 +9,6 @@ import ProfileForm from '@/components/forms/ProfileForm';
 import EGClips from '@/components/dashboard/EGClips';
 import UserCard from '@/components/dashboard/UserCard';
 // Assets import
-import { FaMessage } from "react-icons/fa6";
 import { IoIosArrowDown } from "react-icons/io";
 import user2 from "@/public/images/users/user2.png";
 
