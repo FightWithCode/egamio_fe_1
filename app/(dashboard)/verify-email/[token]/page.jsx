@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import api from '@/utils/api';
+import { api } from '@/utils/api';
 import Link from 'next/link';
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import { TypographyH1, TypographyP } from '@/components/ui/Typographies';

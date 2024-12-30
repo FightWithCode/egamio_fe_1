@@ -10,11 +10,11 @@ export default function ThreadCard({ post }) {
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center space-x-2">
           <Link
-            href={`/author/${post.author}`}
+            href={`/author/${post.author.id}`}
             className="font-semibold text-highlight hover:underline"
             onClick={(e) => e.stopPropagation()}
           >
-            {post.author}
+            {post.author.name}
           </Link>
           <span className="text-gray-300">• {post.game}</span>
         </div>

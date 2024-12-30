@@ -5,15 +5,14 @@ import Footer from "@/components/common/Footer";
 import PlainFooter from "@/components/common/PlainFooter";
 import BackgroundImage from "@/public/images/bg/background6.jpg";
 import { usePathname } from 'next/navigation';
-import { Provider } from "react-redux";
-import { store } from "@/store/store";
+import { AuthProvider } from "@/context/AuthContext";
 
 export default function ClientLayout({ children }) {
   const pathname = usePathname();
   const isHomePage = pathname === '/';
 
   return (
-    <Provider store={store}>
+    <AuthProvider>
       {!isHomePage && (
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed z-0"
@@ -30,6 +29,6 @@ export default function ClientLayout({ children }) {
         <Footer />
         <PlainFooter/>
       </div>
-    </Provider>
+    </AuthProvider>
   );
 }

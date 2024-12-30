@@ -2,7 +2,6 @@
 import ResponsiveContainer from "@/components/common/ResponsiveContainer"
 import Sidebar from "./components/Sidebar"
 import ThreadList from "./components/ThreadList"
-import api from '@/utils/api';
 
 
 export const metadata = {
@@ -57,22 +56,39 @@ export const metadata = {
 
 export default async function ForumHome() {
   try {
-    const response = await api.get(`/eg-threads/threads/list`);
-    const { data: threads, meta } = response;
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/eg-threads/threads/list`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cache: 'no-store' // or 'force-cache' if you want to cache the response
+    });
 
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    
     return (
       <ResponsiveContainer className="py-32">
         <div className="flex flex-col md:flex-row gap-4">
           <Sidebar />
           <ThreadList 
-            posts={threads} 
-            pagination={meta}
+            posts={responseData.data} 
+            pagination={responseData.meta}
           />
         </div>
       </ResponsiveContainer>
     );
   } catch (error) {
-    console.error('Failed to fetch threads:', error);
+    // More specific error logging
+    console.error('Failed to fetch threads:', {
+      message: error.message,
+      status: error.status,
+      statusText: error.statusText
+    });
+
     return (
       <ResponsiveContainer className="py-32">
         <div className="text-center">

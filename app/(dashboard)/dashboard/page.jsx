@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import PlayerTeamSearch from '@/components/dashboard/PlayerTeamSearch';
 import { useAuth } from '@/context/AuthContext';
-import api from '@/utils/api';
+import { api } from '@/utils/api';
 
 const CompleteProfileForm = ({ onComplete }) => {
   const [step, setStep] = useState(1);
