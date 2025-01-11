@@ -15,7 +15,7 @@ export default function Sidebar({ relatedPosts }) {
         </h3>
         <div className="space-y-4">
           {relatedPosts.map((post) => (
-            <PopularPostCard key={post.id} post={post} />
+            <PopularPostCard key={post.thread_id} post={post} />
           ))}
         </div>
       </div>
@@ -28,7 +28,7 @@ export default function Sidebar({ relatedPosts }) {
         </h3>
         <div className="space-y-4">
           {relatedPosts.map((post) => (
-            <RecentPostCard key={post.id} post={post} />
+            <RecentPostCard key={post.thread_id} post={post} />
           ))}
         </div>
       </div>
@@ -41,7 +41,7 @@ export default function Sidebar({ relatedPosts }) {
         </h3>
         <div className="space-y-4">
           {relatedPosts.map((post) => (
-            <TopRatedCard key={post.id} post={post} />
+            <TopRatedCard key={post.thread_id} post={post} />
           ))}
         </div>
       </div>

@@ -21,17 +21,17 @@ export default function ThreadCard({ post }) {
         <div className="flex items-center space-x-4">
           <button className="flex items-center space-x-1 hover:text-highlight">
             <FaThumbsUp />
-            <span>{post.likes}</span>
+            <span>{post.like_count}</span>
           </button>
           <button className="flex items-center space-x-1 hover:text-highlight">
             <FaRegCommentDots />
-            <span>{post.comments}</span>
+            <span>{post.comment_count}</span>
           </button>
         </div>
       </div>
-      <Link href={`/eg-threads/${post.id}`}>
+      <Link href={`/eg-threads/${post.thread_id}/${post.slug}`}>
         <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
-        <p className="text-gray-300">{post.content}</p>
+        <p className="text-gray-300">{post.short_content}</p>
       </Link>
     </div>
   )

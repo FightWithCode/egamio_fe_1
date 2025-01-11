@@ -1,163 +1,124 @@
-"use client";
+"use client"
+
 import { createContext, useContext, useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
+import { authAPI, handleApiError } from '@/services/api';
 import { toast } from 'react-toastify';
-import { publicApi } from '@/utils/api';
 
-const AuthContext = createContext({
-  authenticated: false,
-  accessToken: null,
-  isProfileComplete: false,
-  login: () => {},
-  logout: () => {},
-  checkAuth: () => {},
-});
+const AuthContext = createContext();
 
-// Toast configuration
-const toastConfig = {
-  position: "top-right",
-  autoClose: 3000,
-  hideProgressBar: false,
-  closeOnClick: true,
-  pauseOnHover: true,
-  draggable: true,
-  progress: undefined,
-};
+export const AuthProvider = ({ children }) => {
+    const [user, setUser] = useState({});
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
-// Token management
-const TokenManager = {
-  setTokens: (access, refresh) => {
-    Cookies.set('accessToken', access, {
-      secure: true,
-      sameSite: 'strict',
-      expires: 1
-    });
-    Cookies.set('refreshToken', refresh, {
-      secure: true,
-      sameSite: 'strict',
-      expires: 7
-    });
-  },
-  getAccessToken: () => Cookies.get('accessToken'),
-  getRefreshToken: () => Cookies.get('refreshToken'),
-  clearTokens: () => {
-    Cookies.remove('accessToken');
-    Cookies.remove('refreshToken');
-  }
-};
+   const login = async (email, password) => {
+        try {
+            const response = await authAPI.login({ email, password });
+            const { id, full_name, is_profile_complete, msg } = response.data;
+            setIsAuthenticated(true);
+            const u_data = { 
+                id, 
+                fullName: full_name, 
+                isProfileComplete: is_profile_complete
+            };
+            setUser(u_data);
+            localStorage.setItem('eu_data', JSON.stringify(u_data));
 
-// User data management
-const UserManager = {
-  setUserData: (data) => {
-    localStorage.setItem('uid', data.id);
-    localStorage.setItem('username', data.full_name);
-    localStorage.setItem('is_profile_complete', data.is_profile_complete);
-  },
-  getUserData: () => ({
-    uid: localStorage.getItem('uid'),
-    username: localStorage.getItem('username'),
-    isProfileComplete: localStorage.getItem('is_profile_complete') === 'true'
-  }),
-  clearUserData: () => {
-    localStorage.removeItem('uid');
-    localStorage.removeItem('username');
-    localStorage.removeItem('is_profile_complete');
-  }
-};
+            return { 
+                success: true, 
+                message: msg 
+            };
+        } catch (error) {
+            return { 
+                success: false, 
+                message: errorInfo.message 
+            };
+        }
+    };
 
-export function AuthProvider({ children }) {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [accessToken, setAccessToken] = useState(null);
-  const [isProfileComplete, setIsProfileComplete] = useState(false);
+    const logout = async () => {
+        try {
+            await authAPI.logout();
+            setUser(null);
+            setIsAuthenticated(false);
+            localStorage.removeItem('eu_data');
+            router.push('/');
+        } catch (error) {
+            toast.error('An error occurred during logout. Please try again.');
+        }
+    };
 
-  const checkAuth = () => {
-    const token = TokenManager.getAccessToken();
-    const userData = UserManager.getUserData();
-    
-    setAuthenticated(!!token);
-    setAccessToken(token);
-    setIsProfileComplete(userData.isProfileComplete);
-    
-    return !!token;
-  };
+    const checkAuthStatus = async () => {
+        try {
+            await authAPI.verifyToken();
+            setIsAuthenticated(true);
+            setUser(prevUser => ({
+                ...prevUser,
+                ...JSON.parse(localStorage.getItem('eu_data'))
+            }));
+            return true;
+        } catch (error) {
+            setIsAuthenticated(false);
+            setUser(null);
+            localStorage.removeItem('eu_data');
+            return false;
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  const login = (tokens) => {
-    try {
-      // Set tokens in cookies
-      TokenManager.setTokens(tokens.access, tokens.refresh);
-      
-      // Set user data in localStorage
-      UserManager.setUserData(tokens);
-      
-      // Update state
-      setAuthenticated(true);
-      setAccessToken(tokens.access);
-      setIsProfileComplete(tokens.is_profile_complete);
-      
-      toast.success('Login successful!', toastConfig);
-    } catch (error) {
-      console.error('Login error:', error);
-      toast.error('Error during login process', toastConfig);
+    const refreshToken = async () => {
+        try {
+            await authAPI.refreshToken();
+            return true;
+        } catch (error) {
+            setIsAuthenticated(false);
+            setUser(null);
+            localStorage.removeItem('eu_data');
+            return false;
+        }
+    };
+
+    const updateProfileCompleteness = (isComplete) => {
+        setUser(prevUser => ({
+            ...prevUser,
+            isProfileComplete: isComplete
+        }));
+    };
+
+    useEffect(() => {
+        checkAuthStatus();
+    }, []);
+
+    const contextValue = {
+        user,
+        isAuthenticated,
+        loading,
+        login,
+        logout,
+        checkAuthStatus,
+        refreshToken,
+        updateProfileCompleteness
+    };
+
+    if (loading) {
+        // You can return a loading component here
+        return <div>Loading...</div>;
     }
-  };
 
-  const logout = async () => {
-    try {
-      // Attempt to call logout endpoint
-      const refreshToken = TokenManager.getRefreshToken();
-      if (refreshToken) {
-        await publicApi.post('/accounts/logout/', {
-          refresh_token: refreshToken
-        }).catch(() => {
-          // Silently fail if logout API fails
-        });
-      }
+    return (
+        <AuthContext.Provider value={contextValue}>
+            {children}
+        </AuthContext.Provider>
+    );
+};
 
-      // Clear tokens and user data
-      TokenManager.clearTokens();
-      UserManager.clearUserData();
-      
-      // Update state
-      setAccessToken(null);
-      setAuthenticated(false);
-      setIsProfileComplete(false);
-      
-      toast.success('You have been logged out successfully', toastConfig);
-      
-      // Small delay to ensure toast is visible
-      setTimeout(() => {
-        window.location.href = '/login';
-      }, 1500);
-    } catch (error) {
-      console.error('Logout error:', error);
-      toast.error('An error occurred during logout', toastConfig);
-      
-      // Fallback: force clear everything and redirect
-      TokenManager.clearTokens();
-      UserManager.clearUserData();
-      setAccessToken(null);
-      setAuthenticated(false);
-      setIsProfileComplete(false);
-      window.location.href = '/login';
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider');
     }
-  };
-
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
-  return (
-    <AuthContext.Provider value={{ 
-      authenticated, 
-      accessToken, 
-      isProfileComplete,
-      login, 
-      logout, 
-      checkAuth 
-    }}>
-      {children}
-    </AuthContext.Provider>
-  );
-}
-
-export const useAuth = () => useContext(AuthContext);
+    return context;
+};

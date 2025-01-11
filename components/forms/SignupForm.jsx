@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import Link from "next/link"
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import GoogleAuth from "@/components/common/GoogleAuth";
-import api from "@/utils/api";
+import api from "@/services/api/axiosSetup";
 import { useRouter } from "next/navigation"
 import ResponsiveContainer from "@/components/common/ResponsiveContainer"
 import { TypographyH1, TypographyH3, TypographyH4, TypographyP } from "../ui/Typographies"

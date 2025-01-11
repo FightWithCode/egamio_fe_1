@@ -4,16 +4,17 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import ResponsiveContainer from "@/components/common/ResponsiveContainer"
-import { useAuth } from "@/context/AuthContext"
-import { isAuthenticated } from '@/utils/auth'
+import { useAuth } from '@/context/AuthContext';
 import { TypographyH1, TypographyH3, TypographyH4, TypographyP } from "@/components/ui/Typographies"
 import LoginWithGoogle from "@/components/common/LoginWithGoogle"
-import api from '@/utils/api'
 
 export default function LoginForm() {
+    useEffect(() => {
+        console.log("LoginForm mounted");
+    }, []);
     const router = useRouter()
     const searchParams = useSearchParams()
-    const { login } = useAuth()
+    const { login, isAuthenticated } = useAuth();
 
     const [formState, setFormState] = useState({
         email: "",
@@ -25,10 +26,11 @@ export default function LoginForm() {
     const redirect = searchParams.get('redirect') || '/dashboard'
 
     useEffect(() => {
-        if (isAuthenticated()) {
+        console.log(isAuthenticated)
+        if (isAuthenticated) {
             router.push('/dashboard')
         }
-    }, [router])
+    }, [isAuthenticated, router])
 
     useEffect(() => {
         return () => {
@@ -53,29 +55,31 @@ export default function LoginForm() {
     }
 
     const handleLogin = async (e) => {
-        e.preventDefault()
-        if (!validateInput()) return
-
-        setFormState(prev => ({ ...prev, loading: true, errorMessage: "" }))
-
+        e.preventDefault();
+        if (!validateInput()) return;
+    
+        setFormState(prev => ({ ...prev, loading: true, errorMessage: "" }));
+    
         try {
-            const response = await api.post('/accounts/token/', {
-                email: formState.email,
-                password: formState.password,
-            })
-
-            login(response.data)
-            router.refresh()
-            router.push(redirect)
+            const result = await login(formState.email, formState.password); // Use login from AuthContext
+            if (result.success) {
+                router.push(redirect); // Redirect on successful login
+            } else {
+                setFormState(prev => ({
+                    ...prev,
+                    errorMessage: result.message, // Show error message from login
+                    loading: false,
+                }));
+            }
         } catch (error) {
-            console.error(error)
             setFormState(prev => ({
                 ...prev,
-                errorMessage: 'Invalid login credentials.',
-                loading: false
-            }))
+                errorMessage: 'An unexpected error occurred.',
+                loading: false,
+            }));
         }
-    }
+    };
+    
 
     const handleInputChange = (field, value) => {
         setFormState(prev => ({

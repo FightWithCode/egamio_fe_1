@@ -5,7 +5,7 @@ export default function ThreadList({ posts }) {
   return (
     <div className="flex-1">
       {posts.map((post) => (
-        <ThreadCard key={post.id} post={post} />
+        <ThreadCard key={post.thread_id} post={post} />
       ))}
     </div>
   )

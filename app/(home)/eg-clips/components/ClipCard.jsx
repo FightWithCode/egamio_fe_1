@@ -4,7 +4,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { FaHeart, FaComment, FaShare, FaUserPlus, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
-import { toast } from 'react-hot-toast';
+import { toast } from 'react-toastify';
 
 export default function ClipCard({ clip, isVisible }) {
   const videoRef = useRef(null);

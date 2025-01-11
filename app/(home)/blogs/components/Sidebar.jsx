@@ -8,7 +8,7 @@ export default function Sidebar({ posts }) {
         Related Posts
       </h3>
       {posts.map((post, index) => (
-        <SidebarPost key={post.id} post={post} />
+        <SidebarPost key={post.thread_id} post={post} />
       ))}
       <AdSpace />
     </aside>

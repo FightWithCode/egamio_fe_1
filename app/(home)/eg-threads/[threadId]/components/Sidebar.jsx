@@ -15,7 +15,7 @@ const Sidebar = ({ relatedTopics }) => {
         </div>
         
         <div className="divide-y divide-white/10">
-          {relatedTopics.map((topic) => (
+          {[].map((topic) => (
             <Link 
               href={`/eg-threads/${topic.id}`} 
               key={topic.id}

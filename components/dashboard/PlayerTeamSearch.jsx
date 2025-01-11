@@ -5,7 +5,7 @@ import ResponsiveContainer from "../common/ResponsiveContainer";
 import { TypographyP } from "../ui/Typographies";
 import PlayerListCard from "./PlayerListCard";
 import TeamListCard from "./TeamListCard";
-import { api } from '@/utils/api';
+import api from "@/services/api/axiosSetup";
 
 
 const initialPlayers = [

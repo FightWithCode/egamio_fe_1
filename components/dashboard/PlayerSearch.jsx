@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { api } from '@/utils/api';
+import { api } from '@/services/api/axiosSetup';
 
 const PlayerSearch = () => {
   const [players, setPlayers] = useState([]);

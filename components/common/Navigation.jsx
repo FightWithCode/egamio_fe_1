@@ -1,11 +1,10 @@
 "use client";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from 'next/navigation';
 import ResponsiveContainer from "../common/ResponsiveContainer";
-import { isAuthenticated } from "@/utils/auth";
 import { IoIosLogIn } from "react-icons/io";
 import { FaBell, FaHome, FaGamepad, FaChevronDown } from "react-icons/fa";
 import { AiFillMessage } from "react-icons/ai";
@@ -17,7 +16,7 @@ import logo from "@/public/images/trans-logo2.png";
 import user2 from "@/public/images/users/user2.png";
 
 const Navigation = () => {
-    const { authenticated, logout } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
     const [activePanel, setActivePanel] = useState(null); // "notifications" | "dashboard" | null
     const router = useRouter();
     const pathname = usePathname();
@@ -44,7 +43,7 @@ const Navigation = () => {
                             </div>
                         </div>
                     </Link>
-                    {authenticated ? (
+                    {isAuthenticated ? (
                         <div className="flex items-center gap-2">
                             {/* Chat */}
                             <div className="relative">
@@ -89,8 +88,8 @@ const Navigation = () => {
                                 <li className="cursor-pointer text-white py-[6px] hover:border-t-[3px] hover:border-highlight"><Link href="/">Home</Link></li>
                                 <li className="cursor-pointer text-white py-[6px] hover:border-t-[3px] hover:border-highlight"><Link href="/find">Find Player</Link></li>
                                 <li className="cursor-pointer text-white py-[6px] hover:border-t-[3px] hover:border-highlight"><Link href="/eg-threads">eGThreads</Link></li>
-                                <li className="bg-highlight px-6 py-2 rounded-3xl">
-                                    <Link href={`/login?redirect=${encodeURIComponent(pathname)}`} className="text-background">
+                                <li className="bg-accent px-6 py-2 rounded-3xl">
+                                    <Link href={`/login?redirect=${encodeURIComponent(pathname)}`} className="text-white">
                                         Login
                                     </Link>
                                 </li>

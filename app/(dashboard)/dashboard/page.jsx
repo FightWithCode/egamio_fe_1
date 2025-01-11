@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import PlayerTeamSearch from '@/components/dashboard/PlayerTeamSearch';
 import { useAuth } from '@/context/AuthContext';
-import { api } from '@/utils/api';
+import api from '@/services/api/axiosSetup';
 
 const CompleteProfileForm = ({ onComplete }) => {
   const [step, setStep] = useState(1);
@@ -54,7 +54,6 @@ const CompleteProfileForm = ({ onComplete }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('accessToken');
       const payload = {
         type: formData.type,
         roles: formData.roles,
@@ -73,7 +72,7 @@ const CompleteProfileForm = ({ onComplete }) => {
       }
 
       const response = await api.post('/accounts/complete-profile/', payload);
-
+      console.log(response)
       if (response.status === 200) {
         onComplete();
       }
@@ -210,8 +209,8 @@ const CompleteProfileForm = ({ onComplete }) => {
                     }));
                   }}
                   className={`px-3 py-1 rounded-full text-sm ${formData.looking_for_roles.includes(role.id)
-                      ? 'bg-highlight text-white'
-                      : 'bg-background border border-highlight text-highlight'
+                    ? 'bg-highlight text-white'
+                    : 'bg-background border border-highlight text-highlight'
                     }`}
                 >
                   {role.name}
@@ -262,19 +261,23 @@ const CompleteProfileForm = ({ onComplete }) => {
 
 const DashboardPage = () => {
   const router = useRouter();
-  const { authenticated, isProfileComplete } = useAuth();
-
+  const { isAuthenticated, user, loading, updateProfileCompleteness } = useAuth();
+  const isProfileComplete = user.isProfileComplete
   useEffect(() => {
-    if (!authenticated) {
+    if (!loading && !isAuthenticated) {
       router.push('/login');
     }
-  }, [authenticated, router]);
+  }, [isAuthenticated, loading, router]);
 
   const handleProfileComplete = () => {
     // Update the is_profile_complete in localStorage and context
-    localStorage.setItem('is_profile_complete', 'true');
-    window.location.reload(); // This will trigger a refresh to update the context
+    updateProfileCompleteness(true);
+    // window.location.reload(); // This will trigger a refresh to update the context
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!isProfileComplete) {
     return (

@@ -84,7 +84,7 @@ const DashboardTab = () => {
         {recruitmentPosts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {recruitmentPosts.map((post) => (
-              <div key={post.uuid} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+              <div key={post.thread_id} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
                 <h4 className="text-xl font-bold text-blue-600">{post.title}</h4>
                 <p className="text-gray-600 my-2">{post.description}</p>
                 <span className="block text-sm text-gray-500">Created by: {post.created_by}</span>
@@ -102,7 +102,7 @@ const DashboardTab = () => {
         {playerRecruitmentPosts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {playerRecruitmentPosts.map((post) => (
-              <div key={post.uuid} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+              <div key={post.thread_id} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
                 <h4 className="text-xl font-bold text-green-600">{post.title}</h4>
                 <p className="text-gray-600 my-2">{post.description}</p>
                 <span className="block text-sm text-gray-500">Posted by: {post.user}</span>

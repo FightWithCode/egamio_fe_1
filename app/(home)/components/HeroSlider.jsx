@@ -48,7 +48,7 @@ export default function HeroSlider() {
             <Swiper
                 className="h-[801px]"
                 style={{
-                    "--swiper-pagination-color": "#39c52d",
+                    "--swiper-pagination-color": "#f41d91",
                     "--swiper-pagination-bullet-inactive-color": "#fff",
                     "--swiper-pagination-bullet-inactive-opacity": "1",
                     "--swiper-pagination-bullet-size": "16px",
