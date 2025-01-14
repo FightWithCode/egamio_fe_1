@@ -74,7 +74,7 @@ export default function LoginForm() {
         } catch (error) {
             setFormState(prev => ({
                 ...prev,
-                errorMessage: 'An unexpected error occurred.',
+                errorMessage: error,
                 loading: false,
             }));
         }

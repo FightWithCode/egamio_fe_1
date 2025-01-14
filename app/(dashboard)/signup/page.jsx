@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import SignupForm from '@/components/forms/SignupForm';
 
 export const metadata = {
-  title: 'Signup - eGamio',
+  title: 'Signup | eGamio - Where dreams meet!',
   description: 'Join eGamio - The ultimate gaming and esports platform. Create your player or team account today!',
   keywords: 'gaming, esports, signup, registration, player signup, team signup',
 }

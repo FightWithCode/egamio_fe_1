@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 // Create a custom axios instance
 const api = axios.create({
-    baseURL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000',
+    baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
     withCredentials: true,
 });
 
@@ -24,13 +24,13 @@ api.interceptors.response.use(
         return response;
     },
     async (error) => {
-        console.log("Error here too")
         const originalRequest = error.config;
         const bypassEndpoints = ['/accounts/token/verify-token/'];
+        const loginEndpoint = '/accounts/token/';
         if (bypassEndpoints.some((endpoint) => originalRequest.url.includes(endpoint))) {
             return Promise.reject(error);
         }
-        if (error.response?.status === 401 && !originalRequest._retry) {
+        if (error.response?.status === 401 && !originalRequest._retry && !originalRequest.url.includes(loginEndpoint)) {
             originalRequest._retry = true;
             try {
                 await api.post('/accounts/token/refresh/');
@@ -50,7 +50,7 @@ api.interceptors.response.use(
             toast.error('Internal server error. Please try again later.');
         }
         if (error.response?.status === 400) {
-            toast.error('Bad request. Please check your input.');
+            toast.error(error.response.data?.msg || "Bad request. Try with other input");
         }
         return Promise.reject(error);
     }

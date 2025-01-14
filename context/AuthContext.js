@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             return { 
                 success: false, 
-                message: errorInfo.message 
+                message: error.response.data.detail 
             };
         }
     };

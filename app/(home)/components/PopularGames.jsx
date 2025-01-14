@@ -1,4 +1,3 @@
-// app/(home)/components/PopularGames.jsx
 import Image from "next/image"
 import { TypographyH1 } from "@/components/ui/Typographies"
 import ResponsiveContainer from "@/components/common/ResponsiveContainer"
