@@ -1,5 +1,5 @@
 import Image from "next/image";
-
+import defaultUser from "@/public/images/users/default.png"
 const PlayerListCard = ({ player }) => {
     return (
         <div className="flex flex-col items-center bg-background p-4 rounded-lg shadow-lg">
@@ -14,7 +14,7 @@ const PlayerListCard = ({ player }) => {
                 ) : (
                     // You can either show a default image
                     <Image
-                        src="/default-player-image.jpg" // Replace with your default image path
+                        src={defaultUser} // Replace with your default image path
                         alt="Default Profile"
                         layout="fill"
                         objectFit="cover"

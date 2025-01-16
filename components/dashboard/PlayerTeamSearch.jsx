@@ -1,5 +1,4 @@
-"use client"; 
-// React import
+"use client";
 import { useState, useEffect } from "react";
 import ResponsiveContainer from "../common/ResponsiveContainer";
 import { TypographyP } from "../ui/Typographies";
@@ -8,27 +7,15 @@ import TeamListCard from "./TeamListCard";
 import api from "@/services/api/axiosSetup";
 
 
-const initialPlayers = [
-    { uuid: 1, ign: "John Doe", roles_list: ["Captain"], game_name: "Football", skills: ["Leadership", "Passing"], experience: 5, location: "New York", featured_image: "/images/player1.jpg" },
-    { uuid: 2, ign: "Jane Smith", roles_list: ["Midfielder"], game_name: "Football", skills: ["Dribbling", "Passing"], experience: 3, location: "Los Angeles", featured_image: "/images/player2.jpg" },
-    { uuid: 3, ign: "Alice Johnson", roles_list: ["Striker"], game_name: "Basketball", skills: ["Shooting", "Speed"], experience: 4, location: "Chicago", featured_image: "/images/player3.jpg" },
-    { uuid: 4, ign: "Bob Brown", roles_list: ["Defender"], game_name: "Basketball", skills: ["Defense", "Passing"], experience: 6, location: "San Francisco", featured_image: "/images/player4.jpg" },
-    { uuid: 5, ign: "Charlie White", roles_list: ["Goalkeeper"], game_name: "Football", skills: ["Goalkeeping", "Tackling"], experience: 8, location: "Houston", featured_image: "/images/player5.jpg" },
-    { uuid: 6, ign: "Diana Green", roles_list: ["Forward"], game_name: "Basketball", skills: ["Shooting", "Speed"], experience: 2, location: "Miami", featured_image: "/images/player6.jpg" },
-];
-
-const initialTeams = [
-    { uuid: 1, title: "Looking for player", team_name: "Team A", game_name: "Football", roles: ["Midfielder", "Defender"], location: "New York", description: "A competitive football team.", image: "/images/team1.jpg" },
-    { uuid: 2, title: "Looking for player", team_name: "Team B", game_name: "Basketball", roles: ["Guard", "Center"], location: "Los Angeles", description: "A fast-paced basketball team.", image: "/images/team2.jpg" },
-    { uuid: 3, title: "Looking for player", team_name: "Team C", game_name: "Football", roles: ["Goalkeeper", "Striker"], location: "Chicago", description: "A friendly football team.", image: "/images/team3.jpg" },
-];
-
 const PlayerTeamSearch = () => {
-    const [searchType, setSearchType] = useState("player"); // Toggle for search type (player/team)
-    const [filteredPlayers, setFilteredPlayers] = useState(initialPlayers); // Filtered player data
-    const [filteredTeams, setFilteredTeams] = useState(initialTeams); // Filtered team data
+    const [games, setGames] = useState([])
+    const [roles, setRoles] = useState([])
+    const [searchType, setSearchType] = useState("player");
+    const [filteredPlayers, setFilteredPlayers] = useState([]);
+    const [filteredTeams, setFilteredTeams] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+
     const [playerFilters, setPlayerFilters] = useState({
         ign: "",
         game: "",
@@ -46,9 +33,30 @@ const PlayerTeamSearch = () => {
 
     // List of possible values
     const ign = ""
-    const games = ["BGMI", "CODM"];
-    const roles = ["IGL", "Assaulter", "Support", "Filter"];
-    
+
+    const fetchGames = async () => {
+        try {
+            const response = await api.get("/games/list-games");
+            setGames(response.data.data || []);
+        } catch (err) {
+            console.error("Failed to fetch games:", err.message);
+        }
+    };
+
+    const fetchRoles = async (game) => {
+        try {
+            if (!game) {
+                setRoles([])
+                return;
+            }
+            const response = await api.get(`/games/${game}/roles`);
+            setRoles(response.data.data || []);
+        } catch (err) {
+            console.error("Failed to fetch games:", err.message);
+            setRoles([]);
+        }
+    };
+
     // Function to handle filter changes for players
     const handlePlayerFilterChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -65,84 +73,89 @@ const PlayerTeamSearch = () => {
                 [name]: value,
             }));
         }
+        if (name === "game") {
+            fetchRoles(value);
+        }
     };
 
     // Function to handle filter changes for teams
     const handleTeamFilterChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value, type } = e.target;
         if (type === "checkbox") {
-            setTeamFilters((prev) => ({
-                ...prev,
-                [name]: checked
-                    ? [...prev[name], value]
-                    : prev[name].filter((role) => role !== value),
-            }));
+            setTeamFilters((prev) => {
+                const roleExists = prev[name].includes(value);
+                return {
+                    ...prev,
+                    [name]: roleExists
+                        ? prev[name].filter((role) => role !== value) // Remove if exists
+                        : [...prev[name], value] // Add if doesn't exist
+                };
+            });
         } else {
             setTeamFilters((prev) => ({
                 ...prev,
                 [name]: value,
             }));
         }
+        if (name === "game") {
+            fetchRoles(value);
+        }
     };
+
 
     // Filter players based on the selected filters
     const filterPlayers = async () => {
         try {
             setIsLoading(true);
             setError(null);
-    
-            // Construct query parameters
+
             const queryParams = new URLSearchParams();
-            
+
             if (playerFilters.ign) queryParams.append('ign', playerFilters.ign);
             if (playerFilters.game) queryParams.append('game', playerFilters.game);
             if (playerFilters.skills.length > 0) queryParams.append('skills', playerFilters.skills.join(','));
             if (playerFilters.experience) queryParams.append('experience', playerFilters.experience);
             if (playerFilters.location) queryParams.append('location', playerFilters.location);
             if (playerFilters.role) queryParams.append('role', playerFilters.role);
-    
-            const response = await api.get(`/finder/players/search?${queryParams}`);
-            
-            // Axios already returns the parsed data in response.data
-            // No need to check response.ok or call response.json()
+
+            const response = await api.get(`/finder/players/search/?${queryParams}`);
             setFilteredPlayers(response.data.results);
-            
+
         } catch (err) {
-            // Get the error message from the axios error object
             const errorMessage = err.response?.data?.message || err.message || 'Failed to fetch players';
             setError(errorMessage);
         } finally {
             setIsLoading(false);
         }
     };
-    
+
 
     const filterTeams = async () => {
         try {
             setIsLoading(true);
             setError(null);
-    
-            // Construct query parameters
+
             const queryParams = new URLSearchParams();
-            
+
             if (teamFilters.teamName) {
                 queryParams.append('team_name', teamFilters.teamName);
             }
-    
+
             if (teamFilters.game) {
                 queryParams.append('game_name', teamFilters.game);
             }
-    
+
             if (teamFilters.roles.length > 0) {
                 queryParams.append('roles', teamFilters.roles.join(','));
             }
-    
+
             if (teamFilters.location) {
                 queryParams.append('location', teamFilters.location);
             }
             const response = await api.get(`/finder/teams/search?${queryParams}`);
+            console.log(response.data.results);
             setFilteredTeams(response.data.results);
-            
+
         } catch (err) {
             const errorMessage = err.response?.data?.message || err.message || 'Failed to fetch teams';
             setError(errorMessage);
@@ -150,11 +163,19 @@ const PlayerTeamSearch = () => {
             setIsLoading(false);
         }
     };
-    
+
 
     useEffect(() => {
-        filterPlayers();
-    }, []);
+        if (searchType === "player") {
+            filterPlayers();
+        } else if (searchType === "team") {
+            filterTeams();
+        }
+    }, [searchType]);
+
+    useEffect(() => {
+        fetchGames();
+    }, [])
 
     return (
         <ResponsiveContainer className="py-6">
@@ -205,8 +226,8 @@ const PlayerTeamSearch = () => {
                                 >
                                     <option value="">Select Game</option>
                                     {games.map((game) => (
-                                        <option key={game} value={game}>
-                                            {game}
+                                        <option key={game.id} value={game.name}>
+                                            {game.name}
                                         </option>
                                     ))}
                                 </select>
@@ -249,8 +270,8 @@ const PlayerTeamSearch = () => {
                                 >
                                     <option value="">Select Role</option>
                                     {roles.map((role) => (
-                                        <option key={role} value={role}>
-                                            {role}
+                                        <option key={role.id} value={role.name}>
+                                            {role.name}
                                         </option>
                                     ))}
                                 </select>
@@ -285,29 +306,36 @@ const PlayerTeamSearch = () => {
                                 >
                                     <option value="">Select Game</option>
                                     {games.map((game) => (
-                                        <option key={game} value={game}>
-                                            {game}
+                                        <option key={game.id} value={game.name}>
+                                            {game.name}
                                         </option>
                                     ))}
                                 </select>
                             </div>
 
                             <div className="mb-4">
-                                <label className="block mb-2 text-lg">Roles Looking For</label>
-                                <div className="space-y-2">
+                                <label className="block text-lg font-medium mb-3">Roles Looking For</label>
+                                <div className="flex flex-wrap gap-2">
                                     {roles.map((role) => (
-                                        <div key={role} className="flex items-center">
+                                        <label key={role.id} className="group relative inline-flex items-center">
                                             <input
                                                 type="checkbox"
-                                                id={role}
+                                                id={role.id}
                                                 name="roles"
-                                                value={role}
-                                                checked={teamFilters.roles.includes(role)}
+                                                value={role.name}
+                                                checked={teamFilters.roles.includes(role.name)}
                                                 onChange={handleTeamFilterChange}
-                                                className="mr-2"
+                                                className="absolute opacity-0 w-full h-full cursor-pointer"
                                             />
-                                            <label htmlFor={role}>{role}</label>
-                                        </div>
+                                            <span className={`px-3 py-1 rounded-full text-sm transition-colors cursor-pointer
+                    ${teamFilters.roles.includes(role.name)
+                                                    ? 'bg-highlight text-foreground'
+                                                    : 'bg-gray-700 text-foreground hover:bg-gray-600'
+                                                }`}
+                                            >
+                                                {role.name}
+                                            </span>
+                                        </label>
                                     ))}
                                 </div>
                             </div>
@@ -344,8 +372,8 @@ const PlayerTeamSearch = () => {
                     </TypographyP>
 
                     <div className={`
-                        ${searchType === "player" 
-                            ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4" 
+                        ${searchType === "player"
+                            ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
                             : "flex flex-col"
                         } 
                         gap-6
