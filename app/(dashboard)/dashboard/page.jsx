@@ -10,13 +10,13 @@ import CompleteProfileForm from '@/components/dashboard/CompleteProfileForm';
 const DashboardPage = () => {
   const router = useRouter();
   const { isAuthenticated, user, loading, updateProfileCompleteness } = useAuth();
-  const isProfileComplete = user.isProfileComplete
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       router.push('/login');
     }
-  }, [isAuthenticated, loading, router]);
-
+  }, [isAuthenticated, loading]);
+  
+  const isProfileComplete = user?.isProfileComplete || false;
   const handleProfileComplete = () => {
     updateProfileCompleteness(true);
     // window.location.reload(); // This will trigger a refresh to update the context
