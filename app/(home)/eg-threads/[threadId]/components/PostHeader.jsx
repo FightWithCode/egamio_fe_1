@@ -1,6 +1,7 @@
 // app/(home)/eg-threads/[postId]/components/PostHeader.jsx
 import Image from 'next/image';
 import { formatDistanceToNow } from 'date-fns';
+import defaultUser from "@/public/images/users/default.png"
 
 export default function PostHeader({ post }) {
   console.log(post)
@@ -9,7 +10,7 @@ export default function PostHeader({ post }) {
       <div className="flex items-center space-x-2 mb-2">
         <div className="relative h-6 w-6 rounded-full overflow-hidden">
           <Image
-            src={post.authorAvatar}
+            src={post.authorAvatar | defaultUser}
             alt={post.author.name}
             fill
             className="object-cover"

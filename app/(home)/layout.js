@@ -2,6 +2,7 @@
 import { AuthProvider } from '@/context/AuthContext';
 import "./../globals.css";
 import ClientLayout from './ClientLayout';
+import { ToastContainer } from 'react-toastify';
 
 export const metadata = {
   metadataBase: new URL('https://egamio.com'),
@@ -48,6 +49,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="relative">
+        <ToastContainer />
         <AuthProvider>
           <ClientLayout>
             {children}
