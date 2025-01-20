@@ -83,7 +83,7 @@ export default async function ForumHome() {
     );
   } catch (error) {
     // More specific error logging
-    console.error('Failed to fetch threads:', {
+    console.log('Failed to fetch threads:', {
       message: error.message,
       status: error.status,
       statusText: error.statusText

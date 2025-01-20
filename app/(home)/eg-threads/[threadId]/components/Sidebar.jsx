@@ -2,10 +2,12 @@
 'use client';
 
 import React from 'react';
-import { FaFire, FaClock, FaTrophy } from 'react-icons/fa';
+import { FaFire, FaClock, FaTrophy, FaEye } from 'react-icons/fa';
 import Link from 'next/link';
+import { formatDistanceToNow, parseISO } from 'date-fns';
 
 const Sidebar = ({ relatedTopics }) => {
+  console.log(relatedTopics)
   return (
     <div className="space-y-6">
       {/* Related Topics Section */}
@@ -15,7 +17,7 @@ const Sidebar = ({ relatedTopics }) => {
         </div>
         
         <div className="divide-y divide-white/10">
-          {[].map((topic) => (
+          {relatedTopics.map((topic) => (
             <Link 
               href={`/eg-threads/${topic.id}`} 
               key={topic.id}
@@ -28,29 +30,30 @@ const Sidebar = ({ relatedTopics }) => {
                   </h3>
                   
                   <div className="flex items-center space-x-4 text-sm text-gray-400">
+                    <p>{topic.content}</p>
+                  </div>
+
+                  <div className="flex items-center space-x-4 mt-2 text-sm text-gray-400">
                     <span>by {topic.author}</span>
                     <div className="flex items-center space-x-1">
-                      <span>↑ {topic.votes}</span>
+                      <span className='flex items-center'><FaEye />&nbsp;{topic.views}</span>
                     </div>
-                    <div className="flex items-center space-x-1">
-                      <span>{topic.commentCount} comments</span>
-                    </div>
+                      <span className="text-gray-400 text-sm">{formatDistanceToNow(parseISO(topic.created_at))} ago</span>
                   </div>
                   
                   <div className="flex items-center space-x-2 mt-2">
-                    {topic.isHot && (
+                    {topic.is_hot && (
                       <span className="flex items-center space-x-1 text-orange-500 text-sm">
                         <FaFire />
                         <span>Hot</span>
                       </span>
                     )}
-                    {topic.isTrending && (
+                    {topic.is_trending && (
                       <span className="flex items-center space-x-1 text-blue-400 text-sm">
                         <FaTrophy />
                         <span>Trending</span>
                       </span>
                     )}
-                    <span className="text-gray-400 text-sm">{topic.timeAgo}</span>
                   </div>
                 </div>
               </div>

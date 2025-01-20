@@ -3,8 +3,9 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { formatDistanceToNow } from 'date-fns';
+import { formatDistanceToNow, parseISO } from 'date-fns';
 import { FaArrowUp, FaArrowDown, FaReply } from 'react-icons/fa';
+import defaultUser from "@/public/images/users/default.png"
 
 const Comment = ({ comment }) => {
   const [isUpvoted, setIsUpvoted] = useState(false);
@@ -27,21 +28,21 @@ const Comment = ({ comment }) => {
       <div className="flex items-center space-x-2 mb-2">
         <div className="relative h-6 w-6 rounded-full overflow-hidden">
           <Image
-            src={comment.authorAvatar}
-            alt={comment.author}
+            src={comment.author?.avatar || defaultUser}
+            alt={comment.author.name}
             fill
             className="object-cover"
           />
         </div>
-        <span className="font-semibold text-white">{comment.author}</span>
+        <span className="font-semibold text-white">{comment.author.name}</span>
         <span className="text-gray-400">
-          {formatDistanceToNow(new Date(comment.createdAt))} ago
+        {formatDistanceToNow(parseISO(comment.created_at))} ago
         </span>
       </div>
 
       {/* Comment Content */}
       <div className="text-white mb-2">
-        {comment.text}
+        {comment.content}
       </div>
 
       {/* Comment Actions */}

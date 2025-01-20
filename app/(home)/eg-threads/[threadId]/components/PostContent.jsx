@@ -10,7 +10,6 @@ import Sidebar from './Sidebar';
 import { useVoting } from '../hooks/useVoting';
 
 export default function PostContent({ post }) {
-  const { isUpvoted, isDownvoted, handleVote } = useVoting();
 
   return (
     <ResponsiveContainer className="mt-32 min-h-screen">
@@ -23,10 +22,7 @@ export default function PostContent({ post }) {
                 <div className="flex-1 p-6">
                   <PostHeader post={post} />
                   <PostBody 
-                    post={post} 
-                    isUpvoted={isUpvoted}
-                    isDownvoted={isDownvoted}
-                    onVote={handleVote}
+                    post={post}
                   />
                 </div>
               </div>
@@ -36,7 +32,7 @@ export default function PostContent({ post }) {
           
           {/* Sidebar */}
           <div className="lg:w-1/4">
-            <Sidebar relatedTopics={post.relatedTopics} />
+            <Sidebar relatedTopics={post.related_posts} />
           </div>
         </div>
       </div>

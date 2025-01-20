@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import api from '@/services/api/axiosSetup';
+import { toast } from 'react-toastify';
 
 
 const CompleteProfileForm = ({ onComplete, userName }) => {
@@ -69,12 +70,11 @@ const CompleteProfileForm = ({ onComplete, userName }) => {
             }
 
             const response = await api.post('/accounts/complete-profile/', payload);
-            console.log(response)
             if (response.status === 200) {
                 onComplete();
             }
         } catch (err) {
-            console.error('Error completing profile:', err);
+            toast.error('Error completing profile!');
             setError('An error occurred while completing your profile. Please try again.');
         }
     };
