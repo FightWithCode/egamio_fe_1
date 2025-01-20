@@ -1,20 +1,24 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { FaArrowUp, FaArrowDown, FaShare, FaBookmark, FaComment } from 'react-icons/fa';
+import { FaArrowUp, FaArrowDown, FaShare, FaBookmark } from 'react-icons/fa';
 import api from '@/services/api/axiosSetup';
 import ShareModal from '../../components/ShareModal';
 import { toast } from 'react-toastify';
 import { useAuth } from '@/context/AuthContext';
 
-
-const PostBody = ({ post }) => {
+const PostBody = ({ post, liked, disliked }) => {
+  const [isLiked, setIsLiked] = useState(liked); // Initialize with the prop value
+  const [isDisliked, setIsDisliked] = useState(disliked); // Initialize with the prop value
   const [isSaved, setIsSaved] = useState(false);
-  const [isLiked, setIsLiked] = useState(post.is_liked_by_user);
-  const [isDisliked, setIsDisLiked] = useState(post.is_disliked_by_user);
-  const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const { isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    setIsLiked(liked);
+    setIsDisliked(disliked);
+  }, [liked, disliked]);
 
   const likeThread = async () => {
     try {
@@ -22,38 +26,43 @@ const PostBody = ({ post }) => {
         toast.error('You must be logged in to like a thread');
         return;
       }
+
       const response = await api.post(`/eg-threads/threads/like/${post.thread_id}/`);
-      if (!response.status == 200) {
+      if (response.status === 200) {
+        if (response.data.status === 'liked') {
+          setIsLiked(true);
+          setIsDisliked(false);
+        } else {
+          setIsLiked(false);
+        }
+      } else {
         toast.error('Failed to update vote');
       }
-      if (response.data.status === 'liked'){
-        setIsLiked(true);
-      }
-      else{
-        setIsLiked(false);
-      }
     } catch (error) {
-      toast.error('Failed to update vote');
+      toast.error('Error liking the thread');
     }
   };
+
   const dislikeThread = async () => {
     try {
       if (!isAuthenticated) {
-        toast.error('You must be logged in to like a thread');
+        toast.error('You must be logged in to dislike a thread');
         return;
       }
+
       const response = await api.post(`/eg-threads/threads/dislike/${post.thread_id}/`);
-      if (!response.status == 200) {
+      if (response.status === 200) {
+        if (response.data.status === 'disliked') {
+          setIsDisliked(true);
+          setIsLiked(false);
+        } else {
+          setIsDisliked(false);
+        }
+      } else {
         toast.error('Failed to update vote');
       }
-      if (response.data.status === 'unliked'){
-        setIsDisLiked(true);
-      }
-      else{
-        setIsDisLiked(false);
-      }
     } catch (error) {
-      toast.error('Failed to update vote');
+      toast.error('Error disliking the thread');
     }
   };
 
@@ -90,17 +99,14 @@ const PostBody = ({ post }) => {
           {/* Voting */}
           <div className="flex items-center space-x-2">
             <button
-              onClick={() => likeThread()}
-              className={`p-2 rounded hover:bg-white/10 ${isLiked ? 'text-green-500' : 'text-gray-400'
-                }`}
+              onClick={likeThread}
+              className={`p-2 rounded hover:bg-white/10 ${isLiked ? 'text-green-500' : 'text-gray-400'}`}
             >
               <FaArrowUp className="text-xl" />
             </button>
-            <span className="text-white font-medium">{post.votes}</span>
             <button
-              onClick={() => dislikeThread()}
-              className={`p-2 rounded hover:bg-white/10 ${isDisliked ? 'text-red-500' : 'text-gray-400'
-                }`}
+              onClick={dislikeThread}
+              className={`p-2 rounded hover:bg-white/10 ${isDisliked ? 'text-red-500' : 'text-gray-400'}`}
             >
               <FaArrowDown className="text-xl" />
             </button>
@@ -115,8 +121,7 @@ const PostBody = ({ post }) => {
           {/* Save */}
           <button
             onClick={() => setIsSaved(!isSaved)}
-            className={`flex items-center space-x-2 ${isSaved ? 'text-highlight' : 'text-gray-400 hover:text-white'
-              }`}
+            className={`flex items-center space-x-2 ${isSaved ? 'text-highlight' : 'text-gray-400 hover:text-white'}`}
           >
             <FaBookmark />
             <span>{isSaved ? 'Saved' : 'Save'}</span>
