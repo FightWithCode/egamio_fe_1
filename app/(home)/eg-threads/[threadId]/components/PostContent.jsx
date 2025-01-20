@@ -10,7 +10,6 @@ import Sidebar from './Sidebar';
 import { useVoting } from '../hooks/useVoting';
 
 export default function PostContent({ post }) {
-
   return (
     <ResponsiveContainer className="mt-32 min-h-screen">
       <div className="max-w-7xl mx-auto my-6">

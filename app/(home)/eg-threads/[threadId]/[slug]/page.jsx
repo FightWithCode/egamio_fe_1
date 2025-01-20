@@ -1,15 +1,19 @@
 import PostContent from "../components/PostContent";
 import { cache } from 'react';
-import api from "@/services/api/axiosSetup";
 
 const getThreadData = cache(async (threadId, slug) => {
   try {
-    const response = await api.get(`/eg-threads/threads/${threadId}/${slug}`);
-    console.log(response.status, '----------------------');
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/eg-threads/threads/${threadId}/${slug}`, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    });
     if (!response.status === 200) {
       throw new Error('Failed to fetch thread data');
     }
-    return response.data;
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error('Error fetching thread:', error);
     throw error;

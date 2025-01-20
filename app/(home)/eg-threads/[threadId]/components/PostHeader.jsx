@@ -4,7 +4,6 @@ import { formatDistanceToNow } from 'date-fns';
 import defaultUser from "@/public/images/users/default.png"
 
 export default function PostHeader({ post }) {
-  console.log(post)
   return (
     <>
       <div className="flex items-center space-x-2 mb-2">

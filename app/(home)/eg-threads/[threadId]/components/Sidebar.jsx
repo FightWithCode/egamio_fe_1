@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 
 const Sidebar = ({ relatedTopics }) => {
-  console.log(relatedTopics)
   return (
     <div className="space-y-6">
       {/* Related Topics Section */}
