@@ -1,4 +1,3 @@
-// app/(home)/eg-threads/page.jsx
 import ResponsiveContainer from "@/components/common/ResponsiveContainer"
 import Sidebar from "./components/Sidebar"
 import ThreadList from "./components/ThreadList"

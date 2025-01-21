@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
-
+import Editor from "./Editor";
 export default function CreateDiscussion() {
+  const [editorLoaded, setEditorLoaded] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     content: "",
@@ -11,6 +12,9 @@ export default function CreateDiscussion() {
     tags: [],
     media: [] // Array to store media files
   });
+  useEffect(() => {
+    setEditorLoaded(true);
+  }, []);
 
   const [tagInput, setTagInput] = useState("");
   const [dragActive, setDragActive] = useState(false);
@@ -80,6 +84,14 @@ export default function CreateDiscussion() {
     }));
   };
 
+  function handleEditorChange(event, editor) {
+    // setData(editor.getData())
+    setFormData((prev) => ({
+      ...prev,
+      ["content"]: editor.getData(),
+    }));
+  }
+
   const handleTagSelect = (tag) => {
     if (!formData.tags.includes(tag)) {
       setFormData(prev => ({
@@ -111,7 +123,7 @@ export default function CreateDiscussion() {
 
 
   return (
-    <ResponsiveContainer className="py-6">
+    <ResponsiveContainer className="mt-32">
 
       <div className="flex flex-col lg:flex-row gap-4">
         {/* Mobile Guidelines */}
@@ -125,9 +137,8 @@ export default function CreateDiscussion() {
               Posting Guidelines & Tips
             </span>
             <svg
-              className={`w-5 h-5 transform transition-transform ${
-                isGuidelinesOpen ? "rotate-180" : ""
-              }`}
+              className={`w-5 h-5 transform transition-transform ${isGuidelinesOpen ? "rotate-180" : ""
+                }`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -143,9 +154,8 @@ export default function CreateDiscussion() {
 
           {/* Collapsible Guidelines Content */}
           <div
-            className={`space-y-4 overflow-hidden transition-all duration-300 ${
-              isGuidelinesOpen ? "max-h-[1000px] mb-4" : "max-h-0"
-            }`}
+            className={`space-y-4 overflow-hidden transition-all duration-300 ${isGuidelinesOpen ? "max-h-[1000px] mb-4" : "max-h-0"
+              }`}
           >
             <div className="bg-transparent p-6 rounded-lg border-[1px] border-white/20 backdrop-blur-md">
               <h2 className="text-lg font-semibold mb-4">Posting Guidelines</h2>
@@ -267,7 +277,7 @@ export default function CreateDiscussion() {
                 <label className="block text-sm font-medium text-gray-300 mb-2">
                   Content
                 </label>
-                <textarea
+                {/* <textarea
                   name="content"
                   value={formData.content}
                   onChange={handleChange}
@@ -276,6 +286,12 @@ export default function CreateDiscussion() {
                          text-white focus:outline-none focus:border-highlight resize-y"
                   placeholder="Write your discussion content here..."
                   required
+                /> */}
+                <Editor
+                  name="content"
+                  value={formData.content}
+                  data={formData.content}
+                  onChange={handleEditorChange}
                 />
               </div>
 

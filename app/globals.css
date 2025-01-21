@@ -13,6 +13,93 @@
   --lightaccent: #fc4cad;
   --darkaccent: #c4006c;
   --danger: #f30a5c;
+  --ck-color-base-foreground: hsl(0, 0%, 98%) !important;
+  /* Light foreground for text */
+  --ck-color-base-background: hsl(0, 0%, 15%) !important;
+  /* Dark background for the editor */
+  --ck-color-base-border: hsl(220, 6%, 40%) !important;
+  /* Darker border */
+  --ck-color-base-action: hsl(104, 50.2%, 42.5%) !important;
+  /* Button action color remains same */
+  --ck-color-base-focus: hsl(209, 92%, 70%) !important;
+  --ck-color-base-text: hsl(0, 0%, 90%) !important;
+  /* Light text color for dark mode */
+  --ck-color-base-active: hsl(218.1, 100%, 58%) !important;
+  --ck-color-base-active-focus: hsl(218.2, 100%, 52.5%) !important;
+  --ck-color-base-error: hsl(15, 100%, 43%) !important;
+  --ck-color-focus-border-coordinates: 218, 81.8%, 56.9% !important;
+  --ck-color-focus-border: hsl(var(--ck-color-focus-border-coordinates)) !important;
+  --ck-color-focus-outer-shadow: hsl(212.4, 89.3%, 89%) !important;
+  --ck-color-focus-disabled-shadow: hsla(209, 90%, 72%, .3) !important;
+  --ck-color-focus-error-shadow: hsla(9, 100%, 56%, .3) !important;
+  --ck-color-text: var(--ck-color-base-text) !important;
+  --ck-color-shadow-drop: hsla(0, 0%, 0%, 0.15) !important;
+  /* Subtle drop shadow for dark mode */
+  --ck-color-shadow-drop-active: hsla(0, 0%, 0%, 0.2) !important;
+  --ck-color-shadow-inner: hsla(0, 0%, 0%, 0.1) !important;
+
+  /* Buttons */
+  --ck-color-button-default-background: transparent !important;
+  --ck-color-button-default-hover-background: hsl(0, 0%, 25%) !important;
+  /* Darker hover background */
+  --ck-color-button-default-active-background: hsl(0, 0%, 30%) !important;
+  --ck-color-button-default-disabled-background: transparent !important;
+  --ck-color-button-on-background: hsl(212, 100%, 25%) !important;
+  /* Darker blue for active button */
+  --ck-color-button-on-hover-background: hsl(211.7, 100%, 30%) !important;
+  --ck-color-button-on-active-background: hsl(211.7, 100%, 35%) !important;
+  --ck-color-button-on-disabled-background: hsl(211, 15%, 45%) !important;
+  --ck-color-button-on-color: hsl(218.1, 100%, 58%) !important;
+  --ck-color-button-action-background: var(--ck-color-base-action) !important;
+  --ck-color-button-action-hover-background: hsl(104, 53.2%, 35%) !important;
+  /* Darker action button hover */
+  --ck-color-button-action-active-background: hsl(104, 53.2%, 35%) !important;
+  --ck-color-button-action-disabled-background: hsl(104, 44%, 58%) !important;
+  --ck-color-button-action-text: var(--ck-color-base-background) !important;
+  --ck-color-button-save: hsl(120, 100%, 27%) !important;
+  --ck-color-button-cancel: hsl(15, 100%, 43%) !important;
+
+  /* Switch Button */
+  --ck-color-switch-button-off-background: hsl(0, 0%, 57.6%) !important;
+  --ck-color-switch-button-off-hover-background: hsl(0, 0%, 49%) !important;
+  --ck-color-switch-button-on-background: var(--ck-color-button-action-background) !important;
+  --ck-color-switch-button-on-hover-background: hsl(104, 53.2%, 40.2%) !important;
+  --ck-color-switch-button-inner-background: var(--ck-color-base-background) !important;
+  --ck-color-switch-button-inner-shadow: hsla(0, 0%, 0%, 0.1) !important;
+
+  /* Dropdown and Panel */
+  --ck-color-dropdown-panel-background: hsl(0, 0%, 18%) !important;
+  /* Darker dropdown */
+  --ck-color-dropdown-panel-border: hsl(220, 6%, 40%) !important;
+  --ck-color-dialog-background: hsl(0, 0%, 20%) !important;
+  /* Dark dialog background */
+  --ck-color-dialog-form-header-border: hsl(0, 0%, 30%) !important;
+  --ck-color-input-background: hsl(0, 0%, 20%) !important;
+  --ck-color-input-border: hsl(220, 6%, 40%) !important;
+  --ck-color-input-error-border: hsl(15, 100%, 43%) !important;
+  --ck-color-input-text: var(--ck-color-base-text) !important;
+  --ck-color-input-disabled-background: hsl(0, 0%, 40%) !important;
+  --ck-color-input-disabled-border: var(--ck-color-base-border) !important;
+  --ck-color-input-disabled-text: hsl(0, 0%, 46%) !important;
+  --ck-color-list-background: var(--ck-color-base-background) !important;
+  --ck-color-list-button-hover-background: var(--ck-color-button-default-hover-background) !important;
+  --ck-color-list-button-on-background: var(--ck-color-button-on-color) !important;
+  --ck-color-list-button-on-background-focus: var(--ck-color-button-on-color) !important;
+  --ck-color-list-button-on-text: var(--ck-color-base-background) !important;
+  --ck-color-panel-background: var(--ck-color-base-background) !important;
+  --ck-color-panel-border: var(--ck-color-base-border) !important;
+  --ck-color-toolbar-background: var(--ck-color-base-background) !important;
+  --ck-color-toolbar-border: var(--ck-color-base-border) !important;
+  --ck-color-tooltip-background: var(--ck-color-base-text) !important;
+  --ck-color-tooltip-text: var(--ck-color-base-background) !important;
+  --ck-color-engine-placeholder-text: hsl(0, 0%, 44%) !important;
+  --ck-color-upload-bar-background: hsl(209, 92%, 70%) !important;
+  --ck-color-link-default: hsl(240, 100%, 47%) !important;
+  --ck-color-link-selected-background: hsla(201, 100%, 56%, 0.1) !important;
+  --ck-color-link-fake-selection: hsla(201, 100%, 56%, 0.3) !important;
+  --ck-color-highlight-background: hsl(60, 100%, 50%) !important;
+  --ck-color-light-red: hsl(0, 100%, 90%) !important;
+  --ck-spacing-standard: 1.5rem  !important;
 }
 
 * {
@@ -35,18 +122,18 @@ body {
 .container-md,
 .container-sm,
 .container-xl {
-    width: 100%;
-    padding-right: var(--bs-gutter-x, 0.75rem);
-    padding-left: var(--bs-gutter-x, 0.75rem);
-    margin-right: auto;
-    margin-left: auto;
+  width: 100%;
+  padding-right: var(--bs-gutter-x, 0.75rem);
+  padding-left: var(--bs-gutter-x, 0.75rem);
+  margin-right: auto;
+  margin-left: auto;
 }
 
 @media (min-width: 576px) {
 
   .container,
   .container-sm {
-      max-width: 540px;
+    max-width: 540px;
   }
 }
 
@@ -55,7 +142,7 @@ body {
   .container,
   .container-md,
   .container-sm {
-      max-width: 720px;
+    max-width: 720px;
   }
 }
 
@@ -65,7 +152,7 @@ body {
   .container-lg,
   .container-md,
   .container-sm {
-      max-width: 960px;
+    max-width: 960px;
   }
 }
 
@@ -76,7 +163,7 @@ body {
   .container-md,
   .container-sm,
   .container-xl {
-      max-width: 1140px;
+    max-width: 1140px;
   }
 }
 
@@ -87,7 +174,7 @@ body {
   .container-md,
   .container-sm,
   .container-xl {
-      max-width: 1320px;
+    max-width: 1320px;
   }
 }
 
@@ -111,18 +198,29 @@ body {
 }
 
 .hide-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .hide-scrollbar::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari and Opera */
+  display: none;
+  /* Chrome, Safari and Opera */
 }
 
 .hide-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
+
 .hide-scrollbar::-webkit-scrollbar {
-  display: none;            /* Chrome, Safari and Opera */
+  display: none;
+  /* Chrome, Safari and Opera */
+}
+
+.ck-powered-by{
+  display: none  !important;
 }

@@ -88,8 +88,8 @@ export default function CommentSection({ comments, threadId }) {
 
       {/* Display comments */}
       <div className="mt-6 space-y-4">
-        {commentList.map((comment) => (
-          <Comment key={comment.id} comment={comment} threadId={threadId} refreshComments={refreshComments} />
+        {commentList.map((comment, i) => (
+          <Comment key={i} comment={comment} threadId={threadId} refreshComments={refreshComments} />
         ))}
       </div>
     </div>
