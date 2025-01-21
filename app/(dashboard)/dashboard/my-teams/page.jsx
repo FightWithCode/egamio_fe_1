@@ -5,11 +5,12 @@ import { useRouter } from 'next/navigation';
 // Components imports
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import TeamDetail from '@/components/dashboard/TeamDetails';
-import { isAuthenticated } from '@/utils/auth';
+import { useAuth } from '@/context/AuthContext';
 
 
 const DashboardPage = () => {
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
   useEffect(() => {
     if (!isAuthenticated()) {
       console.log("error in authentication ", isAuthenticated)

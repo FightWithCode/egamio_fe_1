@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 // Components imports
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import EGClips from '@/components/dashboard/EGClips';
-import { isAuthenticated } from '@/utils/auth';
+import { useAuth } from '@/context/AuthContext';
 
 
 const DashboardPage = () => {
