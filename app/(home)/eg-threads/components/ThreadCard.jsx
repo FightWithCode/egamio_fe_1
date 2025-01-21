@@ -5,9 +5,11 @@ import Link from "next/link"
 import { FaRegCommentDots, FaThumbsUp } from "react-icons/fa6"
 import { FaShareSquare } from "react-icons/fa"
 import ShareModal from './ShareModal'
+import DOMPurify from 'dompurify';
 
 export default function ThreadCard({ post }) {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+  const sanitizedContent = DOMPurify.sanitize(post.short_content);
 
   const postUrl = typeof window !== 'undefined' 
     ? `${window.location.origin}/eg-threads/${post.thread_id}/${post.slug}`
@@ -43,7 +45,7 @@ export default function ThreadCard({ post }) {
         </div>
         <Link href={`/eg-threads/${post.thread_id}/${post.slug}`}>
           <h3 className="text-xl font-semibold mb-2">{post.title}</h3>
-          <p className="text-gray-300">{post.short_content}</p>
+          <div dangerouslySetInnerHTML={{ __html: sanitizedContent }}></div>
         </Link>
       </div>
 

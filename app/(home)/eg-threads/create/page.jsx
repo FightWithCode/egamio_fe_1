@@ -1,79 +1,250 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
-import Editor from "./Editor";
+import { useAuth } from "@/context/AuthContext";
+import { toast } from "react-toastify";
+import api from "@/services/api/axiosSetup";
+
+const Editor = dynamic(() => import('@tinymce/tinymce-react').then(mod => mod.Editor), {
+  ssr: false,
+  loading: () => <p>Loading editor...</p>
+});
+
 export default function CreateDiscussion() {
-  const [editorLoaded, setEditorLoaded] = useState(false);
+  const editorRef = useRef(null);
+  const router = useRouter();
+  const [isMounted, setIsMounted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [games, setGames] = useState([])
+  const [tagInput, setTagInput] = useState("");
+  const [isGuidelinesOpen, setIsGuidelinesOpen] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const predefinedTags = ["FPS", "Battle Royale", "MOBA", "RPG", "Strategy", "BGMI", "Valorant", "Call of Duty", "CS:GO", "Minecraft", "Fortnite", "Discussion", "Question", "Guide", "News", "Highlight", "PC", "Mobile", "Console", "PlayStation", "Xbox"];
+
+  const fetchGames = async () => {
+    try {
+      const response = await api.get("/games/list-games");
+      setGames(response.data.data || []);
+    } catch (err) {
+      console.error("Failed to fetch games:", err.message);
+    }
+  };
+
+  const renderEditor = () => {
+    if (!isMounted) {
+      return <div>Loading editor...</div>;
+    }
+    return (
+      <div className="mb-6">
+        <style jsx global>{`
+          /* Custom styling for editor container */
+          .tox.tox-tinymce {
+            background: transparent !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+          }
+
+          /* Editor content area */
+          .tox .tox-edit-area__iframe {
+            background: transparent !important;
+          }
+
+          /* Toolbar styling */
+          .tox .tox-toolbar,
+          .tox .tox-toolbar__primary,
+          .tox .tox-toolbar__overflow,
+          .tox-editor-header {
+            background: rgba(45, 45, 45, 0.75) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+          }
+
+          /* Menu items and dropdowns */
+          .tox .tox-menu {
+            background: rgba(45, 45, 45, 0.9) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+          }
+
+          /* Editor content styles */
+          .mce-content-body {
+            background: transparent !important;
+            color: #ffffff !important;
+          }
+
+          /* Custom border */
+          .tox.tox-tinymce {
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            border-radius: 8px !important;
+          }
+
+          /* Toolbar buttons */
+          .tox .tox-tbtn {
+            color: #ffffff !important;
+          }
+
+          .tox .tox-tbtn:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+          }
+
+          /* Toolbar separators */
+          .tox .tox-toolbar__group {
+            border-color: rgba(255, 255, 255, 0.1) !important;
+          }
+
+          /* Placeholder text */
+          .mce-content-body[data-mce-placeholder]:not(.mce-visualblocks)::before {
+            color: rgba(255, 255, 255, 0.5) !important;
+          }
+        `}</style>
+        <label className="block text-lg font-medium text-gray-300 mb-2">
+          Content
+        </label>
+        <Editor
+          apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+          onInit={(evt, editor) => editorRef.current = editor}
+          init={{
+            height: 500,
+            menubar: false,
+            plugins: [
+              'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+              'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+              'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+            ],
+            toolbar: 'blocks | ' +
+              'bold italic underline strikethrough link image | alignleft aligncenter ' +
+              'alignright alignjustify | bullist numlist outdent indent | help',
+            image_advtab: false,
+            image_uploadtab: false,
+            image_description: false,
+            image_title: false,
+
+            // Custom theme colors and styles
+            content_style: `
+              body {
+                font-family: Helvetica, Arial, sans-serif;
+                font-size: 14px;
+                color: #ffffff;
+                background: transparent;
+                padding: 20px;
+              }
+              p { margin: 0; padding: 0; }
+            `,
+
+            // Custom UI colors
+            skin: 'oxide-dark',
+            content_css: 'dark',
+            body_class: 'transparent-body',
+
+            // Custom editor colors
+            custom_colors: true,
+            custom_colors_default: '#FF5733',
+
+            // Style formats with custom colors
+            style_formats: [
+              {
+                title: 'Custom Styles',
+                items: [
+                  {
+                    title: 'Highlight',
+                    inline: 'span',
+                    styles: { backgroundColor: '#FFD700', color: '#000000' }
+                  },
+                  {
+                    title: 'Important',
+                    inline: 'span',
+                    styles: { backgroundColor: '#FF5733', color: '#FFFFFF' }
+                  },
+                  {
+                    title: 'Success',
+                    inline: 'span',
+                    styles: { backgroundColor: '#00FF00', color: '#000000' }
+                  }
+                ]
+              }
+            ],
+
+            // Custom UI colors
+            setup: function (editor) {
+              editor.on('init', function () {
+                // Custom CSS for editor UI
+                const css = `
+                  .tox-editor-header { background-color: #2d2d2d !important; }
+                  .tox-toolbar { background-color: #2d2d2d !important; }
+                  .tox-toolbar__group { border-color: #3d3d3d !important; }
+                  .tox-tbtn { color: #ffffff !important; }
+                  .tox-tbtn:hover { background-color: #3d3d3d !important; }
+                `;
+
+                const style = editor.dom.create('style', { type: 'text/css' });
+                style.innerHTML = css;
+                editor.dom.doc.head.appendChild(style);
+              });
+            },
+          }}
+          onEditorChange={handleEditorChange}
+        />
+      </div>
+    );
+  };
+
   const [formData, setFormData] = useState({
     title: "",
     content: "",
     game: "",
     category: "Discussion",
     tags: [],
-    media: [] // Array to store media files
   });
+
   useEffect(() => {
-    setEditorLoaded(true);
+    setIsMounted(true);
+    fetchGames();
   }, []);
 
-  const [tagInput, setTagInput] = useState("");
-  const [dragActive, setDragActive] = useState(false);
-  const [isGuidelinesOpen, setIsGuidelinesOpen] = useState(false);
-  const predefinedTags = ["FPS", "Battle Royale", "MOBA", "RPG", "Strategy", "BGMI", "Valorant", "Call of Duty", "CS:GO", "Minecraft", "Fortnite", "Discussion", "Question", "Guide", "News", "Highlight", "PC", "Mobile", "Console", "PlayStation", "Xbox"];
-
-  // File upload handlers
-  const handleDrag = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleFiles(e.dataTransfer.files);
-    }
-  };
-
-  const handleFileInput = (e) => {
-    if (e.target.files) {
-      handleFiles(e.target.files);
-    }
-  };
-
-  const handleFiles = (files) => {
-    const newFiles = Array.from(files).map(file => ({
-      file,
-      preview: URL.createObjectURL(file),
-      type: file.type.startsWith('image/') ? 'image' : 'video'
-    }));
-
+  const handleEditorChange = (content, editor) => {
     setFormData(prev => ({
       ...prev,
-      media: [...prev.media, ...newFiles]
+      content: content
     }));
   };
-
-  const removeMedia = (index) => {
-    setFormData(prev => ({
-      ...prev,
-      media: prev.media.filter((_, i) => i !== index)
-    }));
-  };
-
-  const gameCategories = ["BGMI", "Valorant", "Call of Duty", "Other"];
-  const contentTypes = ["Discussion", "Question", "Poll", "News"];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    if (!formData.title || !formData.content || !formData.game) {
+      toast.error('Please fill in all required fields');
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+
+      // Convert tags array to comma-separated string for meta_keywords
+      const meta_keywords = formData.tags.join(', ');
+      const body = {
+        title: formData.title,
+        content: formData.content,
+        game: formData.game,
+        meta_keywords: meta_keywords,
+      }
+      const response = await api.post(`/eg-threads/threads/create/`, body)
+
+      const data = response.data;
+
+      if (!response.status === 201) {
+        throw new Error(data.errors || 'Failed to create thread');
+      }
+
+      toast.success('Thread created successfully!');
+
+      // Redirect to the new thread
+      router.push(`/eg-threads/${data.thread.thread_id}/${data.thread.slug}`);
+
+    } catch (error) {
+      toast.error(error.message || 'Failed to create thread');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -83,14 +254,6 @@ export default function CreateDiscussion() {
       [name]: value,
     }));
   };
-
-  function handleEditorChange(event, editor) {
-    // setData(editor.getData())
-    setFormData((prev) => ({
-      ...prev,
-      ["content"]: editor.getData(),
-    }));
-  }
 
   const handleTagSelect = (tag) => {
     if (!formData.tags.includes(tag)) {
@@ -122,6 +285,53 @@ export default function CreateDiscussion() {
   };
 
 
+  if (!isAuthenticated) {
+    return (
+      <ResponsiveContainer className="mt-32">
+        <div className="flex flex-col items-center justify-center min-h-[60vh] p-8">
+          <div className="backdrop-blur-sm border border-white/10 rounded-lg p-8 max-w-md w-full text-center">
+            <svg
+              className="mx-auto h-12 w-12 text-gray-400 mb-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 15v2m0 0v2m0-2h2m-2 0H10m9.364-9.364A9 9 0 0111.545 3.29a9 9 0 00-5.364 3.064A9 9 0 003.29 11.545a9 9 0 003.064 5.364 9 9 0 005.364 3.064 9 9 0 005.364-3.064 9 9 0 003.064-5.364 9 9 0 00-3.064-5.364z"
+              />
+            </svg>
+
+            <h2 className="text-xl font-bold text-white mb-2">
+              Authentication Required
+            </h2>
+
+            <p className="text-gray-300 mb-6">
+              Please log in to create a new thread. Join our community to share your thoughts and engage with other gamers.
+            </p>
+
+            <div className="space-y-4">
+              <button
+                onClick={() => router.push('/login')}
+                className="w-full bg-accent hover:bg-darkaccent text-white font-semibold py-2 px-4 rounded-lg transition duration-150 ease-in-out"
+              >
+                Log In
+              </button>
+
+              <button
+                onClick={() => router.push('/signup')}
+                className="w-full bg-transparent hover:bg-white/5 text-white font-semibold py-2 px-4 rounded-lg border border-white/20 transition duration-150 ease-in-out"
+              >
+                Create Account
+              </button>
+            </div>
+          </div>
+        </div>
+      </ResponsiveContainer>
+    );
+  }
   return (
     <ResponsiveContainer className="mt-32">
 
@@ -201,7 +411,7 @@ export default function CreateDiscussion() {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-lg font-medium text-gray-300 mb-2">
                   Title
                 </label>
                 <input
@@ -216,9 +426,28 @@ export default function CreateDiscussion() {
                 />
               </div>
 
+              <div>
+                <label className="block text-lg font-medium text-gray-300 mb-2">Game</label>
+                <select
+                  id="game"
+                  name="game"
+                  value={formData.game}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 rounded-lg bg-transparent border border-white/20 
+                           text-white focus:outline-none focus:border-highlight"
+                >
+                  <option value="">Select Game</option>
+                  {games.map((game) => (
+                    <option key={game.id} value={game.id}>
+                      {game.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               {/* Tags Input */}
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-lg font-medium text-gray-300 mb-2">
                   Tags
                 </label>
 
@@ -272,112 +501,7 @@ export default function CreateDiscussion() {
                   placeholder="Enter custom tags and press Enter"
                 />
               </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Content
-                </label>
-                {/* <textarea
-                  name="content"
-                  value={formData.content}
-                  onChange={handleChange}
-                  rows="6"
-                  className="w-full px-4 py-2 rounded-lg bg-transparent border border-white/20 
-                         text-white focus:outline-none focus:border-highlight resize-y"
-                  placeholder="Write your discussion content here..."
-                  required
-                /> */}
-                <Editor
-                  name="content"
-                  value={formData.content}
-                  data={formData.content}
-                  onChange={handleEditorChange}
-                />
-              </div>
-
-              {/* Media Upload Section */}
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Media Upload
-                </label>
-                <div
-                  className={`border-2 border-dashed rounded-lg p-6 transition-colors
-                    ${dragActive
-                      ? "border-highlight bg-highlight/10"
-                      : "border-gray-700 hover:border-gray-500"
-                    }`}
-                  onDragEnter={handleDrag}
-                  onDragLeave={handleDrag}
-                  onDragOver={handleDrag}
-                  onDrop={handleDrop}
-                >
-                  <div className="text-center">
-                    <svg
-                      className="mx-auto h-12 w-12 text-gray-400"
-                      stroke="currentColor"
-                      fill="none"
-                      viewBox="0 0 48 48"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                    <div className="flex text-sm text-gray-400 mt-2 justify-center">
-                      <label className="relative cursor-pointer rounded-md font-medium text-highlight hover:text-highlight/80">
-                        <span>Upload files</span>
-                        <input
-                          type="file"
-                          className="sr-only"
-                          multiple
-                          accept="image/*,video/*"
-                          onChange={handleFileInput}
-                        />
-                      </label>
-                      <p className="pl-1">or drag and drop</p>
-                    </div>
-                    <p className="text-xs text-gray-500">
-                      Images and videos up to 10MB
-                    </p>
-                  </div>
-                </div>
-
-                {/* Preview Section */}
-                {formData.media.length > 0 && (
-                  <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-                    {formData.media.map((media, index) => (
-                      <div
-                        key={index}
-                        className="relative group rounded-lg overflow-hidden"
-                      >
-                        {media.type === 'image' ? (
-                          <img
-                            src={media.preview}
-                            alt={`Upload ${index + 1}`}
-                            className="h-32 w-full object-cover"
-                          />
-                        ) : (
-                          <video
-                            src={media.preview}
-                            className="h-32 w-full object-cover"
-                          />
-                        )}
-                        <button
-                          type="button"
-                          onClick={() => removeMedia(index)}
-                          className="absolute top-2 right-2 p-1 bg-red-500 rounded-full 
-                                   text-white opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+              {renderEditor()}
 
               {/* Submit buttons */}
               <div className="flex justify-end gap-4">
@@ -394,7 +518,7 @@ export default function CreateDiscussion() {
                   className="px-6 py-2 rounded-lg bg-highlight text-white 
                            hover:bg-darkhighlight transition-colors"
                 >
-                  Create Discussion
+                  {isSubmitting ? "Creating Thread" : "Create Thread"}
                 </button>
               </div>
             </form>

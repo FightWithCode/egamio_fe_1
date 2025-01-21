@@ -7,6 +7,7 @@ import api from '@/services/api/axiosSetup';
 import ShareModal from '../../components/ShareModal';
 import { toast } from 'react-toastify';
 import { useAuth } from '@/context/AuthContext';
+import DOMPurify from 'dompurify';
 
 const PostBody = ({ post, liked, disliked }) => {
   const [isLiked, setIsLiked] = useState(liked); // Initialize with the prop value
@@ -14,6 +15,7 @@ const PostBody = ({ post, liked, disliked }) => {
   const [isSaved, setIsSaved] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const { isAuthenticated } = useAuth();
+  const sanitizedContent = DOMPurify.sanitize(post.content);
 
   useEffect(() => {
     setIsLiked(liked);
@@ -71,7 +73,9 @@ const PostBody = ({ post, liked, disliked }) => {
       <div className="flex flex-col">
         {/* Content */}
         <div className="text-white mb-6">
-          <p className="whitespace-pre-wrap">{post.content}</p>
+          <div
+            dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+          ></div>
 
           {post.image && (
             <div className="mt-4 relative w-full h-[400px]">
