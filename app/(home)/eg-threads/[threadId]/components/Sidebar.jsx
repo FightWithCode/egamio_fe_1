@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 
 const Sidebar = ({ relatedTopics }) => {
+  console.log(relatedTopics)
   return (
     <div className="space-y-6">
       {/* Related Topics Section */}
@@ -18,7 +19,7 @@ const Sidebar = ({ relatedTopics }) => {
         <div className="divide-y divide-white/10">
           {relatedTopics.map((topic) => (
             <Link 
-              href={`/eg-threads/${topic.id}`} 
+              href={`/eg-threads/${topic.thread_id}/${topic.slug}`} 
               key={topic.id}
               className="block p-4 hover:bg-white/5 transition-colors"
             >

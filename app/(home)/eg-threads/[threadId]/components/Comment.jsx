@@ -7,15 +7,22 @@ import { FaArrowUp, FaArrowDown, FaReply } from 'react-icons/fa';
 import defaultUser from "@/public/images/users/default.png";
 import { toast } from 'react-toastify';
 import api from '@/services/api/axiosSetup';
+import { useAuth } from '@/context/AuthContext';
 
 const Comment = ({ comment, threadId, refreshComments }) => {
+  console.log(comment,' 44')
   const [isUpvoted, setIsUpvoted] = useState(comment.is_liked_by_user);
   const [isDownvoted, setIsDownvoted] = useState(comment.is_disliked_by_user);
   const [showReplyBox, setShowReplyBox] = useState(false);
   const [replyContent, setReplyContent] = useState('');
+  const { isAuthenticated } = useAuth();
 
   // Function to handle liking a comment
   const handleLike = async () => {
+    if (!isAuthenticated) {
+      toast.error('You must be logged in to like a thread');
+      return;
+    }
     try {
       const response = await api.post(`/eg-threads/comments/${comment.id}/like/`);
       if (response.status === 200) {
@@ -34,6 +41,10 @@ const Comment = ({ comment, threadId, refreshComments }) => {
 
   // Function to handle disliking a comment
   const handleDislike = async () => {
+    if (!isAuthenticated) {
+      toast.error('You must be logged in to dislike a thread');
+      return;
+    }
     try {
       const response = await api.post(`/eg-threads/comments/${comment.id}/dislike/`);
       if (response.status === 200) {
@@ -57,6 +68,10 @@ const Comment = ({ comment, threadId, refreshComments }) => {
 
   // Handle the reply submission
   const handleReplySubmit = async () => {
+    if (!isAuthenticated) {
+      toast.error('You must be logged in to comment');
+      return;
+    }
     if (!replyContent.trim()) {
       toast.error("Reply cannot be empty");
       return;

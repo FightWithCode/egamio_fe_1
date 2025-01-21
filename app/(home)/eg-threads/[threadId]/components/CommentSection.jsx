@@ -4,10 +4,12 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import api from '@/services/api/axiosSetup';
 import Comment from './Comment';
+import { useAuth } from '@/context/AuthContext';
 
 export default function CommentSection({ comments, threadId }) {
   const [newComment, setNewComment] = useState('');
   const [commentList, setCommentList] = useState(comments);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     if (comments) {
@@ -18,7 +20,6 @@ export default function CommentSection({ comments, threadId }) {
   const refreshComments = async () => {
     try {
       const response = await api.get(`/eg-threads/threads/${threadId}/get-other-details/`);
-      console.log(response.data, '000000000'); 
       if (response.status === 200) {
         setCommentList(response.data.comments);
       } else {
@@ -36,6 +37,10 @@ export default function CommentSection({ comments, threadId }) {
 
   // Submit the comment
   const handleCommentSubmit = async () => {
+    if (!isAuthenticated) {
+      toast.error('You must be logged in to comment');
+      return;
+    }
     if (!newComment.trim()) {
       toast.error("Comment cannot be empty");
       return;
