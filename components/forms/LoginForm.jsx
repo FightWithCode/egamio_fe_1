@@ -10,7 +10,6 @@ import LoginWithGoogle from "@/components/common/LoginWithGoogle"
 
 export default function LoginForm() {
     useEffect(() => {
-        console.log("LoginForm mounted");
     }, []);
     const router = useRouter()
     const searchParams = useSearchParams()
@@ -26,7 +25,6 @@ export default function LoginForm() {
     const redirect = searchParams.get('redirect') || '/dashboard'
 
     useEffect(() => {
-        console.log(isAuthenticated)
         if (isAuthenticated) {
             router.push('/dashboard')
         }

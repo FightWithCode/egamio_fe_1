@@ -9,9 +9,12 @@
   --foreground: #eeeeee;
   --highlight: #39c52d;
   --darkhighlight: #0ea700;
-  --accent: #f41d92;
+  --accent: #0ea700;
+  --lightaccent: #39c52d;
+  --darkaccent: #0ea700;
+  /* --accent: #f41d92;
   --lightaccent: #fc4cad;
-  --darkaccent: #c4006c;
+  --darkaccent: #c4006c; */
   --danger: #f30a5c;
   --ck-color-base-foreground: hsl(0, 0%, 98%) !important;
   /* Light foreground for text */

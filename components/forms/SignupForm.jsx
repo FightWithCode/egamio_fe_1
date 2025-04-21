@@ -67,7 +67,6 @@ export default function SignupForm() {
       });
   
     } catch (error) {
-      console.error("Signup failed:", error);
       setErrorMessage(
         error.message || 
         error.data?.error || 

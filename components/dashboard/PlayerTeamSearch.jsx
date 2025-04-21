@@ -52,7 +52,6 @@ const PlayerTeamSearch = () => {
             const response = await api.get(`/games/${game}/roles`);
             setRoles(response.data.data || []);
         } catch (err) {
-            console.error("Failed to fetch games:", err.message);
             setRoles([]);
         }
     };
@@ -153,7 +152,6 @@ const PlayerTeamSearch = () => {
                 queryParams.append('location', teamFilters.location);
             }
             const response = await api.get(`/finder/teams/search?${queryParams}`);
-            console.log(response.data.results);
             setFilteredTeams(response.data.results);
 
         } catch (err) {

@@ -29,7 +29,6 @@ const GoogleAuth = ({ onGoogleSuccess, setErrorMessage }) => {
         setErrorMessage(data.error || 'Google authentication failed');
       }
     } catch (error) {
-      console.error('Google authentication error:', error);
       setErrorMessage('Failed to authenticate with Google');
     }
   };

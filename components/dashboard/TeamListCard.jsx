@@ -20,7 +20,6 @@ const TeamListCard = ({ team }) => {
             await teamAPI.applyToTeam(payload);
             toast.success('Application submitted successfully!');
         } catch (error) {
-            console.error('Failed to apply:', error);
             toast.error('Failed to submit the application. Please try again.');
         } finally {
             setIsApplying(false);

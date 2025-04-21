@@ -38,7 +38,6 @@ export default async function SingleBlogPost({ params }) {
       </ResponsiveContainer>
     )
   } catch (error) {
-    console.error('Error fetching blog post:', error)
     throw error
   }
 }

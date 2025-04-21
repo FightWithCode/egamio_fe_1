@@ -33,7 +33,6 @@ export default function ClipCard({ clip, isVisible }) {
       videoRef.current.pause();
     } else {
       videoRef.current.play().catch(err => {
-        console.error('Error playing video:', err);
         toast.error('Error playing video');
       });
     }
