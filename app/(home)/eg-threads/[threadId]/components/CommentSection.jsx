@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import api from '@/services/api/axiosSetup';
 import Comment from './Comment';
-import { useAuth } from '@/context/AuthContext';
+import { useSelector } from 'react-redux';
 
 export default function CommentSection({ comments, threadId }) {
   const [newComment, setNewComment] = useState('');
   const [commentList, setCommentList] = useState(comments);
-  const { isAuthenticated } = useAuth();
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     if (comments) {
@@ -37,7 +37,7 @@ export default function CommentSection({ comments, threadId }) {
 
   // Submit the comment
   const handleCommentSubmit = async () => {
-    if (!isAuthenticated) {
+    if (!user) {
       toast.error('You must be logged in to comment');
       return;
     }

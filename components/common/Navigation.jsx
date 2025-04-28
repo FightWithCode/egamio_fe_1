@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useAuth } from "@/context/AuthContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from 'next/navigation';
 import ResponsiveContainer from "../common/ResponsiveContainer";
@@ -11,25 +10,59 @@ import { AiFillMessage } from "react-icons/ai";
 import { RiChatThreadLine } from "react-icons/ri";
 import { RxVideo } from "react-icons/rx";
 import { IoMenu, IoCloseCircleOutline } from "react-icons/io5";
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '@/redux/slices/authSlice';
 // Assets
 import logo from "@/public/images/trans-logo2.png";
 import user2 from "@/public/images/users/user2.png";
 
 const Navigation = () => {
-    const { isAuthenticated, logout } = useAuth();
+    const [showUI, setShowUI] = useState(false);
+    const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+    const dispatch = useDispatch();
     const [activePanel, setActivePanel] = useState(null); // "notifications" | "dashboard" | null
     const router = useRouter();
     const pathname = usePathname();
 
+    useEffect(() => {
+        setShowUI(true);
+    }, []);
+
+    useEffect(() => {
+        console.log('isAuthenticated state changed:', isAuthenticated);
+    }, [isAuthenticated]);
+
     const handleLogout = () => {
-        logout();
-        window.location.href = "/login";
+        localStorage.removeItem('eu_data'); // Clear user data from local storage
+        dispatch(logout()); // Dispatch logout action to update Redux state
+        router.push('/login'); // Redirect to login page
     };
 
     const togglePanel = (panel) => {
         setActivePanel((prev) => (prev === panel ? null : panel));
     };
 
+    if (!showUI) {
+        // Return a skeleton or null during SSR
+        return (
+            <nav className="relative w-full z-[123]">
+                <ResponsiveContainer className="h-[75px] flex justify-between items-center backdrop-blur-sm">
+                    {/* Only static content during SSR */}
+                    <Link href="/">
+                        <div className="flex items-center">
+                            <Image src={logo} width={70} alt="logo" className="w-[50px] lg:w-[70px]" />
+                            <div className="hidden sm:block">
+                                <p className="text-2xl">eGamio</p>
+                                <p className="text-xs">Where dreams meet!</p>
+                            </div>
+                        </div>
+                    </Link>
+                    {/* Empty div matching auth UI dimensions */}
+                    <div className="flex items-center gap-2" style={{ height: '35px', width: '100px' }} />
+                </ResponsiveContainer>
+            </nav>
+        );
+    }
     return (
         <>
             <nav className="relative w-full z-[123]">
@@ -94,9 +127,6 @@ const Navigation = () => {
                                     </Link>
                                 </li>
                             </ul>
-                            {/* <Link href={`/login?redirect=${encodeURIComponent(getRedirectUrl())}`}>
-                                <IoIosLogIn className="text-3xl text-white block md:hidden" />
-                            </Link> */}
                             <div className="relative block md:hidden">
                                 <Link href="/eg-threads">
                                     <RiChatThreadLine
@@ -159,133 +189,6 @@ const Navigation = () => {
                                         </div>
                                     </div>
                                 </li>
-                                <li>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
-                                        <div>
-                                            <p className="text-sm font-bold">John Doe</p>
-                                            <p className="text-xs text-gray-500">Hey, are we still on for the meeting later?</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
-                                        <div>
-                                            <p className="text-sm font-bold">John Doe</p>
-                                            <p className="text-xs text-gray-500">Hey, are we still on for the meeting later?</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
-                                        <div>
-                                            <p className="text-sm font-bold">John Doe</p>
-                                            <p className="text-xs text-gray-500">Hey, are we still on for the meeting later?</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
-                                        <div>
-                                            <p className="text-sm font-bold">John Doe</p>
-                                            <p className="text-xs text-gray-500">Hey, are we still on for the meeting later?</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
-                                        <div>
-                                            <p className="text-sm font-bold">John Doe</p>
-                                            <p className="text-xs text-gray-500">Hey, are we still on for the meeting later?</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
-                                        <div>
-                                            <p className="text-sm font-bold">John Doe</p>
-                                            <p className="text-xs text-gray-500">Hey, are we still on for the meeting later?</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
-                                        <div>
-                                            <p className="text-sm font-bold">John Doe</p>
-                                            <p className="text-xs text-gray-500">Hey, are we still on for the meeting later?</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
-                                        <div>
-                                            <p className="text-sm font-bold">John Doe</p>
-                                            <p className="text-xs text-gray-500">Hey, are we still on for the meeting later?</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
-                                        <div>
-                                            <p className="text-sm font-bold">John Doe</p>
-                                            <p className="text-xs text-gray-500">Hey, are we still on for the meeting later?</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
-                                        <div>
-                                            <p className="text-sm font-bold">John Doe</p>
-                                            <p className="text-xs text-gray-500">Hey, are we still on for the meeting later?</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
-                                        <div>
-                                            <p className="text-sm font-bold">John Doe</p>
-                                            <p className="text-xs text-gray-500">Hey, are we still on for the meeting later?</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
-                                        <div>
-                                            <p className="text-sm font-bold">John Doe</p>
-                                            <p className="text-xs text-gray-500">Hey, are we still on for the meeting later?</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
-                                        <div>
-                                            <p className="text-sm font-bold">John Doe</p>
-                                            <p className="text-xs text-gray-500">Hey, are we still on for the meeting later?</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
-                                        <div>
-                                            <p className="text-sm font-bold">John Doe</p>
-                                            <p className="text-xs text-gray-500">Hey, are we still on for the meeting later?</p>
-                                        </div>
-                                    </div>
-                                </li>
-
                                 {/* Additional notifications */}
                             </ul>
                         )}

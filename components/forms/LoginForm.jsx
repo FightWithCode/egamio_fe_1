@@ -4,16 +4,19 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import ResponsiveContainer from "@/components/common/ResponsiveContainer"
-import { useAuth } from '@/context/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '@/redux/slices/authSlice';
 import { TypographyH1, TypographyH3, TypographyH4, TypographyP } from "@/components/ui/Typographies"
 import LoginWithGoogle from "@/components/common/LoginWithGoogle"
+import { authAPI } from '@/services/api/authAPI';
 
 export default function LoginForm() {
     useEffect(() => {
     }, []);
     const router = useRouter()
     const searchParams = useSearchParams()
-    const { login, isAuthenticated } = useAuth();
+    const dispatch = useDispatch();
+    const isAuthenticated = useSelector((state) => !!state.auth.user); // Check if user is authenticated
 
     const [formState, setFormState] = useState({
         email: "",
@@ -55,29 +58,24 @@ export default function LoginForm() {
     const handleLogin = async (e) => {
         e.preventDefault();
         if (!validateInput()) return;
-    
+
         setFormState(prev => ({ ...prev, loading: true, errorMessage: "" }));
-    
+
         try {
-            const result = await login(formState.email, formState.password); // Use login from AuthContext
-            if (result.success) {
-                router.push(redirect); // Redirect on successful login
-            } else {
-                setFormState(prev => ({
-                    ...prev,
-                    errorMessage: result.message, // Show error message from login
-                    loading: false,
-                }));
-            }
+            await dispatch(login({
+                email: formState.email,
+                password: formState.password,
+            })).unwrap(); // Unwrap to handle errors properly
+
+            router.push(redirect); // Redirect on successful login
         } catch (error) {
             setFormState(prev => ({
                 ...prev,
-                errorMessage: error,
+                errorMessage: error || 'Login failed',
                 loading: false,
             }));
         }
     };
-    
 
     const handleInputChange = (field, value) => {
         setFormState(prev => ({

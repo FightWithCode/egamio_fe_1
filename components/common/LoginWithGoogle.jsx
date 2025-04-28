@@ -1,10 +1,11 @@
 'use client';
 import { GoogleLogin } from '@react-oauth/google';
-import { useAuth } from "@/context/AuthContext";
+import { useDispatch } from 'react-redux';
+import { setUser } from '@/redux/slices/authSlice';
 import { useRouter } from 'next/navigation';
 
 const LoginWithGoogle = ({ setErrorMessage }) => {
-  const { login } = useAuth();
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const handleGoogleSuccess = async (credentialResponse) => {
@@ -22,7 +23,7 @@ const LoginWithGoogle = ({ setErrorMessage }) => {
       const data = await response.json();
       
       if (response.ok) {
-        login(data);
+        dispatch(setUser(data));
         router.refresh();
         router.push('/dashboard');
       } else {
@@ -40,7 +41,6 @@ const LoginWithGoogle = ({ setErrorMessage }) => {
         onError={() => {
           setErrorMessage('Google login failed. Please try again.');
         }}
-        // useOneTap={false}
         theme="filled_black"
         shape="pill"
         size="large"

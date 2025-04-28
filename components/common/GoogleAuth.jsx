@@ -1,10 +1,11 @@
 // components/GoogleAuth.jsx
 'use client';
 import { GoogleLogin } from '@react-oauth/google';
-import { useAuth } from "@/context/AuthContext";
+import { useDispatch } from 'react-redux';
+import { login } from '@/redux/slices/authSlice';
 
 const GoogleAuth = ({ onGoogleSuccess, setErrorMessage }) => {
-  const { login } = useAuth();
+  const dispatch = useDispatch();
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
@@ -22,8 +23,8 @@ const GoogleAuth = ({ onGoogleSuccess, setErrorMessage }) => {
       const data = await response.json();
 
       if (response.ok) {
-        // Store tokens and pass control to parent for additional info
-        login(data); // This should store the access and refresh tokens
+        // Dispatch login action to store tokens
+        dispatch(login(data));
         onGoogleSuccess(data);
       } else {
         setErrorMessage(data.error || 'Google authentication failed');

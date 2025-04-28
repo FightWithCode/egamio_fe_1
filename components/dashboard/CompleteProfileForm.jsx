@@ -71,6 +71,10 @@ const CompleteProfileForm = ({ onComplete, userName }) => {
 
             const response = await api.post('/accounts/complete-profile/', payload);
             if (response.status === 200) {
+                localStorage.setItem('eu_data', JSON.stringify({
+                    ...JSON.parse(localStorage.getItem('eu_data') || '{}'),
+                    isProfileComplete: true
+                }));
                 onComplete();
             }
         } catch (err) {

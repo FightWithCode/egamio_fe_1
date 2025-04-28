@@ -1,13 +1,15 @@
 import { useState } from "react";
 import Image from "next/image";
-import { useAuth } from "@/context/AuthContext";
+import { useSelector } from 'react-redux';
 import { toast } from "react-toastify";
 import { teamAPI } from "@/services/api";
+
 const TeamListCard = ({ team }) => {
-    const { isAuthenticated } = useAuth();
+    const user = useSelector((state) => state.auth.user);
     const [isApplying, setIsApplying] = useState(false);
+
     const handleApply = async () => {
-        if (!isAuthenticated) {
+        if (!user) {
             toast.error('Please log in to apply.');
             return;
         }

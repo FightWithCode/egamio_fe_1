@@ -2,20 +2,21 @@
 // React and Next Imports
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 // Components imports
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import EGClips from '@/components/dashboard/EGClips';
-import { useAuth } from '@/context/AuthContext';
-
 
 const DashboardPage = () => {
   const router = useRouter();
+  const user = useSelector((state) => state.auth.user);
+
   useEffect(() => {
-    if (!isAuthenticated()) {
-      console.log("error in authentication ", isAuthenticated)
+    if (!user) {
+      console.log("error in authentication ", user)
       router.push('/login');
     }
-  }, []);
+  }, [user]);
 
   return (
     <>

@@ -68,6 +68,7 @@ export default async function ForumHome() {
     }
 
     const responseData = await response.json();
+    console.log('Threads fetched successfully:', responseData);
     return (
       <ResponsiveContainer className="py-32">
         <div className="flex flex-col md:flex-row gap-4">

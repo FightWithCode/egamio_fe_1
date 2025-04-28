@@ -5,7 +5,7 @@ import Link from "next/link"
 import { FaRegCommentDots, FaThumbsUp } from "react-icons/fa6"
 import { FaShareSquare } from "react-icons/fa"
 import ShareModal from './ShareModal'
-import DOMPurify from 'dompurify';
+import DOMPurify from 'dompurify'; // Use DOMPurify directly without jsdom
 
 export default function ThreadCard({ post }) {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)

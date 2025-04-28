@@ -6,7 +6,7 @@ import { FaArrowUp, FaArrowDown, FaShare, FaBookmark } from 'react-icons/fa';
 import api from '@/services/api/axiosSetup';
 import ShareModal from '../../components/ShareModal';
 import { toast } from 'react-toastify';
-import { useAuth } from '@/context/AuthContext';
+import { useSelector } from 'react-redux';
 import DOMPurify from 'dompurify';
 
 const PostBody = ({ post, liked, disliked }) => {
@@ -14,7 +14,7 @@ const PostBody = ({ post, liked, disliked }) => {
   const [isDisliked, setIsDisliked] = useState(disliked); // Initialize with the prop value
   const [isSaved, setIsSaved] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const user = useSelector((state) => state.auth.user);
   const sanitizedContent = DOMPurify.sanitize(post.content);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const PostBody = ({ post, liked, disliked }) => {
 
   const likeThread = async () => {
     try {
-      if (!isAuthenticated) {
+      if (!user) {
         toast.error('You must be logged in to like a thread');
         return;
       }
@@ -47,7 +47,7 @@ const PostBody = ({ post, liked, disliked }) => {
 
   const dislikeThread = async () => {
     try {
-      if (!isAuthenticated) {
+      if (!user) {
         toast.error('You must be logged in to dislike a thread');
         return;
       }

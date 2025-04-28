@@ -176,7 +176,7 @@ const PlayerTeamSearch = () => {
     }, [])
 
     return (
-        <ResponsiveContainer className="py-6">
+        <ResponsiveContainer className="py-6 bg-white shadow-md rounded-lg">
             {/* Search Type Selector */}
             <div className="flex justify-center mb-6">
                 <button
