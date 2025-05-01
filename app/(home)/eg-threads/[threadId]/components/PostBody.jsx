@@ -6,7 +6,7 @@ import { FaArrowUp, FaArrowDown, FaShare, FaBookmark } from 'react-icons/fa';
 import api from '@/services/api/axiosSetup';
 import ShareModal from '../../components/ShareModal';
 import { toast } from 'react-toastify';
-import { useAuth } from '@/context/AuthContext';
+import { useSelector } from 'react-redux';
 import DOMPurify from 'dompurify';
 
 const PostBody = ({ post, liked, disliked }) => {
@@ -14,7 +14,7 @@ const PostBody = ({ post, liked, disliked }) => {
   const [isDisliked, setIsDisliked] = useState(disliked); // Initialize with the prop value
   const [isSaved, setIsSaved] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const sanitizedContent = DOMPurify.sanitize(post.content);
 
   useEffect(() => {

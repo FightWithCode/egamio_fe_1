@@ -2,7 +2,7 @@ import Image from "next/image";
 import defaultUser from "@/public/images/users/default.png"
 const PlayerListCard = ({ player }) => {
     return (
-        <div className="flex flex-col items-center bg-background p-4 rounded-lg shadow-lg">
+        <div className="flex flex-col items-center bg-background p-4 border border-border/50 border-white rounded-lg shadow-lg">
             <div className="relative w-full pb-[116%] overflow-hidden rounded-lg">
                 {player.featured_image ? (
                     <Image

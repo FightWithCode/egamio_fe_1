@@ -5,6 +5,7 @@ import React from 'react';
 import { FaFire, FaClock, FaTrophy, FaEye } from 'react-icons/fa';
 import Link from 'next/link';
 import { formatDistanceToNow, parseISO } from 'date-fns';
+import DOMPurify from 'dompurify';
 
 const Sidebar = ({ relatedTopics }) => {
   console.log(relatedTopics)
@@ -17,48 +18,51 @@ const Sidebar = ({ relatedTopics }) => {
         </div>
         
         <div className="divide-y divide-white/10">
-          {relatedTopics.map((topic) => (
-            <Link 
-              href={`/eg-threads/${topic.thread_id}/${topic.slug}`} 
-              key={topic.id}
-              className="block p-4 hover:bg-white/5 transition-colors"
-            >
-              <div className="flex items-start space-x-3">
-                <div className="flex-grow">
-                  <h3 className="text-white font-medium mb-1 line-clamp-2">
-                    {topic.title}
-                  </h3>
-                  
-                  <div className="flex items-center space-x-4 text-sm text-gray-400">
-                    <p>{topic.content}</p>
-                  </div>
-
-                  <div className="flex items-center space-x-4 mt-2 text-sm text-gray-400">
-                    <span>by {topic.author}</span>
-                    <div className="flex items-center space-x-1">
-                      <span className='flex items-center'><FaEye />&nbsp;{topic.views}</span>
+          {relatedTopics.map((topic) => {
+            const sanitizedContent = DOMPurify.sanitize(topic.content);
+            return (
+              <Link 
+                href={`/eg-threads/${topic.thread_id}/${topic.slug}`} 
+                key={topic.id}
+                className="block p-4 hover:bg-white/5 transition-colors"
+              >
+                <div className="flex items-start space-x-3">
+                  <div className="flex-grow">
+                    <h3 className="text-white font-medium mb-1 line-clamp-2">
+                      {topic.title}
+                    </h3>
+                    
+                    <div className="flex items-center space-x-4 text-sm text-gray-400">
+                      <p dangerouslySetInnerHTML={{ __html: sanitizedContent }}></p>
                     </div>
-                      <span className="text-gray-400 text-sm">{formatDistanceToNow(parseISO(topic.created_at))} ago</span>
-                  </div>
-                  
-                  <div className="flex items-center space-x-2 mt-2">
-                    {topic.is_hot && (
-                      <span className="flex items-center space-x-1 text-orange-500 text-sm">
-                        <FaFire />
-                        <span>Hot</span>
-                      </span>
-                    )}
-                    {topic.is_trending && (
-                      <span className="flex items-center space-x-1 text-blue-400 text-sm">
-                        <FaTrophy />
-                        <span>Trending</span>
-                      </span>
-                    )}
+
+                    <div className="flex items-center space-x-4 mt-2 text-sm text-gray-400">
+                      <span>by {topic.author}</span>
+                      <div className="flex items-center space-x-1">
+                        <span className='flex items-center'><FaEye />&nbsp;{topic.views}</span>
+                      </div>
+                        <span className="text-gray-400 text-sm">{formatDistanceToNow(parseISO(topic.created_at))} ago</span>
+                    </div>
+                    
+                    <div className="flex items-center space-x-2 mt-2">
+                      {topic.is_hot && (
+                        <span className="flex items-center space-x-1 text-orange-500 text-sm">
+                          <FaFire />
+                          <span>Hot</span>
+                        </span>
+                      )}
+                      {topic.is_trending && (
+                        <span className="flex items-center space-x-1 text-blue-400 text-sm">
+                          <FaTrophy />
+                          <span>Trending</span>
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </div>
 

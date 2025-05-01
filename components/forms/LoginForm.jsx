@@ -4,16 +4,21 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import ResponsiveContainer from "@/components/common/ResponsiveContainer"
-import { useAuth } from '@/context/AuthContext';
 import { TypographyH1, TypographyH3, TypographyH4, TypographyP } from "@/components/ui/Typographies"
 import LoginWithGoogle from "@/components/common/LoginWithGoogle"
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '@/context/slices/authSlice';
+import api from '@/services/api/axiosSetup';
 
 export default function LoginForm() {
     useEffect(() => {
     }, []);
     const router = useRouter()
     const searchParams = useSearchParams()
-    const { login, isAuthenticated } = useAuth();
+
+    const dispatch = useDispatch();
+
+    const { isAuthenticated } = useSelector((state) => state.auth);
 
     const [formState, setFormState] = useState({
         email: "",
@@ -55,29 +60,34 @@ export default function LoginForm() {
     const handleLogin = async (e) => {
         e.preventDefault();
         if (!validateInput()) return;
-    
-        setFormState(prev => ({ ...prev, loading: true, errorMessage: "" }));
-    
+
+        setFormState((prev) => ({ ...prev, loading: true, errorMessage: '' }));
+
         try {
-            const result = await login(formState.email, formState.password); // Use login from AuthContext
-            if (result.success) {
-                router.push(redirect); // Redirect on successful login
+            const response = await api.post('/accounts/token/', {
+                email: formState.email,
+                password: formState.password,
+            });
+
+            if (response.status === 200) {
+                const userData = response.data;
+                dispatch(login(userData));
+                router.push(redirect);
             } else {
-                setFormState(prev => ({
+                setFormState((prev) => ({
                     ...prev,
-                    errorMessage: result.message, // Show error message from login
+                    errorMessage: 'Invalid email or password',
                     loading: false,
                 }));
             }
         } catch (error) {
-            setFormState(prev => ({
+            setFormState((prev) => ({
                 ...prev,
-                errorMessage: error,
+                errorMessage: 'An error occurred. Please try again.',
                 loading: false,
             }));
         }
     };
-    
 
     const handleInputChange = (field, value) => {
         setFormState(prev => ({

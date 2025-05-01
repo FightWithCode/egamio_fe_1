@@ -7,10 +7,12 @@ import api from "@/services/api/axiosSetup";
 import { useRouter } from "next/navigation"
 import ResponsiveContainer from "@/components/common/ResponsiveContainer"
 import { TypographyH1, TypographyH3, TypographyH4, TypographyP } from "../ui/Typographies"
-import { useAuth } from "@/context/AuthContext"
+import { useDispatch } from 'react-redux';
+import { login } from '@/context/slices/authSlice';
 
 export default function SignupForm() {
   const router = useRouter()
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,10 +21,9 @@ export default function SignupForm() {
   const [loading, setLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState("")
   const [successMessage, setSuccessMessage] = useState("")
-  const { login } = useAuth();
 
   const handleGoogleSuccess = (userData) => {
-    login(userData);
+    dispatch(login(userData));
     router.push("/dashboard");
   };
 

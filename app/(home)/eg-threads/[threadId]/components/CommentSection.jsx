@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import api from '@/services/api/axiosSetup';
 import Comment from './Comment';
-import { useAuth } from '@/context/AuthContext';
+import { useSelector } from 'react-redux';
 
 export default function CommentSection({ comments, threadId }) {
   const [newComment, setNewComment] = useState('');
   const [commentList, setCommentList] = useState(comments);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (comments) {

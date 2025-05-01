@@ -1,10 +1,11 @@
 import { useState } from "react";
 import Image from "next/image";
-import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-toastify";
 import { teamAPI } from "@/services/api";
+import { useSelector } from 'react-redux';
+
 const TeamListCard = ({ team }) => {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated } = useSelector((state) => state.auth);
     const [isApplying, setIsApplying] = useState(false);
     const handleApply = async () => {
         if (!isAuthenticated) {

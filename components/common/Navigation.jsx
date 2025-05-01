@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import { useAuth } from "@/context/AuthContext";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from 'next/navigation';
@@ -11,19 +10,22 @@ import { AiFillMessage } from "react-icons/ai";
 import { RiChatThreadLine } from "react-icons/ri";
 import { RxVideo } from "react-icons/rx";
 import { IoMenu, IoCloseCircleOutline } from "react-icons/io5";
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '@/context/slices/authSlice';
 // Assets
 import logo from "@/public/images/trans-logo2.png";
 import user2 from "@/public/images/users/user2.png";
 
 const Navigation = () => {
-    const { isAuthenticated, logout } = useAuth();
-    const [activePanel, setActivePanel] = useState(null); // "notifications" | "dashboard" | null
+    const { isAuthenticated } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+    const [activePanel, setActivePanel] = useState(null);
     const router = useRouter();
     const pathname = usePathname();
 
     const handleLogout = () => {
-        logout();
-        window.location.href = "/login";
+        dispatch(logout());
+        router.push('/');
     };
 
     const togglePanel = (panel) => {
@@ -150,6 +152,15 @@ const Navigation = () => {
                     <div className="p-4 overflow-y-auto h-full">
                         {activePanel === "notifications" && (
                             <ul className="space-y-4">
+                                <li>
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-10 h-10 rounded-full bg-gray-300"></div>
+                                        <div>
+                                            <p className="text-sm font-bold">John Doe</p>
+                                            <p className="text-xs text-gray-500">Hey, are we still on for the meeting later?</p>
+                                        </div>
+                                    </div>
+                                </li>
                                 <li>
                                     <div className="flex items-center gap-4">
                                         <div className="w-10 h-10 rounded-full bg-gray-300"></div>

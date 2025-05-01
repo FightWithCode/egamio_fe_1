@@ -7,7 +7,7 @@ import { FaArrowUp, FaArrowDown, FaReply } from 'react-icons/fa';
 import defaultUser from "@/public/images/users/default.png";
 import { toast } from 'react-toastify';
 import api from '@/services/api/axiosSetup';
-import { useAuth } from '@/context/AuthContext';
+import { useSelector } from 'react-redux';
 
 const Comment = ({ comment, threadId, refreshComments }) => {
   console.log(comment,' 44')
@@ -15,7 +15,7 @@ const Comment = ({ comment, threadId, refreshComments }) => {
   const [isDownvoted, setIsDownvoted] = useState(comment.is_disliked_by_user);
   const [showReplyBox, setShowReplyBox] = useState(false);
   const [replyContent, setReplyContent] = useState('');
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   // Function to handle liking a comment
   const handleLike = async () => {

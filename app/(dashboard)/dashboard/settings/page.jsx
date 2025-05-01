@@ -5,16 +5,17 @@ import { useRouter } from 'next/navigation';
 // Components imports
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import ProfileForm from '@/components/forms/ProfileForm';
-import { useAuth } from '@/context/AuthContext';
 
 
 const DashboardPage = () => {
   const router = useRouter();
-  const { isAuthenticated } = useAuth();
   useEffect(() => {
-    if (!isAuthenticated()) {
-      console.log("error in authentication ", isAuthenticated)
-      router.push('/login');
+    if (typeof window !== "undefined") {
+      const isAuthenticated = localStorage.getItem("isAuthenticated");
+      if (!isAuthenticated) {
+        console.log("error in authentication ", isAuthenticated)
+        router.push('/login');
+      }
     }
   }, []);
 

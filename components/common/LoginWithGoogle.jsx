@@ -1,10 +1,11 @@
 'use client';
 import { GoogleLogin } from '@react-oauth/google';
-import { useAuth } from "@/context/AuthContext";
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { login } from '@/context/slices/authSlice';
 
 const LoginWithGoogle = ({ setErrorMessage }) => {
-  const { login } = useAuth();
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const handleGoogleSuccess = async (credentialResponse) => {
@@ -20,9 +21,9 @@ const LoginWithGoogle = ({ setErrorMessage }) => {
       });
 
       const data = await response.json();
-      
+
       if (response.ok) {
-        login(data);
+        dispatch(login(data));
         router.refresh();
         router.push('/dashboard');
       } else {

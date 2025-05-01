@@ -1,36 +1,37 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import PlayerTeamSearch from '@/components/dashboard/PlayerTeamSearch';
-import { useAuth } from '@/context/AuthContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { checkAuthStatus } from '@/context/slices/authSlice';
 import CompleteProfileForm from '@/components/dashboard/CompleteProfileForm';
 
 
 const DashboardPage = () => {
   const router = useRouter();
-  const { isAuthenticated, user, loading, updateProfileCompleteness } = useAuth();
+  const dispatch = useDispatch();
+  const { isAuthenticated, user, loading } = useSelector((state) => state.auth);
+
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.push('/login');
+    if (!loading && isAuthenticated && user?.is_profile_complete) {
+      router.push('/dashboard');
     }
-  }, [isAuthenticated, loading]);
-  
-  const isProfileComplete = user?.isProfileComplete || false;
+  }, [isAuthenticated, loading, user, router]);
+
   const handleProfileComplete = () => {
-    updateProfileCompleteness(true);
-    // window.location.reload(); // This will trigger a refresh to update the context
+    // Dispatch an action or update the Redux store to mark the profile as complete
+    dispatch({ type: 'auth/updateProfileCompleteness', payload: true });
+    router.push('/dashboard');
   };
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (!isProfileComplete) {
+  if (!user?.is_profile_complete) {
     return (
-      <ResponsiveContainer className="my-8">
-        <CompleteProfileForm onComplete={handleProfileComplete} userName={user?.fullName}/>
-      </ResponsiveContainer>
+      <CompleteProfileForm onComplete={handleProfileComplete} userName={user?.fullName} />
     );
   }
 
@@ -44,7 +45,7 @@ const DashboardPage = () => {
             </p>
           </div>
         </div>
-        <div className="mt-4 bg-background-light rounded-md shadow-md">
+        <div className="mt-4 bg-background-light shadow-md">
           <PlayerTeamSearch />
         </div>
       </ResponsiveContainer>

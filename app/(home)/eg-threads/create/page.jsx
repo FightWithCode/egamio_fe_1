@@ -3,9 +3,9 @@ import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
-import { useAuth } from "@/context/AuthContext";
 import { toast } from "react-toastify";
 import api from "@/services/api/axiosSetup";
+import { useSelector } from 'react-redux';
 
 const Editor = dynamic(() => import('@tinymce/tinymce-react').then(mod => mod.Editor), {
   ssr: false,
@@ -20,7 +20,7 @@ export default function CreateDiscussion() {
   const [games, setGames] = useState([])
   const [tagInput, setTagInput] = useState("");
   const [isGuidelinesOpen, setIsGuidelinesOpen] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useSelector((state) => state.auth);
   const predefinedTags = ["FPS", "Battle Royale", "MOBA", "RPG", "Strategy", "BGMI", "Valorant", "Call of Duty", "CS:GO", "Minecraft", "Fortnite", "Discussion", "Question", "Guide", "News", "Highlight", "PC", "Mobile", "Console", "PlayStation", "Xbox"];
 
   const fetchGames = async () => {
@@ -68,7 +68,7 @@ export default function CreateDiscussion() {
             -webkit-backdrop-filter: blur(10px) !important;
           }
 
-          /* Editor content styles */
+         
           .mce-content-body {
             background: transparent !important;
             color: #ffffff !important;
