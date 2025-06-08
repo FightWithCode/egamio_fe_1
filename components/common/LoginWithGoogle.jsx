@@ -2,7 +2,7 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-import { login } from '@/context/slices/authSlice';
+import { login } from '@/store/slices/authSlice';
 
 const LoginWithGoogle = ({ setErrorMessage }) => {
   const dispatch = useDispatch();

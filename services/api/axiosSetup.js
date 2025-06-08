@@ -20,26 +20,32 @@ api.interceptors.request.use(
 
 // Response interceptor
 api.interceptors.response.use(
-    (response) => {
-        return response;
-    },
+    (response) => response,
     async (error) => {
         const originalRequest = error.config;
-        const bypassEndpoints = ['/accounts/token/verify-token/'];
-        const loginEndpoint = '/accounts/token/';
-        if (bypassEndpoints.some((endpoint) => originalRequest.url.includes(endpoint))) {
-            return Promise.reject(error);
-        }
-        if (error.response?.status === 401 && !originalRequest._retry && !originalRequest.url.includes(loginEndpoint)) {
+        // Only handle 401 errors and avoid infinite retry loops
+        if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
+
             try {
-                await api.post('/accounts/token/refresh/');
+                // Attempt to refresh tokens
+                const response = await axios.post(
+                    `${API_URL}/api/token/refresh/`,
+                    {},
+                    { withCredentials: true } // Cookies will be sent automatically
+                );
+
+                // The backend will set new cookies automatically
                 return api(originalRequest);
             } catch (refreshError) {
-                toast.error('Session expired. Please log in again.');
+                // Redirect to login if refresh fails
+                if (typeof window !== 'undefined') {
+                    window.location.href = '/login';
+                }
                 return Promise.reject(refreshError);
             }
         }
+
         if (error.response?.status === 403) {
             toast.error('You do not have permission to perform this action.');
         }

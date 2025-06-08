@@ -1,6 +1,6 @@
 "use client";
 import { Provider } from 'react-redux';
-import store from '@/context/store';
+import store from '@/store/store';
 import Navigation from "@/components/common/Navigation";
 import PlainFooter from "@/components/common/PlainFooter";
 import BackgroundImage from "@/public/images/bg/background6.jpg";

@@ -4,7 +4,7 @@ import "./../globals.css";
 import ClientLayout from './ClientLayout';
 import { ToastContainer } from 'react-toastify';
 import { Provider } from 'react-redux';
-import store from '@/context/store';
+import store from '@/store/store';
 
 export default function RootLayout({ children }) {
   return (

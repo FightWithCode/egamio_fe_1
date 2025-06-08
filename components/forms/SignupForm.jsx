@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 import ResponsiveContainer from "@/components/common/ResponsiveContainer"
 import { TypographyH1, TypographyH3, TypographyH4, TypographyP } from "../ui/Typographies"
 import { useDispatch } from 'react-redux';
-import { login } from '@/context/slices/authSlice';
+import { login } from '@/store/slices/authSlice';
 
 export default function SignupForm() {
   const router = useRouter()

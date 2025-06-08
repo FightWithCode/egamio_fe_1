@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from 'next/navigation';
 import ResponsiveContainer from "../common/ResponsiveContainer";
@@ -11,7 +11,7 @@ import { RiChatThreadLine } from "react-icons/ri";
 import { RxVideo } from "react-icons/rx";
 import { IoMenu, IoCloseCircleOutline } from "react-icons/io5";
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '@/context/slices/authSlice';
+import { logout } from '@/store/slices/authSlice';
 // Assets
 import logo from "@/public/images/trans-logo2.png";
 import user2 from "@/public/images/users/user2.png";
@@ -23,9 +23,9 @@ const Navigation = () => {
     const router = useRouter();
     const pathname = usePathname();
 
-    const handleLogout = () => {
-        dispatch(logout());
-        router.push('/');
+    const handleLogout = async () => {
+        await dispatch(logout()).unwrap();
+        router.push('/login');
     };
 
     const togglePanel = (panel) => {

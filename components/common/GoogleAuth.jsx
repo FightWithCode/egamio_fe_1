@@ -2,7 +2,7 @@
 'use client';
 import { GoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux';
-import { login } from '@/context/slices/authSlice';
+import { login } from '@/store/slices/authSlice';
 
 const GoogleAuth = ({ onGoogleSuccess, setErrorMessage }) => {
   const dispatch = useDispatch();

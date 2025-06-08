@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
 import PlayerTeamSearch from '@/components/dashboard/PlayerTeamSearch';
 import { useSelector, useDispatch } from 'react-redux';
-import { checkAuthStatus } from '@/context/slices/authSlice';
 import CompleteProfileForm from '@/components/dashboard/CompleteProfileForm';
 
 
