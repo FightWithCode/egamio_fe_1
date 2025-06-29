@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const AuthForm = () => {
-  const [isLogin, setIsLogin] = useState(false); // State to toggle between login and register
+  const [isLogin, setIsLogin] = useState(false);
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(true);

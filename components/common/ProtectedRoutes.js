@@ -1,21 +1,19 @@
 "use client";
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useSelector((state) => state.auth);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    // Wait for verifyAuth to finish
-    if (!loading && !isAuthenticated) {
+    if (!loading && !isAuthenticated && pathname !== '/login') {
       router.replace('/login');
     }
-  }, [isAuthenticated, loading, router]);
+  }, [isAuthenticated, loading, pathname, router]);
 
-  // Optional: Show loader while checking
   if (loading) return <div>Loading...</div>;
-
   return children;
 }

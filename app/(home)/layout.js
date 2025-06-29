@@ -12,9 +12,9 @@ export default function RootLayout({ children }) {
       <body className="relative">
         <Provider store={store}>
           <ToastContainer />
-          <ClientLayout>
-            {children}
-          </ClientLayout>
+            <ClientLayout>
+              {children}
+            </ClientLayout>
         </Provider>
       </body>
     </html>

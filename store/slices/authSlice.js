@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import api from '@/services/api/axiosSetup';
+import { authAPI } from '@/services/api';
 
 // Async thunks
 export const login = createAsyncThunk(
@@ -48,7 +48,8 @@ export const verifyAuth = createAsyncThunk(
   'auth/verifyAuth',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get('/accounts/profile/');
+      const response = await authAPI.verifyToken();
+      alert("called")
       return {
         user: response.data,
         isProfileComplete: response.data?.is_profile_complete || false,
@@ -85,6 +86,9 @@ const authSlice = createSlice({
   reducers: {
     clearError: (state) => {
       state.error = null;
+    },
+    updateProfileCompleteness: (state, action) => {
+      state.isProfileComplete = action.payload;
     },
   },
   extraReducers: (builder) => {

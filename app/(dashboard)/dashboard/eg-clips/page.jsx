@@ -1,6 +1,7 @@
 "use client";
 // React and Next Imports
 import React, { useState, useEffect } from 'react';
+import ProtectedRoute from '@/components/common/ProtectedRoutes';
 import { useRouter } from 'next/navigation';
 // Components imports
 import ResponsiveContainer from '@/components/common/ResponsiveContainer';
@@ -11,13 +12,13 @@ const DashboardPage = () => {
   const router = useRouter();
   useEffect(() => {
     if (!isAuthenticated()) {
-      console.log("error in authentication ", isAuthenticated)
+      alert("error in authentication ", isAuthenticated)
       router.push('/login');
     }
   }, []);
 
   return (
-    <>
+    <ProtectedRoute>
       <ResponsiveContainer className="my-8 !text-background border-white rounded-lg backdrop-blur-sm !text-foreground">
         <div className="border-b-[1px]">
           {/* Tab buttons for larger screens */}
@@ -33,7 +34,7 @@ const DashboardPage = () => {
         <EGClips></EGClips>,
         </div>
       </ResponsiveContainer>
-    </>
+    </ProtectedRoute>
   );
 };
 

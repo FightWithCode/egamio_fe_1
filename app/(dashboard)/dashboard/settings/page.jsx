@@ -1,5 +1,6 @@
 "use client";
 // React and Next Imports
+import ProtectedRoute from '@/components/common/ProtectedRoutes';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 // Components imports
@@ -20,7 +21,7 @@ const DashboardPage = () => {
   }, []);
 
   return (
-    <>
+    <ProtectedRoute>
       <ResponsiveContainer className="my-8 !text-background border-white rounded-lg backdrop-blur-sm !text-foreground">
         <div className="border-b-[1px]">
           {/* Tab buttons for larger screens */}
@@ -36,7 +37,7 @@ const DashboardPage = () => {
         <ProfileForm></ProfileForm>,
         </div>
       </ResponsiveContainer>
-    </>
+    </ProtectedRoute>
   );
 };
 

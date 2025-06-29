@@ -30,7 +30,7 @@ api.interceptors.response.use(
             try {
                 // Attempt to refresh tokens
                 const response = await axios.post(
-                    `${API_URL}/api/token/refresh/`,
+                    `${process.env.NEXT_PUBLIC_API_URL}/accounts/token/refresh/`,
                     {},
                     { withCredentials: true } // Cookies will be sent automatically
                 );
@@ -40,7 +40,9 @@ api.interceptors.response.use(
             } catch (refreshError) {
                 // Redirect to login if refresh fails
                 if (typeof window !== 'undefined') {
-                    window.location.href = '/login';
+                    console.log(refreshError)
+                    // alert(response, refreshError)
+                    // window.location.href = '/login';
                 }
                 return Promise.reject(refreshError);
             }
