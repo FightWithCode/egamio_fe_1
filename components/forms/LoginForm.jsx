@@ -96,6 +96,7 @@ export default function LoginForm() {
             toast.success('Login successful')
             router.push(redirect)
         } catch (error) {
+            console.log('Login error:', error)
             setFormState(prev => ({
                 ...prev,
                 errorMessage: error.message || 'An error occurred. Please try again.'

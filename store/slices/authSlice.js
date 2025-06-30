@@ -6,13 +6,14 @@ export const login = createAsyncThunk(
   'auth/login',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await api.post('/accounts/token/', { email, password });
+      const response = await authAPI.login({ email, password });
       
       return {
         user: response.data,
         isProfileComplete: response.data?.is_profile_complete || false,
       };
     } catch (error) {
+      console.log(error)
       return rejectWithValue(error.response?.data || 'Login failed');
     }
   }
@@ -49,13 +50,22 @@ export const verifyAuth = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await authAPI.verifyToken();
-      alert("called")
       return {
         user: response.data,
         isProfileComplete: response.data?.is_profile_complete || false,
       };
     } catch (error) {
-      return rejectWithValue('Session expired');
+      // Try refreshing token
+      try {
+        await authAPI.refreshToken();
+        const response = await authAPI.verifyToken();
+        return {
+          user: response.data,
+          isProfileComplete: response.data?.is_profile_complete || false,
+        };
+      } catch (refreshError) {
+        return rejectWithValue('Session expired');
+      }
     }
   }
 );
@@ -64,7 +74,7 @@ export const logout = createAsyncThunk(
   'auth/logout',
   async (_, { rejectWithValue }) => {
     try {
-      await api.post('/accounts/logout/');
+      await authAPI.logout('/accounts/logout/');
       return true;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Logout failed');
@@ -115,9 +125,11 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.isAuthenticated = true;
         state.isProfileComplete = action.payload.isProfileComplete;
+        state.loading = false;
       })
       .addCase(verifyAuth.rejected, (state) => {
         Object.assign(state, initialState);
+        state.loading = false;
       })
       // Logout
       .addCase(logout.pending, (state) => {
@@ -126,6 +138,7 @@ const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         Object.assign(state, initialState);
+        state.loading = false;
       })
       .addCase(logout.rejected, (state, action) => {
         state.loading = false;
