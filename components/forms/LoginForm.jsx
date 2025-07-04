@@ -3,9 +3,9 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { GoogleOAuthProvider } from '@react-oauth/google'
-import ResponsiveContainer from "@/components/common/ResponsiveContainer"
+import ResponsiveContainer from '../ui/ResponsiveContainer'
 import { TypographyH1, TypographyH3, TypographyH4, TypographyP } from "@/components/ui/Typographies"
-import LoginWithGoogle from "@/components/common/LoginWithGoogle"
+import LoginWithGoogle from '../authentication/LoginWithGoogle'
 import { useDispatch, useSelector } from 'react-redux'
 import { unwrapResult } from '@reduxjs/toolkit'
 import { login } from '@/store/slices/authSlice'
@@ -28,7 +28,7 @@ export default function LoginForm() {
     // Redirect if already authenticated
     useEffect(() => {
         if (isAuthenticated) {
-            router.push(redirect)
+            router.replace(redirect)
         }
     }, [isAuthenticated, router, redirect])
 

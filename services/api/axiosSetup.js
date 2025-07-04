@@ -41,24 +41,30 @@ api.interceptors.response.use(
                 // Redirect to login if refresh fails
                 if (typeof window !== 'undefined') {
                     console.log(refreshError)
-                    // alert(response, refreshError)
-                    // window.location.href = '/login';
                 }
                 return Promise.reject(refreshError);
             }
         }
 
-        if (error.response?.status === 403) {
-            toast.error('You do not have permission to perform this action.');
-        }
-        if (error.response?.status === 404) {
-            toast.error('Page/Resource not found.');
-        }
-        if (error.response?.status === 500) {
-            toast.error('Internal server error. Please try again later.');
-        }
-        if (error.response?.status === 400) {
-            toast.error(error.response.data?.msg || "Bad request. Try with other input");
+        const url = originalRequest?.url || "";
+
+        const noToastRoutes = ["/accounts/token/refresh/", "/accounts/profile/"];
+
+        const isToastAllowed = !noToastRoutes.some((route) => url.includes(route));
+
+        if (isToastAllowed) {
+            if (error.response?.status === 403) {
+                toast.error('You do not have permission to perform this action.');
+            }
+            if (error.response?.status === 404) {
+                toast.error('Page/Resource not found.');
+            }
+            if (error.response?.status === 500) {
+                toast.error('Internal server error. Please try again later.');
+            }
+            if (error.response?.status === 400) {
+                toast.error(error.response.data?.msg || "Bad request. Try with other input");
+            }
         }
         return Promise.reject(error);
     }

@@ -1,18 +1,13 @@
 "use client";
 import Link from 'next/link';
-import { CiLogin } from "react-icons/ci";
-import { IoMenu } from "react-icons/io5";
-import { IoCloseCircleOutline } from "react-icons/io5";
+import ResponsiveContainer from '../ui/ResponsiveContainer';
 import { IoIosArrowForward } from "react-icons/io";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import { useState } from 'react';
-import ResponsiveContainer from "./ResponsiveContainer";
 import { TypographyH4, TypographyP } from "../ui/Typographies";
 import Image from "next/image";
-import logo from "@/public/images/trans-logo2.png";
 import blog1 from "@/public/images/blogs/blog1.jpg";
 import blog2 from "@/public/images/blogs/blog2.jpg";
-import blog3 from "@/public/images/blogs/blog3.jpg";
 
 const Footer = () => {
     const [showSideMenu, setShowSideMenu] = useState(false);

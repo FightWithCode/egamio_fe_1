@@ -1,8 +1,8 @@
-import HeroSlider from '@/app/(home)/components/HeroSlider'
-import PopularGames from '@/app/(home)/components/PopularGames'
-import HowItWorks from './components/HowItWorks'
-import Testimonial from '@/app/(home)/components/Testimonial'
-import LatestBlogs from '@/app/(home)/components/LatestBlogs'
+import HeroSlider from '@/components/home/HeroSlider'
+import PopularGames from '@/components/home/PopularGames'
+import HowItWorks from '@/components/home/HowItWorks'
+import Testimonial from '@/components/home/Testimonial'
+import LatestBlogs from '@/components/home/LatestBlogs'
 
 export const metadata = {
   title: 'Home | eGamio - Where dreams meet!',

@@ -113,6 +113,8 @@
 }
 
 body {
+  margin: 0;
+  padding: 0;
   color: var(--foreground);
   font-family: "Exo", sans-serif;
   font-weight: 400;
