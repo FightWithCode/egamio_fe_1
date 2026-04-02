@@ -23,13 +23,11 @@ function LayoutContent({ children }) {
     <div className={`relative ${isHomePage ? 'bg-background' : 'z-10'} flex flex-col flex-1 `}>
       {isAuthenticated ? <AuthNavigation /> : <UnauthenticatedNav />}
 
-      <main className={`relative z-10 ${isHomePage ? 'top-[-75px]': 'top-0'}`}>
+      <main className={`flex-1 flex justify-center items-center relative z-10 ${isHomePage ? 'top-[-75px]': 'top-0'}`}>
         {children}
       </main>
 
-      <Footer />
-      <PlainFooter />
-      
+      <PlainFooter/>
     </div>
   );
 }
